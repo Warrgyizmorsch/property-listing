@@ -137,6 +137,8 @@ model Property {
   areaSize      Int     @map("area_size") // Represented in square feet
   isFeatured    Boolean @default(false) @map("is_featured")
   contactNumber String? @map("contact_number")
+  metaTitle       String? @map("meta_title")
+  metaDescription String? @map("meta_description") @db.Text
 
   // Relations
   categoryId  String          @map("category_id")
@@ -205,3 +207,35 @@ model Enquiry {
   @@index([status])
   @@map("enquiries")
 }
+
+// Page classifications for SEO Management
+enum PageType {
+  HOME
+  PROPERTY_LISTING
+  PROPERTY
+  CONTACT
+  ABOUT
+  PRIVACY_POLICY
+  TERMS
+  FAQ
+}
+
+// Reusable SEO Settings for static and CMS pages
+model SeoSetting {
+  id              String   @id @default(uuid())
+  pageType        PageType @map("page_type")
+  entityId        String?  @map("entity_id")
+  metaTitle       String?  @map("meta_title")
+  metaDescription String?  @map("meta_description") @db.Text
+  metaKeywords    String?  @map("meta_keywords") @db.Text
+  ogTitle         String?  @map("og_title")
+  ogDescription   String?  @map("og_description") @db.Text
+  ogImage         String?  @map("og_image") @db.Text
+  canonicalUrl    String?  @map("canonical_url") @db.Text
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@unique([pageType, entityId])
+  @@map("seo_settings")
+}
+

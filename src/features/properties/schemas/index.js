@@ -65,4 +65,16 @@ export const propertyFormSchema = z.object({
   isFeatured: z
     .boolean()
     .default(false),
+  metaTitle: z
+    .string()
+    .max(60, { message: "Meta Title must be at most 60 characters." })
+    .optional()
+    .nullable()
+    .or(z.literal("")),
+  metaDescription: z
+    .string()
+    .max(160, { message: "Meta Description must be at most 160 characters." })
+    .optional()
+    .nullable()
+    .or(z.literal("")),
 });

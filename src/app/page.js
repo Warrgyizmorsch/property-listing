@@ -11,19 +11,22 @@ import WhyChooseUs from "@/components/home/WhyChooseUs";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import CTASection from "@/components/home/CTASection";
 import { PropertyCardSkeleton } from "@/components/home/PropertyCard";
+import { generatePageMetadata } from "@/lib/seo/metadata";
+import { getOrganizationSchema, getWebSiteSchema } from "@/lib/seo/schemas";
 
-// Responsive Next.js 15 SEO Metadata
-export const metadata = {
-  title: "LuxeEstates | Premium Property Listings & Luxury Real Estate",
-  description: "Discover exceptional luxury apartments, villas, penthouses, and commercial properties. LuxeEstates provides curated listings and transparent transaction pathways with certified agents.",
-  keywords: "real estate, luxury villas, buy apartments, penthouses, commercial properties, property finder, property listing",
-  openGraph: {
-    title: "LuxeEstates | Premium Property Listings & Luxury Real Estate",
-    description: "Browse curated luxury apartments, villas, penthouses, and commercial listings. Find your masterpiece home today.",
-    type: "website",
-    url: "https://luxeestates.com",
-  },
-};
+// Dynamic Next.js 15 SEO Metadata
+export async function generateMetadata() {
+  return await generatePageMetadata({
+    pageType: "HOME",
+    fallbackData: {
+      title: "LuxeEstates | Premium Property Listings & Luxury Real Estate",
+      description: "Discover exceptional luxury apartments, villas, penthouses, and commercial properties. LuxeEstates provides curated listings and transparent transaction pathways with certified agents.",
+      keywords: "real estate, luxury villas, buy apartments, penthouses, commercial properties, property finder, property listing",
+      path: "/",
+    },
+  });
+}
+
 
 // Loader skeletons for dynamic database sections
 function PropertiesGridSkeleton({ count = 3 }) {
@@ -50,8 +53,21 @@ function SectionSkeleton() {
 }
 
 export default function Home() {
+  const orgSchema = getOrganizationSchema();
+  const websiteSchema = getWebSiteSchema();
+
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50/30 dark:bg-zinc-950 font-sans">
+      {/* Structured JSON-LD Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      
       {/* Global Header */}
       <Navbar />
 

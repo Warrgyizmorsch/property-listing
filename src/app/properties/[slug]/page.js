@@ -13,6 +13,8 @@ import PropertyLocation from "@/components/property/PropertyLocation";
 import StickySidebar from "@/components/property/StickySidebar";
 import RelatedProperties from "@/components/property/RelatedProperties";
 import { getPropertyDetails } from "@/features/property-details/services/detail.service";
+import { generatePageMetadata } from "@/lib/seo/metadata";
+import { getBreadcrumbSchema, getRealEstateListingSchema, getResidenceSchema } from "@/lib/seo/schemas";
 
 // Dynamic metadata generator for SEO and OpenGraph attributes (resolves params dynamically)
 export async function generateMetadata({ params }) {
@@ -26,31 +28,14 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const title = `${property.title} | LuxeEstates`;
-  const description = property.description.slice(0, 160);
-  const imageUrl = property.images?.[0]?.url || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800";
-
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: `https://luxeestates.com/properties/${property.slug}`,
+  return await generatePageMetadata({
+    pageType: "PROPERTY",
+    entityId: property.id,
+    fallbackData: {
+      title: property.title,
+      description: property.description,
     },
-    openGraph: {
-      title,
-      description,
-      type: "website",
-      url: `https://luxeestates.com/properties/${property.slug}`,
-      images: [
-        {
-          url: imageUrl,
-          width: 800,
-          height: 600,
-          alt: property.title,
-        },
-      ],
-    },
-  };
+  });
 }
 
 export default async function PropertyDetailPage({ params }) {
@@ -61,61 +46,14 @@ export default async function PropertyDetailPage({ params }) {
     notFound(); // Redirects to the custom not-found page
   }
 
-  // Construct structured JSON-LD schemas dynamically for RealEstateListing and Breadcrumbs
-  const realEstateSchema = {
-    "@context": "https://schema.org",
-    "@type": "RealEstateListing",
-    "name": property.title,
-    "description": property.description.slice(0, 200),
-    "datePosted": property.createdAt,
-    "url": `https://luxeestates.com/properties/${property.slug}`,
-    "image": property.images?.[0]?.url || "",
-    "about": {
-      "@type": "Accommodation",
-      "name": property.title,
-      "description": property.description.slice(0, 200),
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": property.address,
-        "addressLocality": property.city?.name,
-        "addressRegion": property.city?.state?.name,
-        "addressCountry": property.city?.state?.country?.name,
-      },
-      "numberOfBedrooms": property.bedrooms,
-      "numberOfBathrooms": property.bathrooms,
-      "offers": {
-        "@type": "Offer",
-        "price": property.price,
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-      },
-    },
-  };
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://luxeestates.com",
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Properties",
-        "item": "https://luxeestates.com/properties",
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": property.title,
-        "item": `https://luxeestates.com/properties/${property.slug}`,
-      },
-    ],
-  };
+  // Construct structured JSON-LD schemas dynamically for RealEstateListing, Residence, and Breadcrumbs
+  const realEstateSchema = getRealEstateListingSchema(property);
+  const residenceSchema = getResidenceSchema(property);
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Properties", url: "/properties" },
+    { name: property.title, url: `/properties/${property.slug}` },
+  ]);
 
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50/20 dark:bg-zinc-950 font-sans">
@@ -123,6 +61,10 @@ export default async function PropertyDetailPage({ params }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(realEstateSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(residenceSchema) }}
       />
       <script
         type="application/ld+json"

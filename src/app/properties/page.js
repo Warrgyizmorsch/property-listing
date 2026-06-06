@@ -9,6 +9,8 @@ import PropertyPagination from "@/components/properties/PropertyPagination";
 import MobileFilterButton from "@/components/properties/MobileFilterButton";
 import LoadingState from "@/components/properties/LoadingState";
 import { getPublicProperties, getPublicFiltersMetadata } from "@/features/properties/public/services/public.service";
+import { generatePageMetadata } from "@/lib/seo/metadata";
+import { getBreadcrumbSchema, getCollectionPageSchema } from "@/lib/seo/schemas";
 
 // Dynamic SEO metadata generator based on active query filters
 export async function generateMetadata({ searchParams }) {
@@ -17,27 +19,22 @@ export async function generateMetadata({ searchParams }) {
   const city = params.city ? params.city.charAt(0).toUpperCase() + params.city.slice(1) : "";
   const purpose = params.purpose ? `For ${params.purpose.charAt(0).toUpperCase() + params.purpose.slice(1)}` : "";
 
-  let title = "Premium Property Catalog | LuxeEstates";
+  let fallbackTitle = "Premium Property Catalog | LuxeEstates";
   if (category || city || purpose) {
     const parts = [category, purpose, city].filter(Boolean);
-    title = `${parts.join(" ")} Listings | LuxeEstates`;
+    fallbackTitle = `${parts.join(" ")} Listings | LuxeEstates`;
   }
 
-  const description = `Explore the finest selection of premium ${category || "real estate"} listings ${purpose || ""} in ${city || "top regions"} on LuxeEstates. Find your next masterpiece home today.`;
+  const fallbackDescription = `Explore the finest selection of premium ${category || "real estate"} listings ${purpose || ""} in ${city || "top regions"} on LuxeEstates. Find your next masterpiece home today.`;
 
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: "https://luxeestates.com/properties",
+  return await generatePageMetadata({
+    pageType: "PROPERTY_LISTING",
+    fallbackData: {
+      title: fallbackTitle,
+      description: fallbackDescription,
+      path: "/properties",
     },
-    openGraph: {
-      title,
-      description,
-      type: "website",
-      url: `https://luxeestates.com/properties${params.category ? `?category=${params.category}` : ""}`,
-    },
-  };
+  });
 }
 
 // Separate component for async data resolution to enable streaming loaders
@@ -64,8 +61,24 @@ async function ListingGridContainer({ searchParamsResolved }) {
     limit,
   });
 
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Properties", url: "/properties" },
+  ]);
+  const collectionSchema = getCollectionPageSchema(properties);
+
   return (
     <div className="flex flex-col gap-6">
+      {/* Structured JSON-LD Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
+
       {/* Search status header */}
       <div className="flex items-center justify-between border-b border-neutral-100 pb-4 dark:border-neutral-850">
         <p className="text-xs font-bold text-neutral-500 uppercase tracking-widest">

@@ -45,6 +45,11 @@ export const navigationItems = [
     name: "Statuses",
     href: "/admin/settings", // Redirects to statuses/badge settings configuration
     icon: Activity,
+  },
+  {
+    name: "SEO Settings",
+    href: "/admin/seo",
+    icon: Settings,
   }
 ];
 
