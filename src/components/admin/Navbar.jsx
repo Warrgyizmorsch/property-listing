@@ -52,12 +52,24 @@ export default function Navbar({ user }) {
         Welcome back, <span className="text-neutral-800 font-semibold">{user?.name || "Administrator"}</span>
       </div>
 
-      {/* 2. Right Actions: Notification Bell + Profile Dropdown */}
+      {/* 2. Right Actions: Notification Bell + Log Out + Profile Dropdown */}
       <div className="flex items-center gap-4 ml-auto">
         {/* Notification indicator */}
-        <Button variant="ghost" size="icon" className="relative text-neutral-500 hover:bg-neutral-50 rounded-full">
+        <Button variant="ghost" size="icon" className="relative text-neutral-500 hover:bg-neutral-50 rounded-full cursor-pointer">
           <Bell className="h-5 w-5" />
           <span className="absolute right-2.5 top-2.5 flex h-2 w-2 rounded-full bg-red-600"></span>
+        </Button>
+
+        {/* Direct Log Out Button */}
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={isPending}
+          onClick={handleLogout}
+          className="hidden md:flex items-center gap-2 h-9 text-neutral-600 border-neutral-200 hover:bg-neutral-50 cursor-pointer font-semibold"
+        >
+          <LogOut className="h-4 w-4" />
+          <span>{isPending ? "Logging out..." : "Log Out"}</span>
         </Button>
 
         {/* User profile dropdown menu */}
