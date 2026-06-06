@@ -1,0 +1,133 @@
+"use client"
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { Building2, Menu, X, ArrowRight, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+
+export default function Navbar() {
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = [
+    { name: "Home", href: "/" },
+    { name: "Properties", href: "/properties" },
+    { name: "About Us", href: "/#about" },
+    { name: "Contact", href: "/#contact" },
+  ];
+
+  const isActive = (href) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
+
+  return (
+    <header className="sticky top-0 z-50 w-full border-b border-neutral-100/80 bg-white/85 backdrop-blur-md dark:border-neutral-800/80 dark:bg-zinc-950/85">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Brand Logo */}
+        <Link href="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-90">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white shadow-md shadow-indigo-200 dark:shadow-none">
+            <Building2 className="h-5 w-5" />
+          </div>
+          <span className="font-heading text-lg font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-xl">
+            Luxe<span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent dark:from-indigo-400 dark:to-violet-400">Estates</span>
+          </span>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex md:items-center md:gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className={`relative py-1 text-sm font-semibold transition-colors duration-200 ${
+                isActive(link.href)
+                  ? "text-indigo-600 dark:text-indigo-400 font-bold"
+                  : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"
+              }`}
+            >
+              {link.name}
+              {isActive(link.href) && (
+                <span className="absolute bottom-0 left-0 h-0.5 w-full bg-gradient-to-r from-indigo-600 to-violet-500 rounded-full" />
+              )}
+            </Link>
+          ))}
+        </nav>
+
+        {/* CTA Buttons */}
+        <div className="hidden md:flex md:items-center md:gap-3">
+          <Link href="/admin/login">
+            <Button variant="ghost" size="sm" className="gap-1.5 text-neutral-600 dark:text-neutral-300 font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-800">
+              <User className="h-4 w-4" />
+              Agent Login
+            </Button>
+          </Link>
+          <Link href="/properties">
+            <Button size="sm" className="gap-1.5 bg-neutral-900 font-semibold text-white hover:bg-neutral-800 dark:bg-indigo-600 dark:hover:bg-indigo-700">
+              Explore Listings
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+
+        {/* Mobile Navigation Sheet */}
+        <div className="flex md:hidden">
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              >
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] border-l border-neutral-100 bg-white p-6 dark:border-neutral-800 dark:bg-zinc-950">
+              <SheetHeader className="pb-6 border-b border-neutral-100 dark:border-neutral-800">
+                <SheetTitle className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white">
+                    <Building2 className="h-4.5 w-4.5" />
+                  </div>
+                  <span className="font-heading font-bold text-neutral-900 dark:text-white">LuxeEstates</span>
+                </SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col gap-5 py-6">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`text-base font-semibold transition-colors duration-200 ${
+                      isActive(link.href)
+                        ? "text-indigo-600 dark:text-indigo-400"
+                        : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+              <div className="flex flex-col gap-3 pt-6 border-t border-neutral-100 dark:border-neutral-800">
+                <Link href="/admin/login" onClick={() => setMobileOpen(false)} className="w-full">
+                  <Button variant="outline" className="w-full justify-center gap-1.5 font-semibold text-neutral-700 dark:text-neutral-300">
+                    <User className="h-4 w-4" />
+                    Agent Login
+                  </Button>
+                </Link>
+                <Link href="/properties" onClick={() => setMobileOpen(false)} className="w-full">
+                  <Button className="w-full justify-center gap-1.5 bg-indigo-600 font-semibold text-white hover:bg-indigo-700">
+                    Explore Listings
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+    </header>
+  );
+}

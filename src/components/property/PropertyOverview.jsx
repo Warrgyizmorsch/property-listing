@@ -1,0 +1,65 @@
+import { Bed, Bath, Square, Home, Sparkles, Tag } from "lucide-react";
+import { formatArea } from "@/lib/format";
+
+export default function PropertyOverview({ property }) {
+  const items = [
+    {
+      label: "Bedrooms",
+      value: `${property.bedrooms} Beds`,
+      icon: <Bed className="h-5 w-5 text-neutral-400" />,
+    },
+    {
+      label: "Bathrooms",
+      value: `${property.bathrooms} Baths`,
+      icon: <Bath className="h-5 w-5 text-neutral-400" />,
+    },
+    {
+      label: "Area Size",
+      value: formatArea(property.areaSize),
+      icon: <Square className="h-5 w-5 text-neutral-400" />,
+    },
+    {
+      label: "Property Type",
+      value: property.category?.name || "Apartment",
+      icon: <Home className="h-5 w-5 text-neutral-400" />,
+    },
+    {
+      label: "Purpose",
+      value: `For ${property.purpose?.name || "Sale"}`,
+      icon: <Tag className="h-5 w-5 text-neutral-400" />,
+    },
+    {
+      label: "Status",
+      value: property.status?.name || "Available",
+      icon: <Sparkles className="h-5 w-5 text-neutral-400" />,
+    },
+  ];
+
+  return (
+    <div className="py-8 border-b border-neutral-100 dark:border-neutral-850">
+      <h2 className="font-heading text-lg font-bold text-neutral-900 uppercase tracking-widest mb-5 dark:text-white">
+        Overview
+      </h2>
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        {items.map((item, idx) => (
+          <div
+            key={idx}
+            className="flex items-center gap-3.5 p-4 rounded-xl border border-neutral-100 bg-neutral-50/40 dark:border-zinc-800 dark:bg-zinc-900/10"
+          >
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white border border-neutral-100 dark:bg-zinc-850 dark:border-zinc-800">
+              {item.icon}
+            </div>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+                {item.label}
+              </p>
+              <p className="text-sm font-extrabold text-neutral-850 dark:text-neutral-200 mt-0.5">
+                {item.value}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

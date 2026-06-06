@@ -1,0 +1,161 @@
+"use client"
+
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/toast";
+import { createPublicEnquiryAction } from "@/features/enquiries/public/actions/enquiry.public.actions";
+import EnquirySuccess from "./EnquirySuccess";
+
+export default function PropertyEnquiryForm({ propertyId, propertyTitle }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState(
+    `I am interested in "${propertyTitle}" (Ref: ${propertyId.slice(0, 8)}) and would like to arrange a private viewing. Please contact me.`
+  );
+  const [website, setWebsite] = useState(""); // Honeypot field for spam prevention
+  const [isPending, setIsPending] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!name.trim() || !email.trim() || !phone.trim() || !message.trim()) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    setIsPending(true);
+
+    try {
+      const result = await createPublicEnquiryAction({
+        name: name.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
+        message: message.trim(),
+        propertyId,
+        website: website.trim(), // Send honeypot value
+      });
+
+      if (result?.error) {
+        toast.error(result.error);
+      } else if (result?.success) {
+        setSuccess(true);
+        toast.success("Enquiry submitted successfully!");
+        // Reset fields
+        setName("");
+        setEmail("");
+        setPhone("");
+      }
+    } catch (err) {
+      console.error("Failed to submit public enquiry:", err);
+      toast.error("Something went wrong. Please check your connection and try again.");
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  if (success) {
+    return <EnquirySuccess onReset={() => setSuccess(false)} />;
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Honeypot field (hidden from users, autocomplete off, tabIndex -1) */}
+      <div className="absolute opacity-0 pointer-events-none -z-10 h-0 w-0 overflow-hidden">
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          type="text"
+          name="website"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+          autoComplete="off"
+          tabIndex={-1}
+        />
+      </div>
+
+      {/* Name Input */}
+      <div className="space-y-1">
+        <label className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-500">
+          Your Name <span className="text-red-500">*</span>
+        </label>
+        <Input
+          type="text"
+          required
+          disabled={isPending}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="First and last name"
+          className="h-10 rounded-xl text-sm border-neutral-200 focus-visible:ring-indigo-500"
+        />
+      </div>
+
+      {/* Email Input */}
+      <div className="space-y-1">
+        <label className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-500">
+          Email Address <span className="text-red-500">*</span>
+        </label>
+        <Input
+          type="email"
+          required
+          disabled={isPending}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="name@example.com"
+          className="h-10 rounded-xl text-sm border-neutral-200 focus-visible:ring-indigo-500"
+        />
+      </div>
+
+      {/* Phone Input */}
+      <div className="space-y-1">
+        <label className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-500">
+          Phone Number <span className="text-red-500">*</span>
+        </label>
+        <Input
+          type="tel"
+          required
+          disabled={isPending}
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="+1 (555) 000-0000"
+          className="h-10 rounded-xl text-sm border-neutral-200 focus-visible:ring-indigo-500"
+        />
+      </div>
+
+      {/* Message Input */}
+      <div className="space-y-1">
+        <label className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-500">
+          Message <span className="text-red-500">*</span>
+        </label>
+        <Textarea
+          required
+          rows={4}
+          disabled={isPending}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="rounded-xl text-sm border-neutral-200 focus-visible:ring-indigo-500 resize-none"
+        />
+      </div>
+
+      {/* Submit Button */}
+      <Button
+        type="submit"
+        disabled={isPending}
+        className="w-full h-11 bg-indigo-600 font-bold text-white hover:bg-indigo-700 rounded-xl gap-2 shadow-md shadow-indigo-100 dark:shadow-none"
+      >
+        {isPending ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin shrink-0" />
+            Sending Enquiry...
+          </>
+        ) : (
+          "Send Enquiry"
+        )}
+      </Button>
+    </form>
+  );
+}

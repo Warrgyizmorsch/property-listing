@@ -1,65 +1,125 @@
-import Image from "next/image";
+import { Suspense } from "react";
+import Navbar from "@/components/frontend/Navbar";
+import Footer from "@/components/frontend/Footer";
+import HeroSection from "@/components/home/HeroSection";
+import FeaturedProperties from "@/components/home/FeaturedProperties";
+import LatestProperties from "@/components/home/LatestProperties";
+import CategorySection from "@/components/home/CategorySection";
+import LocationSection from "@/components/home/LocationSection";
+import StatisticsSection from "@/components/home/StatisticsSection";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
+import TestimonialSection from "@/components/home/TestimonialSection";
+import CTASection from "@/components/home/CTASection";
+import { PropertyCardSkeleton } from "@/components/home/PropertyCard";
+
+// Responsive Next.js 15 SEO Metadata
+export const metadata = {
+  title: "LuxeEstates | Premium Property Listings & Luxury Real Estate",
+  description: "Discover exceptional luxury apartments, villas, penthouses, and commercial properties. LuxeEstates provides curated listings and transparent transaction pathways with certified agents.",
+  keywords: "real estate, luxury villas, buy apartments, penthouses, commercial properties, property finder, property listing",
+  openGraph: {
+    title: "LuxeEstates | Premium Property Listings & Luxury Real Estate",
+    description: "Browse curated luxury apartments, villas, penthouses, and commercial listings. Find your masterpiece home today.",
+    type: "website",
+    url: "https://luxeestates.com",
+  },
+};
+
+// Loader skeletons for dynamic database sections
+function PropertiesGridSkeleton({ count = 3 }) {
+  return (
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {[...Array(count)].map((_, i) => (
+        <PropertyCardSkeleton key={i} />
+      ))}
+    </div>
+  );
+}
+
+function SectionSkeleton() {
+  return (
+    <div className="mx-auto max-w-7xl py-12 px-4 animate-pulse">
+      <div className="h-6 w-48 rounded bg-neutral-200 dark:bg-zinc-800" />
+      <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="h-24 rounded-xl bg-neutral-100 dark:bg-zinc-900" />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="flex flex-col min-h-screen bg-neutral-50/30 dark:bg-zinc-950 font-sans">
+      {/* Global Header */}
+      <Navbar />
+
+      <main className="flex-grow">
+        {/* 1. Hero Section & Quick Search Form */}
+        <Suspense fallback={
+          <div className="relative flex min-h-[70vh] items-center justify-center bg-neutral-900 animate-pulse">
+            <div className="h-8 w-64 rounded bg-neutral-800" />
+          </div>
+        }>
+          <HeroSection />
+        </Suspense>
+
+        {/* 2. Browse By Category */}
+        <Suspense fallback={<SectionSkeleton />}>
+          <CategorySection />
+        </Suspense>
+
+        {/* 3. Featured Properties */}
+        <Suspense fallback={
+          <div className="mx-auto max-w-7xl py-20 px-4">
+            <div className="h-8 w-48 rounded bg-neutral-200 dark:bg-zinc-800 mb-8" />
+            <PropertiesGridSkeleton count={3} />
+          </div>
+        }>
+          <FeaturedProperties />
+        </Suspense>
+
+        {/* 4. Why Choose Us */}
+        <WhyChooseUs />
+
+        {/* 5. Statistics Overview */}
+        <Suspense fallback={
+          <div className="w-full bg-neutral-900 py-16 animate-pulse">
+            <div className="mx-auto max-w-7xl grid grid-cols-4 gap-6 px-4">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="h-20 rounded-xl bg-neutral-800" />
+              ))}
+            </div>
+          </div>
+        }>
+          <StatisticsSection />
+        </Suspense>
+
+        {/* 6. Latest Listings */}
+        <Suspense fallback={
+          <div className="mx-auto max-w-7xl py-20 px-4">
+            <div className="h-8 w-48 rounded bg-neutral-200 dark:bg-zinc-800 mb-8" />
+            <PropertiesGridSkeleton count={4} />
+          </div>
+        }>
+          <LatestProperties />
+        </Suspense>
+
+        {/* 7. Browse By Location */}
+        <Suspense fallback={<SectionSkeleton />}>
+          <LocationSection />
+        </Suspense>
+
+        {/* 8. Testimonials Section */}
+        <TestimonialSection />
+
+        {/* 9. Conversion CTA Section */}
+        <CTASection />
       </main>
+
+      {/* Global Footer */}
+      <Footer />
     </div>
   );
 }
