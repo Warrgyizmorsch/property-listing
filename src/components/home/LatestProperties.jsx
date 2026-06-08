@@ -24,12 +24,18 @@ export default async function LatestProperties() {
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-neutral-200/50 text-neutral-400 dark:bg-zinc-800">
               <Inbox className="h-6 w-6" />
             </div>
-            <h3 className="mt-4 text-lg font-bold text-neutral-900 dark:text-white">No Properties Found</h3>
+            <h3 className="mt-4 text-lg font-bold text-neutral-900 dark:text-white">
+              No Properties Found
+            </h3>
             <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400 max-w-sm">
-              We couldn't find any property listings in the database. Head to the admin dashboard to add listings.
+              We couldn't find any property listings in the database. Head to
+              the admin dashboard to add listings.
             </p>
             <Link href="/admin/login" className="mt-6">
-              <Button size="sm" className="bg-indigo-600 text-white font-semibold hover:bg-indigo-700">
+              <Button
+                size="sm"
+                className="bg-indigo-600 text-white font-semibold hover:bg-indigo-700"
+              >
                 Log In to Admin
               </Button>
             </Link>
@@ -42,22 +48,25 @@ export default async function LatestProperties() {
   return (
     <section className="bg-white py-20 px-4 dark:bg-zinc-950 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <span className="text-xs font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
               Fresh Listings
             </span>
-            <h2 className="mt-2 font-heading text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
+            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
               Latest Properties
             </h2>
             <p className="mt-4 text-neutral-500 dark:text-neutral-400">
-              Browse our newest apartments, villas, and commercial listings. Restocked daily.
+              Browse our newest apartments, villas, and commercial listings.
+              Restocked daily.
             </p>
           </div>
           <Link href="/properties" className="shrink-0">
-            <Button variant="outline" className="group font-semibold gap-1.5 border-neutral-200 bg-white hover:bg-neutral-50 dark:border-zinc-800 dark:bg-zinc-900">
+            <Button
+              variant="outline"
+              className="group font-semibold gap-1.5 border-neutral-200 bg-white hover:bg-neutral-50 dark:border-zinc-800 dark:bg-zinc-900"
+            >
               View All Listings
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Button>
@@ -70,7 +79,6 @@ export default async function LatestProperties() {
             <PropertyCard key={property.id} property={property} />
           ))}
         </div>
-
       </div>
     </section>
   );

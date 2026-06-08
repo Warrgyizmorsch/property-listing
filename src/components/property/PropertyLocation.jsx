@@ -9,17 +9,17 @@ export default function PropertyLocation({ property }) {
     },
     {
       label: "City",
-      value: property.city?.name || "Manhattan",
+      value: property.city?.name || "Mumbai",
       icon: <Compass className="h-4.5 w-4.5 text-neutral-400" />,
     },
     {
       label: "State",
-      value: property.city?.state?.name || "New York",
+      value: property.city?.state?.name || "Maharashtra",
       icon: <Landmark className="h-4.5 w-4.5 text-neutral-400" />,
     },
     {
       label: "Country",
-      value: property.city?.state?.country?.name || "United States",
+      value: property.city?.state?.country?.name || "India",
       icon: <Globe className="h-4.5 w-4.5 text-neutral-400" />,
     },
   ];
@@ -29,7 +29,7 @@ export default function PropertyLocation({ property }) {
       <h2 className="font-heading text-lg font-bold text-neutral-900 uppercase tracking-widest mb-5 dark:text-white">
         Location Information
       </h2>
-      
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {fields.map((field, idx) => (
           <div

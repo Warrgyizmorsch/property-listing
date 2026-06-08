@@ -24,13 +24,19 @@ export default async function FeaturedProperties() {
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/10 text-amber-500">
               <Star className="h-6 w-6" />
             </div>
-            <h3 className="mt-4 text-lg font-bold text-neutral-900 dark:text-white">No Featured Listings</h3>
+            <h3 className="mt-4 text-lg font-bold text-neutral-900 dark:text-white">
+              No Featured Listings
+            </h3>
             <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400 max-w-sm">
-              We don't have handpicked listings available at this moment. Click below to explore all active properties or check back later!
+              We don't have handpicked listings available at this moment. Click
+              below to explore all active properties or check back later!
             </p>
             <div className="mt-6 flex gap-3">
               <Link href="/properties">
-                <Button size="sm" className="bg-indigo-600 text-white font-semibold hover:bg-indigo-700">
+                <Button
+                  size="sm"
+                  className="bg-indigo-600 text-white font-semibold hover:bg-indigo-700"
+                >
                   Explore Listings
                 </Button>
               </Link>
@@ -49,22 +55,25 @@ export default async function FeaturedProperties() {
   return (
     <section className="bg-neutral-50 py-20 px-4 dark:bg-zinc-900/10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <span className="text-xs font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
               Handpicked Deals
             </span>
-            <h2 className="mt-2 font-heading text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
+            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
               Featured Properties
             </h2>
             <p className="mt-4 text-neutral-500 dark:text-neutral-400">
-              Explore our collection of the most exclusive and highly demanded properties currently listed.
+              Explore our collection of the most exclusive and highly demanded
+              properties currently listed.
             </p>
           </div>
           <Link href="/properties?isFeatured=true" className="shrink-0">
-            <Button variant="outline" className="group font-semibold gap-1.5 border-neutral-200 bg-white hover:bg-neutral-50 dark:border-zinc-800 dark:bg-zinc-900">
+            <Button
+              variant="outline"
+              className="group font-semibold gap-1.5 border-neutral-200 bg-white hover:bg-neutral-50 dark:border-zinc-800 dark:bg-zinc-900"
+            >
               View All Featured
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Button>
@@ -77,7 +86,6 @@ export default async function FeaturedProperties() {
             <PropertyCard key={property.id} property={property} />
           ))}
         </div>
-
       </div>
     </section>
   );

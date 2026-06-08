@@ -2,7 +2,7 @@ import React from "react";
 import {
   Building,
   Activity,
-  DollarSign,
+  IndianRupee,
   Mail,
   AlertCircle,
   Phone,
@@ -33,19 +33,21 @@ export default async function DashboardPage() {
   const stats = await getDashboardStats();
 
   // 2. Fetch the 5 most recent enquiries (if any) to populate the dashboard summary list
-  const recentEnquiries = await db.enquiry.findMany({
-    where: { deletedAt: null },
-    orderBy: { createdAt: "desc" },
-    take: 5,
-    include: {
-      property: {
-        select: {
-          title: true,
-          slug: true,
+  const recentEnquiries = await db.enquiry
+    .findMany({
+      where: { deletedAt: null },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      include: {
+        property: {
+          select: {
+            title: true,
+            slug: true,
+          },
         },
       },
-    },
-  }).catch(() => []); // Fallback to empty array if table migrations/database are not populated
+    })
+    .catch(() => []); // Fallback to empty array if table migrations/database are not populated
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
@@ -77,7 +79,7 @@ export default async function DashboardPage() {
           <DashboardCard
             title="Sold / Inactive"
             value={stats.soldProperties}
-            icon={<DollarSign className="h-5 w-5 text-neutral-600" />}
+            icon={<IndianRupee className="h-5 w-5 text-neutral-600" />}
             description="Properties marked as Sold"
           />
         </div>
@@ -151,16 +153,29 @@ export default async function DashboardPage() {
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="w-[150px] font-semibold text-neutral-700">Name</TableHead>
-                  <TableHead className="font-semibold text-neutral-700">Email</TableHead>
-                  <TableHead className="font-semibold text-neutral-700">Phone</TableHead>
-                  <TableHead className="font-semibold text-neutral-700">Associated Property</TableHead>
-                  <TableHead className="w-[100px] text-right font-semibold text-neutral-700">Status</TableHead>
+                  <TableHead className="w-[150px] font-semibold text-neutral-700">
+                    Name
+                  </TableHead>
+                  <TableHead className="font-semibold text-neutral-700">
+                    Email
+                  </TableHead>
+                  <TableHead className="font-semibold text-neutral-700">
+                    Phone
+                  </TableHead>
+                  <TableHead className="font-semibold text-neutral-700">
+                    Associated Property
+                  </TableHead>
+                  <TableHead className="w-[100px] text-right font-semibold text-neutral-700">
+                    Status
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {recentEnquiries.map((enquiry) => (
-                  <TableRow key={enquiry.id} className="hover:bg-neutral-50/50 transition-colors">
+                  <TableRow
+                    key={enquiry.id}
+                    className="hover:bg-neutral-50/50 transition-colors"
+                  >
                     <TableCell className="font-medium text-neutral-900">
                       <Link
                         href={`/admin/enquiries/${enquiry.id}`}
@@ -169,25 +184,31 @@ export default async function DashboardPage() {
                         {enquiry.name}
                       </Link>
                     </TableCell>
-                    <TableCell className="text-neutral-500 font-mono text-xs">{enquiry.email}</TableCell>
-                    <TableCell className="text-neutral-500 font-mono text-xs">{enquiry.phone}</TableCell>
+                    <TableCell className="text-neutral-500 font-mono text-xs">
+                      {enquiry.email}
+                    </TableCell>
+                    <TableCell className="text-neutral-500 font-mono text-xs">
+                      {enquiry.phone}
+                    </TableCell>
                     <TableCell className="text-neutral-900 font-medium">
                       {enquiry.property?.title || "Unknown Property"}
                     </TableCell>
                     <TableCell className="text-right">
-                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                        enquiry.status === "NEW"
-                          ? "bg-amber-100 text-amber-800"
-                          : enquiry.status === "CONTACTED"
-                          ? "bg-blue-100 text-blue-800"
-                          : enquiry.status === "NEGOTIATION"
-                          ? "bg-indigo-100 text-indigo-800"
-                          : enquiry.status === "CLOSED"
-                          ? "bg-red-100 text-red-800"
-                          : enquiry.status === "CONVERTED"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-neutral-100 text-neutral-800"
-                      }`}>
+                      <span
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                          enquiry.status === "NEW"
+                            ? "bg-amber-100 text-amber-800"
+                            : enquiry.status === "CONTACTED"
+                              ? "bg-blue-100 text-blue-800"
+                              : enquiry.status === "NEGOTIATION"
+                                ? "bg-indigo-100 text-indigo-800"
+                                : enquiry.status === "CLOSED"
+                                  ? "bg-red-100 text-red-800"
+                                  : enquiry.status === "CONVERTED"
+                                    ? "bg-green-100 text-green-800"
+                                    : "bg-neutral-100 text-neutral-800"
+                        }`}
+                      >
                         {enquiry.status}
                       </span>
                     </TableCell>

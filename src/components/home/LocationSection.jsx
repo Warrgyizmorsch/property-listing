@@ -12,14 +12,13 @@ export default async function LocationSection() {
   return (
     <section className="bg-neutral-50 py-20 px-4 dark:bg-zinc-900/10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <span className="text-xs font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
               Popular Cities
             </span>
-            <h2 className="mt-2 font-heading text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
+            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
               Browse By Location
             </h2>
             <p className="mt-4 text-neutral-500 dark:text-neutral-400">
@@ -45,7 +44,7 @@ export default async function LocationSection() {
                     <MapPin className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="font-extrabold text-neutral-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    <h3 className="font-semibold text-neutral-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                       {city.name}
                     </h3>
                     <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
@@ -63,7 +62,6 @@ export default async function LocationSection() {
             );
           })}
         </div>
-
       </div>
     </section>
   );

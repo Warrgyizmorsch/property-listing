@@ -1,8 +1,8 @@
-import React from "react"
-import { notFound } from "next/navigation"
-import Link from "next/link"
-import PageHeader from "@/components/admin/PageHeader"
-import { Button } from "@/components/ui/button"
+import React from "react";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import PageHeader from "@/components/admin/PageHeader";
+import { Button } from "@/components/ui/button";
 import {
   ArrowLeft,
   Mail,
@@ -10,40 +10,39 @@ import {
   User,
   Calendar,
   Building,
-  DollarSign,
+  IndianRupee,
   MapPin,
   Maximize2,
   BedDouble,
   Bath,
-} from "lucide-react"
-import { getEnquiryById } from "@/features/enquiries/services/enquiry.service"
-import EnquiryStatusSelector from "@/features/enquiries/components/EnquiryStatusSelector"
-import EnquiryNotesForm from "@/features/enquiries/components/EnquiryNotesForm"
-import { EnquiryStatusBadge } from "@/features/enquiries/components/EnquiryTable"
-import { formatCurrency } from "@/lib/format"
+} from "lucide-react";
+import { getEnquiryById } from "@/features/enquiries/services/enquiry.service";
+import EnquiryStatusSelector from "@/features/enquiries/components/EnquiryStatusSelector";
+import EnquiryNotesForm from "@/features/enquiries/components/EnquiryNotesForm";
+import { EnquiryStatusBadge } from "@/features/enquiries/components/EnquiryTable";
+import { formatCurrency } from "@/lib/format";
 
-export const dynamic = "force-dynamic"
+export const dynamic = "force-dynamic";
 
 export default async function EnquiryDetailPage({ params }) {
-  const resolvedParams = await params
-  const { id } = resolvedParams
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
 
-  const enquiry = await getEnquiryById(id)
+  const enquiry = await getEnquiryById(id);
 
   if (!enquiry) {
-    notFound()
+    notFound();
   }
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto animate-in fade-in duration-300">
-      
       {/* Page Header with Back Navigation */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <PageHeader
           title={`Lead: ${enquiry.name}`}
           description="View submitted lead questions, contact information, and modify tracking state."
         />
-        
+
         <Button
           variant="outline"
           asChild
@@ -58,10 +57,8 @@ export default async function EnquiryDetailPage({ params }) {
 
       {/* Main Grid Layout */}
       <div className="grid gap-6 lg:grid-cols-3">
-        
         {/* Left Column: Lead Info and Message (Takes up 2/3 of grid) */}
         <div className="lg:col-span-2 space-y-6">
-          
           {/* Lead Contact Info Card */}
           <div className="bg-white border border-neutral-200 rounded-lg p-6 shadow-xs space-y-6">
             <h3 className="text-sm font-bold text-neutral-800 uppercase tracking-wider border-b border-neutral-100 pb-2">
@@ -78,7 +75,9 @@ export default async function EnquiryDetailPage({ params }) {
                   <div className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">
                     Full Name
                   </div>
-                  <div className="text-sm font-semibold text-neutral-900">{enquiry.name}</div>
+                  <div className="text-sm font-semibold text-neutral-900">
+                    {enquiry.name}
+                  </div>
                 </div>
               </div>
 
@@ -172,15 +171,20 @@ export default async function EnquiryDetailPage({ params }) {
 
         {/* Right Column: Status Pipeline, Property Profile, Internal Notes */}
         <div className="space-y-6">
-          
           {/* Status Stepper Card */}
           <div className="bg-white border border-neutral-200 rounded-lg p-6 shadow-xs">
-            <EnquiryStatusSelector enquiryId={enquiry.id} currentStatus={enquiry.status} />
+            <EnquiryStatusSelector
+              enquiryId={enquiry.id}
+              currentStatus={enquiry.status}
+            />
           </div>
 
           {/* Internal Notes Card */}
           <div className="bg-white border border-neutral-200 rounded-lg p-6 shadow-xs">
-            <EnquiryNotesForm enquiryId={enquiry.id} initialNotes={enquiry.notes} />
+            <EnquiryNotesForm
+              enquiryId={enquiry.id}
+              initialNotes={enquiry.notes}
+            />
           </div>
 
           {/* Associated Property Details Card */}
@@ -203,11 +207,11 @@ export default async function EnquiryDetailPage({ params }) {
                 <div className="space-y-2.5 text-xs text-neutral-600">
                   {/* Price */}
                   <div className="flex items-center gap-2 font-bold text-neutral-900">
-                    <DollarSign className="h-4 w-4 text-neutral-400" />
+                    <IndianRupee className="h-4 w-4 text-neutral-400" />
                     <span>
                       {formatCurrency
                         ? formatCurrency(enquiry.property.price)
-                        : `$${Number(enquiry.property.price).toLocaleString()}`}
+                        : `₹${Number(enquiry.property.price).toLocaleString()}`}
                     </span>
                   </div>
 
@@ -272,7 +276,9 @@ export default async function EnquiryDetailPage({ params }) {
                     asChild
                     className="w-full border-neutral-200 hover:bg-neutral-50 h-9 text-xs font-semibold text-neutral-700 cursor-pointer"
                   >
-                    <Link href={`/admin/properties/${enquiry.property.id}/edit`}>
+                    <Link
+                      href={`/admin/properties/${enquiry.property.id}/edit`}
+                    >
                       Edit Property Profile
                     </Link>
                   </Button>
@@ -280,12 +286,13 @@ export default async function EnquiryDetailPage({ params }) {
               </div>
             ) : (
               <p className="text-xs text-neutral-500 italic">
-                This enquiry is linked to a property record that has been deleted.
+                This enquiry is linked to a property record that has been
+                deleted.
               </p>
             )}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

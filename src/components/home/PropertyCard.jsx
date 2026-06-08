@@ -5,15 +5,16 @@ import { formatCurrency, formatArea } from "@/lib/format";
 
 export default function PropertyCard({ property }) {
   // Safe extraction of the primary image url with fallback
-  const mainImage = property.images?.[0]?.url || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800";
+  const mainImage =
+    property.images?.[0]?.url ||
+    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800";
   const locationText = `${property.city?.name}, ${property.city?.state?.name || ""}`;
-  
+
   // Custom styling rules for Purpose badge
   const isBuy = property.purpose?.name?.toLowerCase() === "buy";
-  
+
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/40">
-      
       {/* Property Image & Badges */}
       <div className="relative aspect-video w-full overflow-hidden bg-neutral-100 dark:bg-zinc-800">
         <Image
@@ -23,24 +24,26 @@ export default function PropertyCard({ property }) {
           sizes="(max-w-7xl) 33vw, (max-w-md) 50vw, 100vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        
+
         {/* Gradients to improve text contrast on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
         {/* Badges container */}
         <div className="absolute left-3.5 top-3.5 flex flex-wrap gap-2">
           {/* Purpose Badge: Buy/Sell/Rent */}
-          <span className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-bold shadow-sm ${
-            isBuy 
-              ? "bg-indigo-600 text-white" 
-              : "bg-emerald-600 text-white"
-          }`}>
+          <span
+            className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-bold shadow-sm ${
+              isBuy ? "bg-indigo-600 text-white" : "bg-emerald-600 text-white"
+            }`}
+          >
             For {property.purpose?.name || "Sale"}
           </span>
 
           {/* Status Badge: Available, Sold, etc. */}
           {property.status && (
-            <span className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-bold border shadow-xs ${property.status.colorClass || "bg-white text-neutral-800 border-neutral-200"}`}>
+            <span
+              className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-bold border shadow-xs ${property.status.colorClass || "bg-white text-neutral-800 border-neutral-200"}`}
+            >
               {property.status.name}
             </span>
           )}
@@ -56,7 +59,6 @@ export default function PropertyCard({ property }) {
 
       {/* Property Content */}
       <div className="flex flex-1 flex-col p-5">
-        
         {/* Category & Price */}
         <div className="flex items-center justify-between gap-2 mb-2">
           <span className="text-xs font-bold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase">
@@ -69,15 +71,15 @@ export default function PropertyCard({ property }) {
 
         {/* Title */}
         <h3 className="mb-2 line-clamp-1 text-base font-bold text-neutral-900 hover:text-indigo-600 dark:text-white dark:hover:text-indigo-400">
-          <Link href={`/properties/${property.slug}`}>
-            {property.title}
-          </Link>
+          <Link href={`/properties/${property.slug}`}>{property.title}</Link>
         </h3>
 
         {/* Address */}
         <p className="mb-4 flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-400 line-clamp-1">
           <MapPin className="h-3.5 w-3.5 shrink-0 text-neutral-400 dark:text-zinc-500" />
-          <span>{property.address}, {locationText}</span>
+          <span>
+            {property.address}, {locationText}
+          </span>
         </p>
 
         {/* Features Divider */}
@@ -108,7 +110,6 @@ export default function PropertyCard({ property }) {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );
