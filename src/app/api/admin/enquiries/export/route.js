@@ -2,14 +2,20 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getEnquiries } from "@/features/enquiries/services/enquiry.service";
 
+// Prevent prerendering - this route is always dynamic
+export const dynamic = "force-dynamic";
+
 export async function GET(request) {
   try {
     // 1. Authenticate session manually to prevent Next.js redirect throws in API routes
     const session = await auth();
-    if (!session?.user || (session.user.role !== "ADMIN" && session.user.role !== "SUPER_ADMIN")) {
+    if (
+      !session?.user ||
+      (session.user.role !== "ADMIN" && session.user.role !== "SUPER_ADMIN")
+    ) {
       return new NextResponse(
         JSON.stringify({ error: "Unauthorized. Admin permissions required." }),
-        { status: 401, headers: { "Content-Type": "application/json" } }
+        { status: 401, headers: { "Content-Type": "application/json" } },
       );
     }
 
@@ -73,7 +79,7 @@ export async function GET(request) {
             day: "numeric",
             hour: "2-digit",
             minute: "2-digit",
-          })
+          }),
         ),
       ];
       csvRows.push(row.join(","));
@@ -94,7 +100,7 @@ export async function GET(request) {
     console.error("CSV Export API error:", error);
     return new NextResponse(
       JSON.stringify({ error: error.message || "Failed to export leads." }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
 }
