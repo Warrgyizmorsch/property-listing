@@ -8,24 +8,36 @@ import PropertyGrid from "@/components/properties/PropertyGrid";
 import PropertyPagination from "@/components/properties/PropertyPagination";
 import MobileFilterButton from "@/components/properties/MobileFilterButton";
 import LoadingState from "@/components/properties/LoadingState";
-import { getPublicProperties, getPublicFiltersMetadata } from "@/features/properties/public/services/public.service";
+import {
+  getPublicProperties,
+  getPublicFiltersMetadata,
+} from "@/features/properties/public/services/public.service";
 import { generatePageMetadata } from "@/lib/seo/metadata";
-import { getBreadcrumbSchema, getCollectionPageSchema } from "@/lib/seo/schemas";
+import {
+  getBreadcrumbSchema,
+  getCollectionPageSchema,
+} from "@/lib/seo/schemas";
 
 // Dynamic SEO metadata generator based on active query filters
 export async function generateMetadata({ searchParams }) {
   const params = await searchParams;
-  const category = params.category ? params.category.charAt(0).toUpperCase() + params.category.slice(1) : "";
-  const city = params.city ? params.city.charAt(0).toUpperCase() + params.city.slice(1) : "";
-  const purpose = params.purpose ? `For ${params.purpose.charAt(0).toUpperCase() + params.purpose.slice(1)}` : "";
+  const category = params.category
+    ? params.category.charAt(0).toUpperCase() + params.category.slice(1)
+    : "";
+  const city = params.city
+    ? params.city.charAt(0).toUpperCase() + params.city.slice(1)
+    : "";
+  const purpose = params.purpose
+    ? `For ${params.purpose.charAt(0).toUpperCase() + params.purpose.slice(1)}`
+    : "";
 
-  let fallbackTitle = "Premium Property Catalog | LuxeEstates";
+  let fallbackTitle = "Premium Property Catalog | Property Expert";
   if (category || city || purpose) {
     const parts = [category, purpose, city].filter(Boolean);
-    fallbackTitle = `${parts.join(" ")} Listings | LuxeEstates`;
+    fallbackTitle = `${parts.join(" ")} Listings | Property Expert`;
   }
 
-  const fallbackDescription = `Explore the finest selection of premium ${category || "real estate"} listings ${purpose || ""} in ${city || "top regions"} on LuxeEstates. Find your next masterpiece home today.`;
+  const fallbackDescription = `Explore the finest selection of premium ${category || "real estate"} listings ${purpose || ""} in ${city || "top regions"} on Property Expert. Find your next masterpiece home today.`;
 
   return await generatePageMetadata({
     pageType: "PROPERTY_LISTING",
@@ -82,7 +94,8 @@ async function ListingGridContainer({ searchParamsResolved }) {
       {/* Search status header */}
       <div className="flex items-center justify-between border-b border-neutral-100 pb-4 dark:border-neutral-850">
         <p className="text-xs font-bold text-neutral-500 uppercase tracking-widest">
-          Showing {properties.length} of {total} {total === 1 ? "listing match" : "listing matches"}
+          Showing {properties.length} of {total}{" "}
+          {total === 1 ? "listing match" : "listing matches"}
         </p>
       </div>
 
@@ -98,7 +111,7 @@ async function ListingGridContainer({ searchParamsResolved }) {
 export default async function PropertiesPage({ searchParams }) {
   // Await searchParams before reading properties (Next.js 15 App Router requirement)
   const resolvedSearchParams = await searchParams;
-  
+
   // Fetch filter metadata on the server
   const filtersMetadata = await getPublicFiltersMetadata();
 
@@ -108,7 +121,6 @@ export default async function PropertiesPage({ searchParams }) {
 
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          
           {/* Headline Section */}
           <div className="mb-10 text-left">
             <span className="text-xs font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
@@ -118,13 +130,14 @@ export default async function PropertiesPage({ searchParams }) {
               Explore Our Properties
             </h1>
             <p className="mt-2 text-neutral-500 dark:text-neutral-400 max-w-2xl text-sm leading-6">
-              Browse apartments, villas, and commercial real estate suited to your custom parameters. Use the advanced filters to isolate your target choices.
+              Browse apartments, villas, and commercial real estate suited to
+              your custom parameters. Use the advanced filters to isolate your
+              target choices.
             </p>
           </div>
 
           {/* Main Layout Grid */}
           <div className="flex flex-col lg:flex-row gap-8 items-start">
-            
             {/* Desktop Left Sidebar Filters */}
             <aside className="hidden lg:block w-72 shrink-0 border border-neutral-100 bg-white p-6 rounded-2xl shadow-xs dark:border-zinc-800 dark:bg-zinc-900/40">
               <div className="border-b border-neutral-100 pb-4 mb-4 dark:border-neutral-850">
@@ -142,24 +155,27 @@ export default async function PropertiesPage({ searchParams }) {
                 <div className="flex-grow max-w-md">
                   <PropertySearch />
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   {/* Mobile Filters Trigger Drawer */}
                   <MobileFilterButton metadata={filtersMetadata} />
-                  
+
                   {/* Sort Control */}
                   <PropertySort />
                 </div>
               </div>
 
               {/* Streaming dynamic properties matching filters */}
-              <Suspense key={JSON.stringify(resolvedSearchParams)} fallback={<LoadingState count={6} />}>
-                <ListingGridContainer searchParamsResolved={resolvedSearchParams} />
+              <Suspense
+                key={JSON.stringify(resolvedSearchParams)}
+                fallback={<LoadingState count={6} />}
+              >
+                <ListingGridContainer
+                  searchParamsResolved={resolvedSearchParams}
+                />
               </Suspense>
             </div>
-
           </div>
-
         </div>
       </main>
 

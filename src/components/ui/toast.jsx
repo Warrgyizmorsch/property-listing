@@ -1,57 +1,57 @@
-"use client"
+"use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react"
-import { CheckCircle2, AlertCircle, X } from "lucide-react"
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { CheckCircle2, AlertCircle, X } from "lucide-react";
 
-const ToastContext = createContext(null)
+const ToastContext = createContext(null);
 
-let toastListener = null
+let toastListener = null;
 
 export const toast = {
   success: (message) => {
-    if (toastListener) toastListener(message, "success")
+    if (toastListener) toastListener(message, "success");
   },
   error: (message) => {
-    if (toastListener) toastListener(message, "error")
+    if (toastListener) toastListener(message, "error");
   },
-}
+};
 
 export function ToastProvider({ children }) {
-  const [toasts, setToasts] = useState([])
+  const [toasts, setToasts] = useState([]);
 
   useEffect(() => {
     toastListener = (message, type) => {
-      const id = Math.random().toString(36).substring(2, 9)
-      setToasts((prev) => [...prev, { id, message, type }])
-    }
+      const id = Math.random().toString(36).substring(2, 9);
+      setToasts((prev) => [...prev, { id, message, type }]);
+    };
     return () => {
-      toastListener = null
-    }
-  }, [])
+      toastListener = null;
+    };
+  }, []);
 
   const removeToast = (id) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id))
-  }
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  };
 
   return (
     <ToastContext.Provider value={{ toasts, removeToast }}>
       {children}
-      <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 w-full max-w-sm px-4 sm:px-0">
+      <div className="fixed bottom-4 right-4 z-[99999] flex flex-col gap-2 w-full max-w-sm px-4 sm:px-0">
         {toasts.map((toast) => (
           <ToastItem key={toast.id} toast={toast} onClose={removeToast} />
         ))}
       </div>
     </ToastContext.Provider>
-  )
+  );
 }
 
 function ToastItem({ toast, onClose }) {
   useEffect(() => {
     const timer = setTimeout(() => {
-      onClose(toast.id)
-    }, 4000)
-    return () => clearTimeout(timer)
-  }, [toast.id, onClose])
+      onClose(toast.id);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [toast.id, onClose]);
 
   return (
     <div
@@ -67,7 +67,9 @@ function ToastItem({ toast, onClose }) {
         ) : (
           <AlertCircle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
         )}
-        <div className="text-sm font-medium leading-relaxed">{toast.message}</div>
+        <div className="text-sm font-medium leading-relaxed">
+          {toast.message}
+        </div>
       </div>
       <button
         onClick={() => onClose(toast.id)}
@@ -76,5 +78,5 @@ function ToastItem({ toast, onClose }) {
         <X className="h-4 w-4" />
       </button>
     </div>
-  )
+  );
 }

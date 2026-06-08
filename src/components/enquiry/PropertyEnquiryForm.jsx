@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
@@ -9,12 +9,19 @@ import { toast } from "@/components/ui/toast";
 import { createPublicEnquiryAction } from "@/features/enquiries/public/actions/enquiry.public.actions";
 import EnquirySuccess from "./EnquirySuccess";
 
-export default function PropertyEnquiryForm({ propertyId, propertyTitle }) {
+export default function PropertyEnquiryForm({
+  propertyId,
+  propertyTitle,
+  onSuccess = null,
+}) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const defaultRef = propertyId ? String(propertyId).slice(0, 8) : null;
   const [message, setMessage] = useState(
-    `I am interested in "${propertyTitle}" (Ref: ${propertyId.slice(0, 8)}) and would like to arrange a private viewing. Please contact me.`
+    defaultRef
+      ? `I am interested in "${propertyTitle}" (Ref: ${defaultRef}) and would like to arrange a private viewing. Please contact me.`
+      : `I am interested and would like to learn more. Please contact me.`,
   );
   const [website, setWebsite] = useState(""); // Honeypot field for spam prevention
   const [isPending, setIsPending] = useState(false);
@@ -49,10 +56,15 @@ export default function PropertyEnquiryForm({ propertyId, propertyTitle }) {
         setName("");
         setEmail("");
         setPhone("");
+        if (typeof onSuccess === "function") onSuccess();
       }
     } catch (err) {
       console.error("Failed to submit public enquiry:", err);
-      toast.error("Something went wrong. Please check your connection and try again.");
+      const msg = err?.message || (err && String(err)) || null;
+      toast.error(
+        msg ||
+          "Something went wrong. Please check your connection and try again.",
+      );
     } finally {
       setIsPending(false);
     }

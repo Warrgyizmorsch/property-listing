@@ -54,11 +54,11 @@ export default function Sidebar({ className = "" }) {
 
   return (
     <aside className={`flex h-full w-64 flex-col bg-[#3b52d9] text-white shadow-xl ${className}`}>
-      {/* Sidebar Header Brand (eProperty) */}
+      {/* Sidebar Header Brand */}
       <div className="flex h-16 items-center px-6 gap-2.5 border-b border-white/10 shrink-0">
-        <Home className="h-6 w-6 text-blue-100" />
+        {/* <Home className="h-6 w-6 text-blue-100" /> */}
         <span className="text-xl font-black tracking-tight text-white flex items-center">
-          eProperty<span className="font-light text-blue-200 text-xs ml-1 bg-white/20 px-1.5 py-0.5 rounded-sm">Admin</span>
+          Property Expert<span className="font-light text-blue-200 text-xs ml-1 bg-white/20 px-1.5 py-0.5 rounded-sm">Admin</span>
         </span>
       </div>
 

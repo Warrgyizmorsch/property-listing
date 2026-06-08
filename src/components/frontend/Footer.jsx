@@ -29,7 +29,7 @@ export default function Footer() {
                 <Building2 className="h-5 w-5" />
               </div>
               <span className="font-heading text-lg font-bold tracking-tight text-white sm:text-xl">
-                Luxe<span className="text-indigo-400">Estates</span>
+                Property<span className="text-indigo-400">Expert</span>
               </span>
             </Link>
             <p className="text-sm text-neutral-400 leading-6 max-w-xs">
@@ -108,7 +108,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#about"
+                  href="/about"
                   className="hover:text-white transition-colors duration-200"
                 >
                   About Us
@@ -116,7 +116,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#contact"
+                  href="/contact"
                   className="hover:text-white transition-colors duration-200"
                 >
                   Contact
@@ -202,7 +202,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="h-5 w-5 text-indigo-400 shrink-0" />
-                <span className="truncate">contact@luxeestates.com</span>
+                <span className="truncate">contact@Property Expert.com</span>
               </li>
             </ul>
           </div>
@@ -213,7 +213,7 @@ export default function Footer() {
       <div className="border-t border-neutral-800 py-8 dark:border-neutral-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-neutral-500 text-center sm:text-left">
-            &copy; {currentYear} LuxeEstates. All rights reserved. Made with
+            &copy; {currentYear} Property Expert. All rights reserved. Made with
             love for premium living.
           </p>
           <div className="flex items-center gap-6 text-xs text-neutral-500">

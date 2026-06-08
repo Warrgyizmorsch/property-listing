@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { db } from "@/lib/db";
 import { createEnquirySchema } from "@/features/enquiries/schemas/enquiry.schema";
@@ -49,24 +49,27 @@ export async function createPublicEnquiryAction(data) {
 
     const { name, email, phone, message, propertyId } = validated.data;
 
-    // 4. Resolve Property Context & Slug for revalidation tasks
-    const property = await db.property.findFirst({
-      where: { id: propertyId, deletedAt: null },
-      select: { title: true, slug: true },
-    });
+    // 4. Resolve Property Context & Slug for revalidation tasks (propertyId optional)
+    let property = null;
+    if (propertyId) {
+      property = await db.property.findFirst({
+        where: { id: propertyId, deletedAt: null },
+        select: { title: true, slug: true, id: true },
+      });
 
-    if (!property) {
-      return { error: "The selected property listing could not be found." };
+      if (!property) {
+        return { error: "The selected property listing could not be found." };
+      }
     }
 
-    // 5. Database Save (Defaults status to NEW)
+    // 5. Database Save (Defaults status to NEW). propertyId can be null for general enquiries.
     await db.enquiry.create({
       data: {
         name,
         email,
         phone,
         message,
-        propertyId,
+        propertyId: property ? property.id : null,
         status: "NEW",
       },
     });
@@ -82,26 +85,30 @@ export async function createPublicEnquiryAction(data) {
     // 7. Dispatch Admin Email Notification via Resend (Fails Gracefully)
     try {
       await sendAdminEnquiryNotification({
-        propertyTitle: property.title,
+        propertyTitle: property ? property.title : "General Enquiry",
         name,
         email,
         phone,
         message,
       });
     } catch (mailError) {
-      console.error("Mailing failure caught gracefully during enquiry persist tasks:", mailError);
+      console.error(
+        "Mailing failure caught gracefully during enquiry persist tasks:",
+        mailError,
+      );
     }
 
     // 8. Revalidate cached routes to reflect dynamic numbers instantly
     revalidatePath("/admin/dashboard");
     revalidatePath("/admin/enquiries");
-    revalidatePath(`/properties/${property.slug}`);
+    if (property) revalidatePath(`/properties/${property.slug}`);
 
     return { success: true };
   } catch (error) {
     console.error("Enquiry Server Action error:", error);
     return {
-      error: "An unexpected database error occurred while registering your enquiry. Please try again later.",
+      error:
+        "An unexpected database error occurred while registering your enquiry. Please try again later.",
     };
   }
 }

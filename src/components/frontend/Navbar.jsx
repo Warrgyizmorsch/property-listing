@@ -41,9 +41,9 @@ export default function Navbar() {
             <Building2 className="h-5 w-5" />
           </div>
           <span className="font-heading text-lg font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-xl">
-            Luxe
+            Property
             <span className="bg-linear-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent dark:from-indigo-400 dark:to-violet-400">
-              Estates
+              Expert
             </span>
           </span>
         </Link>
@@ -114,7 +114,7 @@ export default function Navbar() {
                     <Building2 className="h-4.5 w-4.5" />
                   </div>
                   <span className="font-heading font-bold text-neutral-900 dark:text-white">
-                    LuxeEstates
+                    Property Expert
                   </span>
                 </SheetTitle>
               </SheetHeader>

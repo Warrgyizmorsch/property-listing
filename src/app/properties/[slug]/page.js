@@ -9,12 +9,17 @@ import PropertyGallery from "@/components/property/PropertyGallery";
 import PropertyOverview from "@/components/property/PropertyOverview";
 import PropertyDescription from "@/components/property/PropertyDescription";
 import PropertyFeatures from "@/components/property/PropertyFeatures";
+import PropertyBuilderInfo from "@/components/property/PropertyBuilderInfo";
 import PropertyLocation from "@/components/property/PropertyLocation";
 import StickySidebar from "@/components/property/StickySidebar";
 import RelatedProperties from "@/components/property/RelatedProperties";
 import { getPropertyDetails } from "@/features/property-details/services/detail.service";
 import { generatePageMetadata } from "@/lib/seo/metadata";
-import { getBreadcrumbSchema, getRealEstateListingSchema, getResidenceSchema } from "@/lib/seo/schemas";
+import {
+  getBreadcrumbSchema,
+  getRealEstateListingSchema,
+  getResidenceSchema,
+} from "@/lib/seo/schemas";
 
 // Dynamic metadata generator for SEO and OpenGraph attributes (resolves params dynamically)
 export async function generateMetadata({ params }) {
@@ -23,8 +28,9 @@ export async function generateMetadata({ params }) {
 
   if (!property) {
     return {
-      title: "Property Not Found | LuxeEstates",
-      description: "The requested property listing could not be found or has been archived.",
+      title: "Property Not Found | Property Expert",
+      description:
+        "The requested property listing could not be found or has been archived.",
     };
   }
 
@@ -75,13 +81,12 @@ export default async function PropertyDetailPage({ params }) {
 
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          
           {/* Back Navigation Button */}
           <div className="mb-6">
             <Link href="/properties">
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="gap-1.5 font-semibold text-neutral-600 dark:text-neutral-450 hover:bg-neutral-100 dark:hover:bg-neutral-900"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -92,10 +97,8 @@ export default async function PropertyDetailPage({ params }) {
 
           {/* Core Layout Grid */}
           <div className="flex flex-col lg:flex-row gap-10 items-start">
-            
             {/* Left Column: Media Gallery, Info Overview, Description, and Features */}
             <div className="flex-1 w-full flex flex-col gap-6">
-              
               {/* Header Details */}
               <PropertyHeader property={property} />
 
@@ -105,27 +108,27 @@ export default async function PropertyDetailPage({ params }) {
               {/* Technical Specifications Overview */}
               <PropertyOverview property={property} />
 
+              {/* Builder & Listing Details */}
+              <PropertyBuilderInfo property={property} />
+
               {/* Body Description */}
               <PropertyDescription description={property.description} />
 
               {/* Amenities Grid */}
-              <PropertyFeatures category={property.category} />
+              <PropertyFeatures property={property} />
 
               {/* Location Cascades */}
               <PropertyLocation property={property} />
-
             </div>
 
             {/* Right Column: Sticky Contact Sidebar */}
             <aside className="w-full lg:w-96 shrink-0">
               <StickySidebar property={property} />
             </aside>
-
           </div>
 
           {/* Related Listings section */}
           <RelatedProperties property={property} />
-
         </div>
       </main>
 

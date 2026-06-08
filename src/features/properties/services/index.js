@@ -1,6 +1,17 @@
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/slugify";
 
+function normalizeAmenities(value) {
+  if (!value) return null;
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item).trim()).filter(Boolean);
+  }
+  return String(value)
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
 /**
  * Fetches properties with search filters, pagination, and sorting.
  */
@@ -194,6 +205,12 @@ export async function createProperty(data, userId) {
       bathrooms: data.bathrooms,
       areaSize: data.areaSize,
       contactNumber: data.contactNumber || null,
+      builderName: data.builderName || null,
+      builderPhone: data.builderPhone || null,
+      builderAddress: data.builderAddress || null,
+      facing: data.facing || null,
+      isCorner: data.isCorner || false,
+      amenities: normalizeAmenities(data.amenities),
       isFeatured: data.isFeatured || false,
       metaTitle: data.metaTitle || null,
       metaDescription: data.metaDescription || null,
@@ -234,10 +251,17 @@ export async function updateProperty(id, data) {
       bathrooms: data.bathrooms,
       areaSize: data.areaSize,
       contactNumber: data.contactNumber || null,
+      builderName: data.builderName || null,
+      builderPhone: data.builderPhone || null,
+      builderAddress: data.builderAddress || null,
+      facing: data.facing || null,
+      isCorner: data.isCorner || false,
+      amenities: normalizeAmenities(data.amenities),
       isFeatured: data.isFeatured || false,
       categoryId: data.categoryId,
       metaTitle: data.metaTitle !== undefined ? data.metaTitle : undefined,
-      metaDescription: data.metaDescription !== undefined ? data.metaDescription : undefined,
+      metaDescription:
+        data.metaDescription !== undefined ? data.metaDescription : undefined,
       purposeId: data.purposeId,
       statusId: data.statusId,
       cityId: data.cityId,
@@ -296,10 +320,26 @@ export async function changePropertyStatus(id, statusId) {
  */
 export async function getPropertyFormMetadata() {
   const [categories, purposes, statuses, countries] = await Promise.all([
-    db.category.findMany({ where: { deletedAt: null }, select: { id: true, name: true }, orderBy: { name: "asc" } }),
-    db.propertyPurpose.findMany({ where: { deletedAt: null }, select: { id: true, name: true }, orderBy: { name: "asc" } }),
-    db.propertyStatus.findMany({ where: { deletedAt: null }, select: { id: true, name: true }, orderBy: { name: "asc" } }),
-    db.country.findMany({ where: { deletedAt: null }, select: { id: true, name: true }, orderBy: { name: "asc" } }),
+    db.category.findMany({
+      where: { deletedAt: null },
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
+    }),
+    db.propertyPurpose.findMany({
+      where: { deletedAt: null },
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
+    }),
+    db.propertyStatus.findMany({
+      where: { deletedAt: null },
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
+    }),
+    db.country.findMany({
+      where: { deletedAt: null },
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
+    }),
   ]);
 
   return {

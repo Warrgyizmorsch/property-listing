@@ -18,9 +18,9 @@ export async function generateMetadata() {
   return await generatePageMetadata({
     pageType: "HOME",
     fallbackData: {
-      title: "LuxeEstates | Premium Property Listings & Luxury Real Estate",
+      title: "Property Expert | Premium Property Listings & Luxury Real Estate",
       description:
-        "Discover exceptional luxury apartments, villas, penthouses, and commercial properties. LuxeEstates provides curated listings and transparent transaction pathways with certified agents.",
+        "Discover exceptional luxury apartments, villas, penthouses, and commercial properties. Property Expert provides curated listings and transparent transaction pathways with certified agents.",
       keywords:
         "real estate, luxury villas, buy apartments, penthouses, commercial properties, property finder, property listing",
       path: "/",

@@ -1,8 +1,21 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import { ArrowRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import PropertyEnquiryForm from "@/components/enquiry/PropertyEnquiryForm";
 
 export default function CTASection() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <section
       id="contact"
@@ -40,16 +53,37 @@ export default function CTASection() {
               Browse Listings
             </Button>
           </Link>
-          <Link href="/#contact">
-            <Button
-              size="lg"
-              variant="outline"
-              className="h-12 border-neutral-700 bg-transparent font-bold text-white hover:bg-neutral-800"
-            >
-              Get in Touch
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={() => setIsOpen(true)}
+            className="h-12 border-neutral-700 bg-transparent font-bold text-white hover:bg-neutral-800"
+          >
+            Get in Touch
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+
+          {/* Enquiry Dialog */}
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogContent className="max-w-2xl">
+              <DialogHeader>
+                <DialogTitle className="text-neutral-900">
+                  Get in touch
+                </DialogTitle>
+                <DialogDescription className="text-neutral-500">
+                  Fill out the short form and our advisors will contact you
+                  shortly.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="mt-4">
+                <PropertyEnquiryForm
+                  propertyTitle={"General Enquiry"}
+                  onSuccess={() => setIsOpen(false)}
+                />
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </section>

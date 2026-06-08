@@ -9,7 +9,7 @@ export default function TestimonialSection() {
       avatar:
         "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=120&h=120",
       quote:
-        "LuxeEstates provided an elite level of service. They parsed our exact requirements and secured a stunning penthouse overlooking Mumbai before it hit public indexes.",
+        "Property Expert provided an elite level of service. They parsed our exact requirements and secured a stunning penthouse overlooking Mumbai before it hit public indexes.",
       rating: 5,
     },
     {
@@ -27,7 +27,7 @@ export default function TestimonialSection() {
       avatar:
         "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120&h=120",
       quote:
-        "Finding high-end commercial office space that matches our strict visual design directives was a challenge. LuxeEstates pinpointed three perfect units within 48 hours.",
+        "Finding high-end commercial office space that matches our strict visual design directives was a challenge. Property Expert pinpointed three perfect units within 48 hours.",
       rating: 5,
     },
   ];

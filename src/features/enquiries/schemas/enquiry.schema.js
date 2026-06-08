@@ -1,7 +1,14 @@
 import { z } from "zod";
 
 // Valid status list matching database schema
-export const ENQUIRY_STATUSES = ["NEW", "CONTACTED", "NEGOTIATION", "CLOSED", "CONVERTED", "RESOLVED"];
+export const ENQUIRY_STATUSES = [
+  "NEW",
+  "CONTACTED",
+  "NEGOTIATION",
+  "CLOSED",
+  "CONVERTED",
+  "RESOLVED",
+];
 
 export const enquiryStatusSchema = z.object({
   status: z.enum(ENQUIRY_STATUSES, {
@@ -25,5 +32,9 @@ export const createEnquirySchema = z.object({
     .string()
     .min(10, "Message must be at least 10 characters long.")
     .max(2000, "Message must not exceed 2000 characters."),
-  propertyId: z.string().uuid("Invalid property ID selection."),
+  propertyId: z
+    .string()
+    .uuid("Invalid property ID selection.")
+    .optional()
+    .nullable(),
 });

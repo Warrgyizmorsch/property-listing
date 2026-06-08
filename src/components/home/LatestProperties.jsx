@@ -16,7 +16,7 @@ export default async function LatestProperties() {
               Latest Listings
             </h2>
             <p className="mt-4 text-lg text-neutral-500 dark:text-neutral-400">
-              Discover recently added listings on LuxeEstates.
+              Discover recently added listings on Property Expert.
             </p>
           </div>
           {/* Empty State */}

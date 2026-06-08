@@ -1,4 +1,4 @@
-import { Bed, Bath, Square, Home, Sparkles, Tag } from "lucide-react";
+import { Bed, Bath, Square, Home, Sparkles, Tag, Compass } from "lucide-react";
 import { formatArea } from "@/lib/format";
 
 export default function PropertyOverview({ property }) {
@@ -27,6 +27,16 @@ export default function PropertyOverview({ property }) {
       label: "Purpose",
       value: `For ${property.purpose?.name || "Sale"}`,
       icon: <Tag className="h-5 w-5 text-neutral-400" />,
+    },
+    {
+      label: "Facing",
+      value: property.facing || "Not specified",
+      icon: <Compass className="h-5 w-5 text-neutral-400" />,
+    },
+    {
+      label: "Corner Property",
+      value: property.isCorner ? "Yes" : "No",
+      icon: <Home className="h-5 w-5 text-neutral-400" />,
     },
     {
       label: "Status",

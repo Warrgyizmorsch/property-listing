@@ -1,36 +1,39 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState, useTransition } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { propertyFormSchema } from "../schemas"
-import { createPropertyAction, updatePropertyAction } from "../actions"
-import { getActiveStatesAction, getActiveCitiesAction } from "@/features/locations/actions"
-import { slugify } from "@/lib/slugify"
-import { toast } from "@/components/ui/toast"
-import SeoPreview from "@/components/seo/SeoPreview"
-import { LayoutGrid, Globe, Info } from "lucide-react"
+import React, { useEffect, useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { propertyFormSchema } from "../schemas";
+import { createPropertyAction, updatePropertyAction } from "../actions";
+import {
+  getActiveStatesAction,
+  getActiveCitiesAction,
+} from "@/features/locations/actions";
+import { slugify } from "@/lib/slugify";
+import { toast } from "@/components/ui/toast";
+import SeoPreview from "@/components/seo/SeoPreview";
+import { LayoutGrid, Globe, Info } from "lucide-react";
 
 export default function PropertyForm({ property = null, metadata = {} }) {
-  const router = useRouter()
-  const [isPending, startTransition] = useTransition()
-  const [manualSlug, setManualSlug] = useState(false)
-  const [activeFormTab, setActiveFormTab] = useState("details")
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [manualSlug, setManualSlug] = useState(false);
+  const [activeFormTab, setActiveFormTab] = useState("details");
 
   // Cascading Location States
-  const [states, setStates] = useState([])
-  const [cities, setCities] = useState([])
-  const [selectedCountryId, setSelectedCountryId] = useState("")
-  const [selectedStateId, setSelectedStateId] = useState("")
-  const [isLoadingStates, setIsLoadingStates] = useState(false)
-  const [isLoadingCities, setIsLoadingCities] = useState(false)
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [selectedCountryId, setSelectedCountryId] = useState("");
+  const [selectedStateId, setSelectedStateId] = useState("");
+  const [isLoadingStates, setIsLoadingStates] = useState(false);
+  const [isLoadingCities, setIsLoadingCities] = useState(false);
 
-  const isEdit = !!property
+  const isEdit = !!property;
 
   const {
     register,
@@ -51,6 +54,12 @@ export default function PropertyForm({ property = null, metadata = {} }) {
       bathrooms: 0,
       areaSize: "",
       contactNumber: "",
+      builderName: "",
+      builderPhone: "",
+      builderAddress: "",
+      facing: "",
+      isCorner: false,
+      amenities: "",
       categoryId: "",
       purposeId: "",
       statusId: "",
@@ -59,36 +68,36 @@ export default function PropertyForm({ property = null, metadata = {} }) {
       metaTitle: "",
       metaDescription: "",
     },
-  })
+  });
 
-  const watchedTitle = watch("title")
-  const watchedSlug = watch("slug")
-  const watchedMetaTitle = watch("metaTitle")
-  const watchedMetaDescription = watch("metaDescription")
+  const watchedTitle = watch("title");
+  const watchedSlug = watch("slug");
+  const watchedMetaTitle = watch("metaTitle");
+  const watchedMetaDescription = watch("metaDescription");
 
   // Sync / load form states on mounting/editing
   useEffect(() => {
     if (property) {
-      const countryId = property.city?.state?.countryId || ""
-      const stateId = property.city?.stateId || ""
-      const cityId = property.cityId || ""
+      const countryId = property.city?.state?.countryId || "";
+      const stateId = property.city?.stateId || "";
+      const cityId = property.cityId || "";
 
-      setSelectedCountryId(countryId)
-      setSelectedStateId(stateId)
+      setSelectedCountryId(countryId);
+      setSelectedStateId(stateId);
 
       if (countryId) {
-        setIsLoadingStates(true)
+        setIsLoadingStates(true);
         getActiveStatesAction(countryId).then((data) => {
-          setStates(data)
-          setIsLoadingStates(false)
-        })
+          setStates(data);
+          setIsLoadingStates(false);
+        });
       }
       if (stateId) {
-        setIsLoadingCities(true)
+        setIsLoadingCities(true);
         getActiveCitiesAction(stateId).then((data) => {
-          setCities(data)
-          setIsLoadingCities(false)
-        })
+          setCities(data);
+          setIsLoadingCities(false);
+        });
       }
 
       reset({
@@ -101,6 +110,12 @@ export default function PropertyForm({ property = null, metadata = {} }) {
         bathrooms: property.bathrooms,
         areaSize: property.areaSize,
         contactNumber: property.contactNumber || "",
+        builderName: property.builderName || "",
+        builderPhone: property.builderPhone || "",
+        builderAddress: property.builderAddress || "",
+        facing: property.facing || "",
+        isCorner: property.isCorner || false,
+        amenities: property.amenities ? property.amenities.join(", ") : "",
         categoryId: property.categoryId,
         purposeId: property.purposeId,
         statusId: property.statusId,
@@ -108,8 +123,8 @@ export default function PropertyForm({ property = null, metadata = {} }) {
         isFeatured: property.isFeatured,
         metaTitle: property.metaTitle || "",
         metaDescription: property.metaDescription || "",
-      })
-      setManualSlug(true)
+      });
+      setManualSlug(true);
     } else {
       reset({
         title: "",
@@ -121,6 +136,12 @@ export default function PropertyForm({ property = null, metadata = {} }) {
         bathrooms: 0,
         areaSize: "",
         contactNumber: "",
+        builderName: "",
+        builderPhone: "",
+        builderAddress: "",
+        facing: "",
+        isCorner: false,
+        amenities: "",
         categoryId: "",
         purposeId: "",
         statusId: "",
@@ -128,78 +149,78 @@ export default function PropertyForm({ property = null, metadata = {} }) {
         isFeatured: false,
         metaTitle: "",
         metaDescription: "",
-      })
-      setManualSlug(false)
-      setSelectedCountryId("")
-      setSelectedStateId("")
-      setStates([])
-      setCities([])
+      });
+      setManualSlug(false);
+      setSelectedCountryId("");
+      setSelectedStateId("");
+      setStates([]);
+      setCities([]);
     }
-  }, [property, reset])
+  }, [property, reset]);
 
   // Handle auto slugification
   useEffect(() => {
     if (!manualSlug && !isEdit && watchedTitle) {
-      setValue("slug", slugify(watchedTitle), { shouldValidate: true })
+      setValue("slug", slugify(watchedTitle), { shouldValidate: true });
     }
-  }, [watchedTitle, manualSlug, isEdit, setValue])
+  }, [watchedTitle, manualSlug, isEdit, setValue]);
 
   // Handle Country Change
   const handleCountryChange = (e) => {
-    const countryId = e.target.value
-    setSelectedCountryId(countryId)
-    setSelectedStateId("")
-    setStates([])
-    setCities([])
-    setValue("cityId", "") // Reset city in form
+    const countryId = e.target.value;
+    setSelectedCountryId(countryId);
+    setSelectedStateId("");
+    setStates([]);
+    setCities([]);
+    setValue("cityId", ""); // Reset city in form
 
     if (countryId) {
-      setIsLoadingStates(true)
+      setIsLoadingStates(true);
       getActiveStatesAction(countryId).then((data) => {
-        setStates(data)
-        setIsLoadingStates(false)
-      })
+        setStates(data);
+        setIsLoadingStates(false);
+      });
     }
-  }
+  };
 
   // Handle State Change
   const handleStateChange = (e) => {
-    const stateId = e.target.value
-    setSelectedStateId(stateId)
-    setCities([])
-    setValue("cityId", "") // Reset city in form
+    const stateId = e.target.value;
+    setSelectedStateId(stateId);
+    setCities([]);
+    setValue("cityId", ""); // Reset city in form
 
     if (stateId) {
-      setIsLoadingCities(true)
+      setIsLoadingCities(true);
       getActiveCitiesAction(stateId).then((data) => {
-        setCities(data)
-        setIsLoadingCities(false)
-      })
+        setCities(data);
+        setIsLoadingCities(false);
+      });
     }
-  }
+  };
 
   const onSubmit = (data) => {
     startTransition(async () => {
-      let result
+      let result;
       if (isEdit) {
-        result = await updatePropertyAction(property.id, data)
+        result = await updatePropertyAction(property.id, data);
       } else {
-        result = await createPropertyAction(data)
+        result = await createPropertyAction(data);
       }
 
       if (result.success) {
         toast.success(
           isEdit
             ? "Property listing updated successfully."
-            : "Property listing created successfully."
-        )
-        router.push("/admin/properties")
-        router.refresh()
+            : "Property listing created successfully.",
+        );
+        router.push("/admin/properties");
+        router.refresh();
       } else {
-        toast.error(result.error || "Failed to save property listing.")
+        toast.error(result.error || "Failed to save property listing.");
       }
-    })
-  }
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -231,19 +252,30 @@ export default function PropertyForm({ property = null, metadata = {} }) {
         </button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-        
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-8 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm"
+      >
         {/* Tab 1: Details Content */}
-        <div className={activeFormTab === "details" ? "space-y-8 block" : "hidden"}>
+        <div
+          className={activeFormTab === "details" ? "space-y-8 block" : "hidden"}
+        >
           {/* 1. Basic Details Grid */}
           <div className="space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Basic Details</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Basic Details
+            </h3>
             <hr className="border-slate-100" />
-            
+
             <div className="grid gap-6 md:grid-cols-2">
               {/* Title */}
               <div className="space-y-2">
-                <Label htmlFor="title" className="text-sm font-semibold text-slate-700">Property Title</Label>
+                <Label
+                  htmlFor="title"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Property Title
+                </Label>
                 <Input
                   id="title"
                   type="text"
@@ -253,14 +285,21 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                   {...register("title")}
                 />
                 {errors.title && (
-                  <p className="text-xs text-red-500 mt-1">{errors.title.message}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.title.message}
+                  </p>
                 )}
               </div>
 
               {/* Slug */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="slug" className="text-sm font-semibold text-slate-700">SEO URL Slug</Label>
+                  <Label
+                    htmlFor="slug"
+                    className="text-sm font-semibold text-slate-700"
+                  >
+                    SEO URL Slug
+                  </Label>
                   {!isEdit && (
                     <label className="flex items-center gap-1.5 text-xs text-slate-500 cursor-pointer select-none">
                       <input
@@ -283,14 +322,21 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                   {...register("slug")}
                 />
                 {errors.slug && (
-                  <p className="text-xs text-red-500 mt-1">{errors.slug.message}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.slug.message}
+                  </p>
                 )}
               </div>
             </div>
 
             {/* Description */}
             <div className="space-y-2">
-              <Label htmlFor="description" className="text-sm font-semibold text-slate-700">Detailed Description</Label>
+              <Label
+                htmlFor="description"
+                className="text-sm font-semibold text-slate-700"
+              >
+                Detailed Description
+              </Label>
               <textarea
                 id="description"
                 rows={5}
@@ -302,20 +348,29 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                 {...register("description")}
               />
               {errors.description && (
-                <p className="text-xs text-red-500 mt-1">{errors.description.message}</p>
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.description.message}
+                </p>
               )}
             </div>
           </div>
 
           {/* 2. Classification & Pricing */}
           <div className="space-y-4 pt-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Classification & Financials</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Classification & Financials
+            </h3>
             <hr className="border-slate-100" />
-            
+
             <div className="grid gap-6 md:grid-cols-4">
               {/* Price */}
               <div className="space-y-2">
-                <Label htmlFor="price" className="text-sm font-semibold text-slate-700">Listing Price (₹)</Label>
+                <Label
+                  htmlFor="price"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Listing Price (₹)
+                </Label>
                 <Input
                   id="price"
                   type="number"
@@ -326,13 +381,20 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                   {...register("price")}
                 />
                 {errors.price && (
-                  <p className="text-xs text-red-500 mt-1">{errors.price.message}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.price.message}
+                  </p>
                 )}
               </div>
 
               {/* Category */}
               <div className="space-y-2">
-                <Label htmlFor="categoryId" className="text-sm font-semibold text-slate-700">Category</Label>
+                <Label
+                  htmlFor="categoryId"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Category
+                </Label>
                 <select
                   id="categoryId"
                   disabled={isPending}
@@ -343,17 +405,26 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                 >
                   <option value="">Select Category...</option>
                   {metadata.categories?.map((c) => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
                   ))}
                 </select>
                 {errors.categoryId && (
-                  <p className="text-xs text-red-500 mt-1">{errors.categoryId.message}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.categoryId.message}
+                  </p>
                 )}
               </div>
 
               {/* Purpose */}
               <div className="space-y-2">
-                <Label htmlFor="purposeId" className="text-sm font-semibold text-slate-700">Purpose</Label>
+                <Label
+                  htmlFor="purposeId"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Purpose
+                </Label>
                 <select
                   id="purposeId"
                   disabled={isPending}
@@ -364,17 +435,26 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                 >
                   <option value="">Select Purpose...</option>
                   {metadata.purposes?.map((p) => (
-                    <option key={p.id} value={p.id}>{p.name}</option>
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
                   ))}
                 </select>
                 {errors.purposeId && (
-                  <p className="text-xs text-red-500 mt-1">{errors.purposeId.message}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.purposeId.message}
+                  </p>
                 )}
               </div>
 
               {/* Status */}
               <div className="space-y-2">
-                <Label htmlFor="statusId" className="text-sm font-semibold text-slate-700">Listing Status</Label>
+                <Label
+                  htmlFor="statusId"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Listing Status
+                </Label>
                 <select
                   id="statusId"
                   disabled={isPending}
@@ -385,11 +465,15 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                 >
                   <option value="">Select Status...</option>
                   {metadata.statuses?.map((s) => (
-                    <option key={s.id} value={s.id}>{s.name}</option>
+                    <option key={s.id} value={s.id}>
+                      {s.name}
+                    </option>
                   ))}
                 </select>
                 {errors.statusId && (
-                  <p className="text-xs text-red-500 mt-1">{errors.statusId.message}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.statusId.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -397,13 +481,20 @@ export default function PropertyForm({ property = null, metadata = {} }) {
 
           {/* 3. Specs & Contact */}
           <div className="space-y-4 pt-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Specifications & Contact</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Specifications & Contact
+            </h3>
             <hr className="border-slate-100" />
-            
+
             <div className="grid gap-6 md:grid-cols-4">
               {/* Bedrooms */}
               <div className="space-y-2">
-                <Label htmlFor="bedrooms" className="text-sm font-semibold text-slate-700">Bedrooms</Label>
+                <Label
+                  htmlFor="bedrooms"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Bedrooms
+                </Label>
                 <Input
                   id="bedrooms"
                   type="number"
@@ -412,13 +503,20 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                   {...register("bedrooms")}
                 />
                 {errors.bedrooms && (
-                  <p className="text-xs text-red-500 mt-1">{errors.bedrooms.message}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.bedrooms.message}
+                  </p>
                 )}
               </div>
 
               {/* Bathrooms */}
               <div className="space-y-2">
-                <Label htmlFor="bathrooms" className="text-sm font-semibold text-slate-700">Bathrooms</Label>
+                <Label
+                  htmlFor="bathrooms"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Bathrooms
+                </Label>
                 <Input
                   id="bathrooms"
                   type="number"
@@ -427,13 +525,20 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                   {...register("bathrooms")}
                 />
                 {errors.bathrooms && (
-                  <p className="text-xs text-red-500 mt-1">{errors.bathrooms.message}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.bathrooms.message}
+                  </p>
                 )}
               </div>
 
               {/* Area Size */}
               <div className="space-y-2">
-                <Label htmlFor="areaSize" className="text-sm font-semibold text-slate-700">Area Size (Sq Ft)</Label>
+                <Label
+                  htmlFor="areaSize"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Area Size (Sq Ft)
+                </Label>
                 <Input
                   id="areaSize"
                   type="number"
@@ -443,13 +548,20 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                   {...register("areaSize")}
                 />
                 {errors.areaSize && (
-                  <p className="text-xs text-red-500 mt-1">{errors.areaSize.message}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.areaSize.message}
+                  </p>
                 )}
               </div>
 
               {/* Contact Number */}
               <div className="space-y-2">
-                <Label htmlFor="contactNumber" className="text-sm font-semibold text-slate-700">Contact Number</Label>
+                <Label
+                  htmlFor="contactNumber"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Contact Number
+                </Label>
                 <Input
                   id="contactNumber"
                   type="text"
@@ -459,21 +571,187 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                   {...register("contactNumber")}
                 />
                 {errors.contactNumber && (
-                  <p className="text-xs text-red-500 mt-1">{errors.contactNumber.message}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.contactNumber.message}
+                  </p>
                 )}
               </div>
             </div>
           </div>
 
-          {/* 4. Hierarchical Location Chain */}
+          {/* 4. Builder, Facing & Amenities */}
           <div className="space-y-4 pt-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Location Details</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Builder & Listing Options
+            </h3>
             <hr className="border-slate-100" />
-            
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label
+                  htmlFor="builderName"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Builder / Developer
+                </Label>
+                <Input
+                  id="builderName"
+                  type="text"
+                  placeholder="e.g. Sunbeam Builders"
+                  disabled={isPending}
+                  className={errors.builderName ? "border-red-500" : ""}
+                  {...register("builderName")}
+                />
+                {errors.builderName && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.builderName.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label
+                  htmlFor="builderPhone"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Builder Contact
+                </Label>
+                <Input
+                  id="builderPhone"
+                  type="text"
+                  placeholder="e.g. +91 98765 43210"
+                  disabled={isPending}
+                  className={errors.builderPhone ? "border-red-500" : ""}
+                  {...register("builderPhone")}
+                />
+                {errors.builderPhone && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.builderPhone.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                htmlFor="builderAddress"
+                className="text-sm font-semibold text-slate-700"
+              >
+                Builder Address
+              </Label>
+              <Input
+                id="builderAddress"
+                type="text"
+                placeholder="e.g. 12th Floor, Nexus Tower, Andheri East"
+                disabled={isPending}
+                className={errors.builderAddress ? "border-red-500" : ""}
+                {...register("builderAddress")}
+              />
+              {errors.builderAddress && (
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.builderAddress.message}
+                </p>
+              )}
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              <div className="space-y-2">
+                <Label
+                  htmlFor="facing"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Property Facing
+                </Label>
+                <select
+                  id="facing"
+                  disabled={isPending}
+                  className={`flex w-full h-9 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm outline-hidden focus:border-slate-400 cursor-pointer ${
+                    errors.facing ? "border-red-500" : ""
+                  }`}
+                  {...register("facing")}
+                >
+                  <option value="">Select Facing Direction</option>
+                  <option value="North">North</option>
+                  <option value="South">South</option>
+                  <option value="East">East</option>
+                  <option value="West">West</option>
+                  <option value="North-East">North-East</option>
+                  <option value="North-West">North-West</option>
+                  <option value="South-East">South-East</option>
+                  <option value="South-West">South-West</option>
+                </select>
+                {errors.facing && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.facing.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2 md:col-span-2">
+                <Label
+                  htmlFor="amenities"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Amenities / Highlights
+                </Label>
+                <Textarea
+                  id="amenities"
+                  rows={3}
+                  disabled={isPending}
+                  placeholder="e.g. Clubhouse, Yoga Studio, Kids Play Area"
+                  className={errors.amenities ? "border-red-500" : ""}
+                  {...register("amenities")}
+                />
+                {errors.amenities && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.amenities.message}
+                  </p>
+                )}
+                <p className="text-[10px] text-slate-400">
+                  Add amenities separated by commas. These will display as
+                  custom highlights on the property page.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <input
+                type="checkbox"
+                id="isCorner"
+                disabled={isPending}
+                className="h-4.5 w-4.5 rounded border-slate-300 text-slate-900 focus:ring-slate-500 cursor-pointer"
+                {...register("isCorner")}
+              />
+              <div className="space-y-0.5">
+                <Label
+                  htmlFor="isCorner"
+                  className="text-sm font-bold text-slate-800 cursor-pointer select-none"
+                >
+                  Corner Property
+                </Label>
+                <p className="text-xs text-slate-400">
+                  Mark as a corner plot if the property sits on a corner or
+                  enjoys dual road access.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 5. Hierarchical Location Chain */}
+          <div className="space-y-4 pt-4">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Location Details
+            </h3>
+            <hr className="border-slate-100" />
+
             <div className="grid gap-6 md:grid-cols-4">
               {/* Country Selection */}
               <div className="space-y-2">
-                <Label htmlFor="country" className="text-sm font-semibold text-slate-700">Country</Label>
+                <Label
+                  htmlFor="country"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Country
+                </Label>
                 <select
                   id="country"
                   value={selectedCountryId}
@@ -483,37 +761,56 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                 >
                   <option value="">Select Country...</option>
                   {metadata.countries?.map((c) => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
                   ))}
                 </select>
               </div>
 
               {/* State Selection */}
               <div className="space-y-2">
-                <Label htmlFor="state" className="text-sm font-semibold text-slate-700">State / Province</Label>
+                <Label
+                  htmlFor="state"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  State / Province
+                </Label>
                 <select
                   id="state"
                   value={selectedStateId}
                   onChange={handleStateChange}
-                  disabled={isPending || isLoadingStates || isLoadingCities || !selectedCountryId}
+                  disabled={
+                    isPending ||
+                    isLoadingStates ||
+                    isLoadingCities ||
+                    !selectedCountryId
+                  }
                   className="flex w-full h-9 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm outline-hidden focus:border-slate-400 cursor-pointer"
                 >
                   <option value="">
                     {!selectedCountryId
                       ? "Select Country first..."
                       : isLoadingStates
-                      ? "Loading states..."
-                      : "Select State..."}
+                        ? "Loading states..."
+                        : "Select State..."}
                   </option>
                   {states.map((s) => (
-                    <option key={s.id} value={s.id}>{s.name}</option>
+                    <option key={s.id} value={s.id}>
+                      {s.name}
+                    </option>
                   ))}
                 </select>
               </div>
 
               {/* City Selection */}
               <div className="space-y-2">
-                <Label htmlFor="cityId" className="text-sm font-semibold text-slate-700">City / Town</Label>
+                <Label
+                  htmlFor="cityId"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  City / Town
+                </Label>
                 <select
                   id="cityId"
                   disabled={isPending || isLoadingCities || !selectedStateId}
@@ -526,21 +823,30 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                     {!selectedStateId
                       ? "Select State first..."
                       : isLoadingCities
-                      ? "Loading cities..."
-                      : "Select City..."}
+                        ? "Loading cities..."
+                        : "Select City..."}
                   </option>
                   {cities.map((c) => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
                   ))}
                 </select>
                 {errors.cityId && (
-                  <p className="text-xs text-red-500 mt-1">{errors.cityId.message}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.cityId.message}
+                  </p>
                 )}
               </div>
 
               {/* Address String */}
               <div className="space-y-2">
-                <Label htmlFor="address" className="text-sm font-semibold text-slate-700">Street Address</Label>
+                <Label
+                  htmlFor="address"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Street Address
+                </Label>
                 <Input
                   id="address"
                   type="text"
@@ -550,7 +856,9 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                   {...register("address")}
                 />
                 {errors.address && (
-                  <p className="text-xs text-red-500 mt-1">{errors.address.message}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.address.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -567,11 +875,15 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                 {...register("isFeatured")}
               />
               <div className="space-y-0.5">
-                <Label htmlFor="isFeatured" className="text-sm font-bold text-slate-800 cursor-pointer select-none">
+                <Label
+                  htmlFor="isFeatured"
+                  className="text-sm font-bold text-slate-800 cursor-pointer select-none"
+                >
                   Mark as Featured Property
                 </Label>
                 <p className="text-xs text-slate-400">
-                  Featured properties appear highlighted on the home screen listing layouts.
+                  Featured properties appear highlighted on the home screen
+                  listing layouts.
                 </p>
               </div>
             </div>
@@ -586,7 +898,10 @@ export default function PropertyForm({ property = null, metadata = {} }) {
               <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4 mb-4 flex items-start gap-2.5">
                 <Info className="h-5 w-5 text-indigo-500 shrink-0 mt-0.5" />
                 <p className="text-xs leading-normal text-slate-500">
-                  If meta overrides are left blank, search engines will automatically construct meta tags utilizing the property details (Title, Price, Location, etc.). Customize these inputs to optimize SERP ranking.
+                  If meta overrides are left blank, search engines will
+                  automatically construct meta tags utilizing the property
+                  details (Title, Price, Location, etc.). Customize these inputs
+                  to optimize SERP ranking.
                 </p>
               </div>
 
@@ -599,7 +914,9 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                   {...register("metaTitle")}
                 />
                 {errors.metaTitle && (
-                  <p className="text-xs text-red-500">{errors.metaTitle.message}</p>
+                  <p className="text-xs text-red-500">
+                    {errors.metaTitle.message}
+                  </p>
                 )}
                 <p className="text-[10px] text-slate-400">
                   Recommended length: &le; 60 characters. Max limit is 60.
@@ -616,7 +933,9 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                   {...register("metaDescription")}
                 />
                 {errors.metaDescription && (
-                  <p className="text-xs text-red-500">{errors.metaDescription.message}</p>
+                  <p className="text-xs text-red-500">
+                    {errors.metaDescription.message}
+                  </p>
                 )}
                 <p className="text-[10px] text-slate-400">
                   Recommended length: &le; 160 characters. Max limit is 160.
@@ -652,11 +971,14 @@ export default function PropertyForm({ property = null, metadata = {} }) {
             disabled={isPending}
             className="w-full sm:w-auto h-10 bg-slate-950 text-white hover:bg-slate-800 cursor-pointer"
           >
-            {isPending ? "Saving..." : isEdit ? "Save Changes" : "Publish Property"}
+            {isPending
+              ? "Saving..."
+              : isEdit
+                ? "Save Changes"
+                : "Publish Property"}
           </Button>
         </div>
-
       </form>
     </div>
-  )
+  );
 }

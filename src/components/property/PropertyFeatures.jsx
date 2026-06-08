@@ -1,10 +1,17 @@
 import { Check } from "lucide-react";
 
-export default function PropertyFeatures({ category }) {
-  const categorySlug = category?.slug?.toLowerCase() || "";
+export default function PropertyFeatures({ property }) {
+  const categorySlug = property?.category?.slug?.toLowerCase() || "";
+  const customAmenities = Array.isArray(property?.amenities)
+    ? property.amenities.filter((item) => item && String(item).trim())
+    : [];
 
   // Dynamic contextual list of premium features based on property category
   const getAmenities = () => {
+    if (customAmenities.length > 0) {
+      return customAmenities;
+    }
+
     switch (categorySlug) {
       case "villa":
         return [
@@ -61,10 +68,13 @@ export default function PropertyFeatures({ category }) {
       <h2 className="font-heading text-lg font-bold text-neutral-900 uppercase tracking-widest mb-5 dark:text-white">
         Features & Amenities
       </h2>
-      
+
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {amenities.map((amenity, idx) => (
-          <div key={idx} className="flex items-center gap-2.5 text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+          <div
+            key={idx}
+            className="flex items-center gap-2.5 text-sm font-semibold text-neutral-700 dark:text-neutral-300"
+          >
             <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
               <Check className="h-3.5 w-3.5" />
             </div>
