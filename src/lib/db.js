@@ -3,8 +3,6 @@ import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 
 const globalForPrisma = globalThis;
 
-let prismaInstance;
-
 // Helper to parse the MySQL database URL and return credentials for the driver adapter
 function getAdapterOptions(databaseUrl) {
   try {
@@ -23,20 +21,30 @@ function getAdapterOptions(databaseUrl) {
   }
 }
 
-if (process.env.NODE_ENV === "production") {
-  const adapterOptions = getAdapterOptions(process.env.DATABASE_URL);
-  const adapter = new PrismaMariaDb(adapterOptions);
-  prismaInstance = new PrismaClient({ adapter });
-} else {
+// Lazy initialization of Prisma client to prevent build-time failures
+function getPrismaInstance() {
   if (!globalForPrisma.prisma) {
-    const adapterOptions = getAdapterOptions(process.env.DATABASE_URL);
-    const adapter = new PrismaMariaDb(adapterOptions);
-    globalForPrisma.prisma = new PrismaClient({
-      adapter,
-      log: ["error", "warn"],
-    });
+    try {
+      const adapterOptions = getAdapterOptions(process.env.DATABASE_URL);
+      const adapter = new PrismaMariaDb(adapterOptions);
+      globalForPrisma.prisma = new PrismaClient({
+        adapter,
+        log:
+          process.env.NODE_ENV === "production" ? ["error"] : ["error", "warn"],
+      });
+    } catch (error) {
+      console.error("Failed to initialize Prisma:", error);
+      throw error;
+    }
   }
-  prismaInstance = globalForPrisma.prisma;
+  return globalForPrisma.prisma;
 }
 
-export const db = prismaInstance;
+export const db = new Proxy(
+  {},
+  {
+    get(target, prop) {
+      return getPrismaInstance()[prop];
+    },
+  },
+);

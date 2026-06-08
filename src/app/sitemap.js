@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getSitemapData } from "@/features/seo/services/seo.service";
 import { getAbsoluteUrl } from "@/lib/seo/helpers";
 
@@ -10,13 +12,48 @@ export default async function sitemap() {
 
   // 1. Static Pages
   const staticPages = [
-    { url: getAbsoluteUrl("/"), lastModified: now, changeFrequency: "daily", priority: 1.0 },
-    { url: getAbsoluteUrl("/properties"), lastModified: now, changeFrequency: "daily", priority: 0.9 },
-    { url: getAbsoluteUrl("/about"), lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: getAbsoluteUrl("/contact"), lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: getAbsoluteUrl("/privacy-policy"), lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: getAbsoluteUrl("/terms"), lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: getAbsoluteUrl("/faq"), lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    {
+      url: getAbsoluteUrl("/"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 1.0,
+    },
+    {
+      url: getAbsoluteUrl("/properties"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: getAbsoluteUrl("/about"),
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: getAbsoluteUrl("/contact"),
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: getAbsoluteUrl("/privacy-policy"),
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: getAbsoluteUrl("/terms"),
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: getAbsoluteUrl("/faq"),
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
   ];
 
   // 2. Property Detail Pages
