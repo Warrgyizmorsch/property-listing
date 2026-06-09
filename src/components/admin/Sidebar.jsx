@@ -25,6 +25,7 @@ export default function Sidebar({ className = "" }) {
   // Catalog submenu expand/collapse state
   const isCatalogPath =
     pathname.startsWith("/admin/properties") ||
+    pathname.startsWith("/admin/projects") ||
     pathname.startsWith("/admin/categories") ||
     pathname.startsWith("/admin/locations");
     
@@ -101,6 +102,13 @@ export default function Sidebar({ className = "" }) {
                 <div className={subNavItemClass(pathname.startsWith("/admin/properties"))}>
                   <Building className="h-4 w-4 shrink-0" />
                   <span>Properties</span>
+                </div>
+              </Link>
+
+              <Link href="/admin/projects" className="block">
+                <div className={subNavItemClass(pathname.startsWith("/admin/projects"))}>
+                  <FolderOpen className="h-4 w-4 shrink-0" />
+                  <span>Projects</span>
                 </div>
               </Link>
 

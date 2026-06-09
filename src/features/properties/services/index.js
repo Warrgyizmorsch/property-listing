@@ -20,6 +20,11 @@ function getSupportedPropertyPayload(data) {
     facing: _facing,
     isCorner: _isCorner,
     amenities: _amenities,
+    specifications: _specifications,
+    projectId: _projectId,
+    categoryId: _categoryId,
+    purposeId: _purposeId,
+    cityId: _cityId,
     ...propertyData
   } = data;
 
@@ -29,6 +34,8 @@ function getSupportedPropertyPayload(data) {
     isFeatured: propertyData.isFeatured || false,
     metaTitle: propertyData.metaTitle || null,
     metaDescription: propertyData.metaDescription || null,
+    propertyCode: propertyData.propertyCode || null,
+    unitType: propertyData.unitType || "1 BHK",
   };
 }
 
@@ -110,6 +117,7 @@ export async function getProperties({
         take: limit,
         include: {
           category: { select: { id: true, name: true } },
+          project: { select: { id: true, projectName: true } },
           purpose: { select: { id: true, name: true } },
           status: { select: { id: true, name: true, colorClass: true } },
           city: {
@@ -171,6 +179,8 @@ export async function getPropertyById(id) {
         },
       },
       images: true,
+      project: true,
+      specifications: true,
     },
   });
 
@@ -214,26 +224,55 @@ export async function createProperty(data, userId) {
     ? await getUniqueSlug(data.slug)
     : await getUniqueSlug(data.title);
 
-  const payload = getSupportedPropertyPayload(data);
+  // Fetch parent project to inherit category, city, address
+  const project = await db.project.findUnique({
+    where: { id: data.projectId },
+    select: { categoryId: true, cityId: true, address: true }
+  });
+  if (!project) {
+    throw new Error("Selected project does not exist.");
+  }
 
-  return db.property.create({
-    data: {
-      ...payload,
-      slug: finalSlug,
-      categoryId: data.categoryId,
-      purposeId: data.purposeId,
-      statusId: data.statusId,
-      cityId: data.cityId,
-      createdById: userId,
-      // Create mock placeholder image reference
-      images: {
-        create: {
-          url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800",
-          isFeatured: true,
-          sortOrder: 0,
+  // Fetch first available PropertyPurpose
+  const defaultPurpose = await db.propertyPurpose.findFirst({
+    where: { deletedAt: null },
+    select: { id: true },
+  });
+  if (!defaultPurpose) {
+    throw new Error("No active property purposes found in the system.");
+  }
+
+  const payload = getSupportedPropertyPayload(data);
+  const specsToCreate = (data.specifications || []).map(spec => ({
+    title: spec.title,
+    value: spec.value,
+  }));
+
+  return db.$transaction(async (tx) => {
+    return tx.property.create({
+      data: {
+        ...payload,
+        slug: finalSlug,
+        categoryId: project.categoryId,
+        projectId: data.projectId,
+        purposeId: defaultPurpose.id,
+        statusId: data.statusId,
+        cityId: project.cityId,
+        address: project.address,
+        createdById: userId,
+        // Create mock placeholder image reference
+        images: {
+          create: {
+            url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800",
+            isFeatured: true,
+            sortOrder: 0,
+          },
+        },
+        specifications: {
+          create: specsToCreate,
         },
       },
-    },
+    });
   });
 }
 
@@ -245,21 +284,55 @@ export async function updateProperty(id, data) {
     ? await getUniqueSlug(data.slug, id)
     : await getUniqueSlug(data.title, id);
 
-  const payload = getSupportedPropertyPayload(data);
+  // Fetch parent project to inherit category, city, address
+  const project = await db.project.findUnique({
+    where: { id: data.projectId },
+    select: { categoryId: true, cityId: true, address: true }
+  });
+  if (!project) {
+    throw new Error("Selected project does not exist.");
+  }
 
-  return db.property.update({
-    where: { id },
-    data: {
-      ...payload,
-      slug: finalSlug,
-      categoryId: data.categoryId,
-      metaTitle: data.metaTitle !== undefined ? data.metaTitle : undefined,
-      metaDescription:
-        data.metaDescription !== undefined ? data.metaDescription : undefined,
-      purposeId: data.purposeId,
-      statusId: data.statusId,
-      cityId: data.cityId,
-    },
+  // Fetch first available PropertyPurpose
+  const defaultPurpose = await db.propertyPurpose.findFirst({
+    where: { deletedAt: null },
+    select: { id: true },
+  });
+  if (!defaultPurpose) {
+    throw new Error("No active property purposes found in the system.");
+  }
+
+  const payload = getSupportedPropertyPayload(data);
+  const specsToCreate = (data.specifications || []).map(spec => ({
+    title: spec.title,
+    value: spec.value,
+  }));
+
+  return db.$transaction(async (tx) => {
+    // Delete existing specifications
+    await tx.propertySpecification.deleteMany({
+      where: { propertyId: id }
+    });
+
+    return tx.property.update({
+      where: { id },
+      data: {
+        ...payload,
+        slug: finalSlug,
+        categoryId: project.categoryId,
+        projectId: data.projectId,
+        purposeId: defaultPurpose.id,
+        statusId: data.statusId,
+        cityId: project.cityId,
+        address: project.address,
+        metaTitle: data.metaTitle !== undefined ? data.metaTitle : undefined,
+        metaDescription:
+          data.metaDescription !== undefined ? data.metaDescription : undefined,
+        specifications: {
+          create: specsToCreate,
+        },
+      },
+    });
   });
 }
 
@@ -313,7 +386,7 @@ export async function changePropertyStatus(id, statusId) {
  * Retrieves lists of active drop-down dependencies for select options.
  */
 export async function getPropertyFormMetadata() {
-  const [categories, purposes, statuses, countries] = await Promise.all([
+  const [categories, purposes, statuses, countries, projects] = await Promise.all([
     db.category.findMany({
       where: { deletedAt: null },
       select: { id: true, name: true },
@@ -334,6 +407,11 @@ export async function getPropertyFormMetadata() {
       select: { id: true, name: true },
       orderBy: { name: "asc" },
     }),
+    db.project.findMany({
+      where: { deletedAt: null },
+      select: { id: true, projectName: true },
+      orderBy: { projectName: "asc" },
+    }),
   ]);
 
   return {
@@ -341,5 +419,6 @@ export async function getPropertyFormMetadata() {
     purposes,
     statuses,
     countries,
+    projects,
   };
 }

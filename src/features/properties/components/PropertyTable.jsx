@@ -103,6 +103,7 @@ export default function PropertyTable({
             <TableRow className="hover:bg-transparent">
               <TableHead className="font-semibold text-neutral-700">Property</TableHead>
               <TableHead className="font-semibold text-neutral-700">Category</TableHead>
+              <TableHead className="font-semibold text-neutral-700">Project</TableHead>
               <TableHead className="font-semibold text-neutral-700">Location</TableHead>
               <TableHead className="font-semibold text-neutral-700">Price</TableHead>
               <TableHead className="font-semibold text-neutral-700">Purpose</TableHead>
@@ -124,6 +125,11 @@ export default function PropertyTable({
                 {/* Category */}
                 <TableCell className="text-neutral-600 text-sm">
                   {property.category?.name || "Uncategorized"}
+                </TableCell>
+
+                {/* Project */}
+                <TableCell className="text-neutral-600 text-sm font-semibold max-w-[150px] truncate">
+                  {property.project?.projectName || <span className="text-red-500 italic">No Project</span>}
                 </TableCell>
 
                 {/* Location */}

@@ -7,6 +7,7 @@ export async function getEnquiries({
   search = "",
   status = "",
   propertyId = "",
+  projectId = "",
   startDate = "",
   endDate = "",
   page = 1,
@@ -40,6 +41,11 @@ export async function getEnquiries({
       where.propertyId = propertyId;
     }
 
+    // Project ID filter
+    if (projectId) {
+      where.projectId = projectId;
+    }
+
     // Date range filter
     if (startDate || endDate) {
       where.createdAt = {};
@@ -65,6 +71,13 @@ export async function getEnquiries({
               title: true,
               slug: true,
               price: true,
+            },
+          },
+          project: {
+            select: {
+              id: true,
+              projectName: true,
+              slug: true,
             },
           },
         },
@@ -111,6 +124,16 @@ export async function getEnquiryById(id) {
       where: { id },
       include: {
         property: {
+          include: {
+            category: { select: { name: true } },
+            city: {
+              include: {
+                state: { include: { country: { select: { name: true } } } },
+              },
+            },
+          },
+        },
+        project: {
           include: {
             category: { select: { name: true } },
             city: {

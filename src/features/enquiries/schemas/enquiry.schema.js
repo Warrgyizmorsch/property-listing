@@ -37,4 +37,9 @@ export const createEnquirySchema = z.object({
     .uuid("Invalid property ID selection.")
     .optional()
     .nullable(),
+  projectId: z
+    .string()
+    .uuid("Invalid project ID selection.")
+    .optional()
+    .nullable(),
 });

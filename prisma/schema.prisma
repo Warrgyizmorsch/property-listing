@@ -16,6 +16,7 @@ model User {
   updatedAt  DateTime   @updatedAt @map("updated_at")
   deletedAt  DateTime?  @map("deleted_at")
   properties Property[]
+  projects   Project[]
 
   @@map("users")
 }
@@ -28,6 +29,7 @@ model Category {
   updatedAt  DateTime   @updatedAt @map("updated_at")
   deletedAt  DateTime?  @map("deleted_at")
   properties Property[]
+  projects   Project[]
 
   @@map("categories")
 }
@@ -71,6 +73,7 @@ model City {
   deletedAt  DateTime?  @map("deleted_at")
   state      State      @relation(fields: [stateId], references: [id], onDelete: Cascade)
   properties Property[]
+  projects   Project[]
 
   @@unique([stateId, name])
   @@unique([stateId, slug])
@@ -123,6 +126,15 @@ model Property {
   deletedAt       DateTime?       @map("deleted_at")
   metaDescription String?         @map("meta_description") @db.Text
   metaTitle       String?         @map("meta_title")
+  amenities       String?         @db.LongText
+  builder_address String?
+  builder_name    String?
+  builder_phone   String?
+  facing          String?
+  is_corner       Boolean         @default(false)
+  projectId       String?         @map("project_id")
+  propertyCode    String?         @map("property_code")
+  unitType        String          @default("1 BHK") @map("unit_type")
   enquiries       Enquiry[]
   category        Category        @relation(fields: [categoryId], references: [id])
   city            City            @relation(fields: [cityId], references: [id])
@@ -130,12 +142,15 @@ model Property {
   purpose         PropertyPurpose @relation(fields: [purposeId], references: [id])
   status          PropertyStatus  @relation(fields: [statusId], references: [id])
   images          PropertyImage[]
+  project         Project?        @relation(fields: [projectId], references: [id])
+  specifications  PropertySpecification[]
 
   @@index([categoryId])
   @@index([statusId])
   @@index([purposeId])
   @@index([cityId])
   @@index([createdById])
+  @@index([projectId])
   @@index([price])
   @@index([isFeatured])
   @@index([createdAt])
@@ -165,14 +180,17 @@ model Enquiry {
   phone      String
   message    String        @db.Text
   status     EnquiryStatus @default(NEW)
-  propertyId String        @map("property_id")
+  propertyId String?       @map("property_id")
+  projectId  String?       @map("project_id")
   createdAt  DateTime      @default(now()) @map("created_at")
   updatedAt  DateTime      @updatedAt @map("updated_at")
   deletedAt  DateTime?     @map("deleted_at")
   notes      String?       @db.Text
-  property   Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  property   Property?     @relation(fields: [propertyId], references: [id])
+  project    Project?      @relation(fields: [projectId], references: [id])
 
   @@index([propertyId])
+  @@index([projectId])
   @@index([status])
   @@map("enquiries")
 }
@@ -219,3 +237,111 @@ enum PageType {
   TERMS
   FAQ
 }
+
+enum ProjectStatus {
+  ONGOING
+  COMPLETED
+  UPCOMING
+}
+
+model Project {
+  id               String          @id @default(uuid())
+  projectName      String          @map("project_name")
+  slug             String          @unique
+  address          String          @db.Text
+  description      String          @db.Text
+  shortDescription String?         @map("short_description") @db.Text
+  builderName      String          @map("builder_name")
+  builderPhone     String          @map("builder_phone")
+  builderEmail     String          @map("builder_email")
+  status           ProjectStatus   @default(ONGOING)
+  bannerImage      String?         @map("banner_image") @db.Text
+  mainImage        String?         @map("main_image") @db.Text
+  brochureFile     String?         @map("brochure_file") @db.Text
+  googleMapIframe  String?         @map("google_map_iframe") @db.Text
+  isFeatured       Boolean         @default(false) @map("is_featured")
+  displayOrder     Int             @default(0) @map("display_order")
+  categoryId       String          @map("category_id")
+  createdById      String          @map("created_by_id")
+  cityId           String          @map("city_id")
+  metaTitle        String?         @map("meta_title")
+  metaDescription  String?         @map("meta_description") @db.Text
+  createdAt        DateTime        @default(now()) @map("created_at")
+  updatedAt        DateTime        @updatedAt @map("updated_at")
+  deletedAt        DateTime?       @map("deleted_at")
+
+  category         Category        @relation(fields: [categoryId], references: [id])
+  createdBy        User            @relation(fields: [createdById], references: [id])
+  city             City            @relation(fields: [cityId], references: [id])
+  images           ProjectImage[]
+  amenities        ProjectAmenity[]
+  specifications   ProjectSpecification[]
+  highlights       ProjectHighlight[]
+  properties       Property[]
+  enquiries        Enquiry[]
+
+  @@index([categoryId])
+  @@index([createdById])
+  @@index([cityId])
+  @@index([createdAt])
+  @@map("projects")
+}
+
+model ProjectImage {
+  id         String   @id @default(uuid())
+  url        String   @db.Text
+  publicId   String?  @map("public_id")
+  isFeatured Boolean  @default(false) @map("is_featured")
+  sortOrder  Int      @default(0) @map("sort_order")
+  projectId  String   @map("project_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([sortOrder])
+  @@map("project_images")
+}
+
+model ProjectAmenity {
+  id        String   @id @default(uuid())
+  name      String
+  projectId String   @map("project_id")
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@map("project_amenities")
+}
+
+model ProjectSpecification {
+  id        String   @id @default(uuid())
+  title     String
+  value     String   @db.Text
+  projectId String   @map("project_id")
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@map("project_specifications")
+}
+
+model ProjectHighlight {
+  id        String   @id @default(uuid())
+  text      String
+  projectId String   @map("project_id")
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@map("project_highlights")
+}
+
+model PropertySpecification {
+  id         String   @id @default(uuid())
+  title      String
+  value      String   @db.Text
+  propertyId String   @map("property_id")
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId])
+  @@map("property_specifications")
+}
+

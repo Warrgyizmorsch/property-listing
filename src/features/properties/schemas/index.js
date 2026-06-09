@@ -19,6 +19,18 @@ export const propertyFormSchema = z.object({
         "Slug must contain only lowercase letters, numbers, and hyphens.",
     })
     .optional(),
+  propertyCode: z
+    .string()
+    .trim()
+    .max(20, { message: "Property code must be at most 20 characters." })
+    .optional()
+    .nullable()
+    .or(z.literal("")),
+  unitType: z
+    .string()
+    .trim()
+    .min(1, { message: "Property / Unit Type is required." })
+    .max(50, { message: "Property / Unit Type must not exceed 50 characters." }),
   description: z
     .string()
     .trim()
@@ -26,10 +38,6 @@ export const propertyFormSchema = z.object({
   price: z.coerce
     .number()
     .positive({ message: "Price must be a positive number." }),
-  address: z
-    .string()
-    .trim()
-    .min(5, { message: "Address must be at least 5 characters long." }),
   bedrooms: z.coerce
     .number()
     .int()
@@ -42,47 +50,9 @@ export const propertyFormSchema = z.object({
     .number()
     .int()
     .positive({ message: "Area size must be a positive integer." }),
-  contactNumber: z.string().trim().optional(),
-  builderName: z
-    .string()
-    .trim()
-    .max(100, { message: "Builder name must be at most 100 characters." })
-    .optional()
-    .nullable()
-    .or(z.literal("")),
-  builderPhone: z
-    .string()
-    .trim()
-    .max(30, { message: "Builder phone must be at most 30 characters." })
-    .optional()
-    .nullable()
-    .or(z.literal("")),
-  builderAddress: z
-    .string()
-    .trim()
-    .max(150, { message: "Builder address must be at most 150 characters." })
-    .optional()
-    .nullable()
-    .or(z.literal("")),
-  facing: z
-    .string()
-    .trim()
-    .max(50, { message: "Facing direction must be at most 50 characters." })
-    .optional()
-    .nullable()
-    .or(z.literal("")),
-  isCorner: z.boolean().default(false),
-  amenities: z
-    .string()
-    .trim()
-    .max(1000, { message: "Amenities must be at most 1000 characters." })
-    .optional()
-    .nullable()
-    .or(z.literal("")),
-  categoryId: z.string().uuid({ message: "Please select a valid Category." }),
-  purposeId: z.string().uuid({ message: "Please select a valid Purpose." }),
+  contactNumber: z.string().trim().optional().nullable().or(z.literal("")),
+  projectId: z.string().uuid({ message: "Please select a valid Project." }),
   statusId: z.string().uuid({ message: "Please select a valid Status." }),
-  cityId: z.string().uuid({ message: "Please select a valid City." }),
   isFeatured: z.boolean().default(false),
   metaTitle: z
     .string()
@@ -96,4 +66,13 @@ export const propertyFormSchema = z.object({
     .optional()
     .nullable()
     .or(z.literal("")),
+  specifications: z
+    .array(
+      z.object({
+        title: z.string().trim().min(1, { message: "Specification title is required." }),
+        value: z.string().trim().min(1, { message: "Specification value is required." }),
+      })
+    )
+    .optional()
+    .default([]),
 });
