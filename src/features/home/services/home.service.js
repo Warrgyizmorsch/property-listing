@@ -132,8 +132,9 @@ export async function getHomeLocations(limit = 8) {
         state: {
           select: {
             name: true,
+            slug:true,
             country: {
-              select: { name: true },
+              select: { name: true, slug: true },
             },
           },
         },

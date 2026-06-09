@@ -36,7 +36,7 @@ export default async function LocationSection() {
             return (
               <Link
                 key={city.id}
-                href={`/properties?cityId=${city.id}`}
+                href={`/properties?country=${city.state?.country?.slug}&state=${city.state?.slug}&city=${city.slug}`}
                 className="group relative flex items-center justify-between p-5 rounded-2xl border border-neutral-100 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/20"
               >
                 <div className="flex items-center gap-3">
