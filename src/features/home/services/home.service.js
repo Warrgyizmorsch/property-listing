@@ -31,10 +31,7 @@ export async function getFeaturedProperties(limit = 6) {
           },
         },
         images: {
-          orderBy: [
-            { isFeatured: "desc" },
-            { sortOrder: "asc" }
-          ],
+          orderBy: [{ isFeatured: "desc" }, { sortOrder: "asc" }],
           take: 1,
         },
       },
@@ -81,10 +78,7 @@ export async function getLatestProperties(limit = 8) {
           },
         },
         images: {
-          orderBy: [
-            { isFeatured: "desc" },
-            { sortOrder: "asc" }
-          ],
+          orderBy: [{ isFeatured: "desc" }, { sortOrder: "asc" }],
           take: 1,
         },
       },
@@ -169,32 +163,33 @@ export async function getHomeLocations(limit = 8) {
  */
 export async function getHomeStats() {
   try {
-    const [totalProperties, soldProperties, activeProperties, happyEnquiries] = await Promise.all([
-      db.property.count({ where: { deletedAt: null } }),
-      db.property.count({
-        where: {
-          deletedAt: null,
-          status: { name: "Sold" },
-        },
-      }),
-      db.property.count({
-        where: {
-          deletedAt: null,
-          status: { name: "Available" },
-        },
-      }),
-      db.enquiry.count({
-        where: {
-          deletedAt: null,
-          status: { in: ["CLOSED", "CONVERTED"] },
-        },
-      }),
-    ]);
+    const [totalProperties, soldProperties, activeProperties, happyEnquiries] =
+      await db.$transaction([
+        db.property.count({ where: { deletedAt: null } }),
+        db.property.count({
+          where: {
+            deletedAt: null,
+            status: { name: "Sold" },
+          },
+        }),
+        db.property.count({
+          where: {
+            deletedAt: null,
+            status: { name: "Available" },
+          },
+        }),
+        db.enquiry.count({
+          where: {
+            deletedAt: null,
+            status: { in: ["CLOSED", "CONVERTED"] },
+          },
+        }),
+      ]);
 
     return {
       totalProperties,
       soldProperties,
-      activeProperties: activeProperties || (totalProperties - soldProperties),
+      activeProperties: activeProperties || totalProperties - soldProperties,
       happyClients: (happyEnquiries || 0) + 128, // dynamic realistic offset
     };
   } catch (error) {
@@ -213,7 +208,7 @@ export async function getHomeStats() {
  */
 export async function getSearchMetadata() {
   try {
-    const [purposes, categories, cities] = await Promise.all([
+    const [purposes, categories, cities] = await db.$transaction([
       db.propertyPurpose.findMany({
         where: { deletedAt: null },
         select: { id: true, name: true },

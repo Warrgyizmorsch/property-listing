@@ -113,12 +113,6 @@ model Property {
   areaSize        Int             @map("area_size")
   isFeatured      Boolean         @default(false) @map("is_featured")
   contactNumber   String?         @map("contact_number")
-  builderName     String?         @map("builder_name")
-  builderPhone    String?         @map("builder_phone")
-  builderAddress  String?         @map("builder_address")
-  facing          String?
-  isCorner        Boolean         @default(false) @map("is_corner")
-  amenities       Json?
   categoryId      String          @map("category_id")
   statusId        String          @map("status_id")
   purposeId       String          @map("purpose_id")
@@ -171,12 +165,12 @@ model Enquiry {
   phone      String
   message    String        @db.Text
   status     EnquiryStatus @default(NEW)
-  propertyId String?       @map("property_id")
+  propertyId String        @map("property_id")
   createdAt  DateTime      @default(now()) @map("created_at")
   updatedAt  DateTime      @updatedAt @map("updated_at")
   deletedAt  DateTime?     @map("deleted_at")
   notes      String?       @db.Text
-  property   Property?     @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  property   Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 
   @@index([propertyId])
   @@index([status])

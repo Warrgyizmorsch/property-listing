@@ -12,6 +12,26 @@ function normalizeAmenities(value) {
     .filter(Boolean);
 }
 
+function getSupportedPropertyPayload(data) {
+  const {
+    builderName: _builderName,
+    builderPhone: _builderPhone,
+    builderAddress: _builderAddress,
+    facing: _facing,
+    isCorner: _isCorner,
+    amenities: _amenities,
+    ...propertyData
+  } = data;
+
+  return {
+    ...propertyData,
+    contactNumber: propertyData.contactNumber || null,
+    isFeatured: propertyData.isFeatured || false,
+    metaTitle: propertyData.metaTitle || null,
+    metaDescription: propertyData.metaDescription || null,
+  };
+}
+
 /**
  * Fetches properties with search filters, pagination, and sorting.
  */
@@ -194,26 +214,12 @@ export async function createProperty(data, userId) {
     ? await getUniqueSlug(data.slug)
     : await getUniqueSlug(data.title);
 
+  const payload = getSupportedPropertyPayload(data);
+
   return db.property.create({
     data: {
-      title: data.title,
+      ...payload,
       slug: finalSlug,
-      description: data.description,
-      price: data.price,
-      address: data.address,
-      bedrooms: data.bedrooms,
-      bathrooms: data.bathrooms,
-      areaSize: data.areaSize,
-      contactNumber: data.contactNumber || null,
-      builderName: data.builderName || null,
-      builderPhone: data.builderPhone || null,
-      builderAddress: data.builderAddress || null,
-      facing: data.facing || null,
-      isCorner: data.isCorner || false,
-      amenities: normalizeAmenities(data.amenities),
-      isFeatured: data.isFeatured || false,
-      metaTitle: data.metaTitle || null,
-      metaDescription: data.metaDescription || null,
       categoryId: data.categoryId,
       purposeId: data.purposeId,
       statusId: data.statusId,
@@ -239,25 +245,13 @@ export async function updateProperty(id, data) {
     ? await getUniqueSlug(data.slug, id)
     : await getUniqueSlug(data.title, id);
 
+  const payload = getSupportedPropertyPayload(data);
+
   return db.property.update({
     where: { id },
     data: {
-      title: data.title,
+      ...payload,
       slug: finalSlug,
-      description: data.description,
-      price: data.price,
-      address: data.address,
-      bedrooms: data.bedrooms,
-      bathrooms: data.bathrooms,
-      areaSize: data.areaSize,
-      contactNumber: data.contactNumber || null,
-      builderName: data.builderName || null,
-      builderPhone: data.builderPhone || null,
-      builderAddress: data.builderAddress || null,
-      facing: data.facing || null,
-      isCorner: data.isCorner || false,
-      amenities: normalizeAmenities(data.amenities),
-      isFeatured: data.isFeatured || false,
       categoryId: data.categoryId,
       metaTitle: data.metaTitle !== undefined ? data.metaTitle : undefined,
       metaDescription:
