@@ -19,6 +19,12 @@ export default async function ProjectDetailsPage({ params }) {
     notFound()
   }
 
+  const brochureUrl = project.brochureFile?.includes("res.cloudinary.com") && 
+                      project.brochureFile.includes("/image/upload/") && 
+                      !project.brochureFile.toLowerCase().endsWith(".pdf")
+                      ? `${project.brochureFile}.pdf`
+                      : project.brochureFile;
+
   const getStatusBadgeClass = (status) => {
     switch (status) {
       case "ONGOING":
@@ -100,13 +106,13 @@ export default async function ProjectDetailsPage({ params }) {
           </div>
 
           <div className="flex items-center gap-3">
-            {project.brochureFile && (
+            {brochureUrl && (
               <Button
                 variant="outline"
                 asChild
                 className="bg-white/10 text-white border-white/20 hover:bg-white/20 h-9 text-xs font-bold"
               >
-                <a href={project.brochureFile} target="_blank" rel="noopener noreferrer">
+                <a href={brochureUrl} target="_blank" rel="noopener noreferrer">
                   Download Brochure
                 </a>
               </Button>

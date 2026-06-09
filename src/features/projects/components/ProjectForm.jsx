@@ -215,9 +215,11 @@ export default function ProjectForm({ project = null, metadata = {} }) {
     setUploading(true);
     try {
       const uploadContextId = project?.id || "temp-project-id";
+      const isDocument = fieldName === "brochureFile";
+      const resourceType = isDocument ? "raw" : "auto";
 
       // Call server action to fetch signed parameters
-      const signatureResult = await getUploadSignatureAction(uploadContextId);
+      const signatureResult = await getUploadSignatureAction(uploadContextId, resourceType);
       if (!signatureResult.success) {
         throw new Error(signatureResult.error || "Failed to fetch secure signature.");
       }
@@ -231,7 +233,7 @@ export default function ProjectForm({ project = null, metadata = {} }) {
       formData.append("signature", credentials.signature);
       formData.append("folder", folder);
 
-      const endpoint = `https://api.cloudinary.com/v1_1/${credentials.cloudName}/auto/upload`;
+      const endpoint = `https://api.cloudinary.com/v1_1/${credentials.cloudName}/${resourceType}/upload`;
 
       const response = await fetch(endpoint, {
         method: "POST",

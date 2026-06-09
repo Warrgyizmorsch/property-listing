@@ -15,7 +15,7 @@ import {
  * Action: Generates a Cloudinary signature for direct-to-cloud uploads.
  * @param {string} projectId 
  */
-export async function getUploadSignatureAction(projectId) {
+export async function getUploadSignatureAction(projectId, resourceType = "image") {
   try {
     await requireAdmin();
     if (!projectId) {
@@ -23,7 +23,7 @@ export async function getUploadSignatureAction(projectId) {
     }
 
     const folder = `property-listing/projects/${projectId}`;
-    const credentials = generateUploadSignature(folder);
+    const credentials = generateUploadSignature(folder, resourceType);
 
     return { success: true, credentials, folder };
   } catch (error) {

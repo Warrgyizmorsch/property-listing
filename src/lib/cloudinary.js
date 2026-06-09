@@ -15,9 +15,10 @@ cloudinary.config({
 /**
  * Generates signed upload parameters for direct client-side uploads.
  * @param {string} folder - Target folder on Cloudinary
- * @returns {{ signature: string, timestamp: number, apiKey: string, cloudName: string }}
+ * @param {string} resourceType - Resource type (e.g. 'image', 'raw')
+ * @returns {{ signature: string, timestamp: number, apiKey: string, cloudName: string, resourceType: string }}
  */
-export function generateUploadSignature(folder) {
+export function generateUploadSignature(folder, resourceType = "image") {
   if (!cloudName || !apiKey || !apiSecret) {
     throw new Error("Missing Cloudinary environment configuration keys.");
   }
@@ -37,6 +38,7 @@ export function generateUploadSignature(folder) {
     timestamp,
     apiKey,
     cloudName,
+    resourceType,
   };
 }
 

@@ -97,6 +97,12 @@ export default async function ProjectDetailPage({ params }) {
     notFound();
   }
 
+  const brochureUrl = project.brochureFile?.includes("res.cloudinary.com") && 
+                      project.brochureFile.includes("/image/upload/") && 
+                      !project.brochureFile.toLowerCase().endsWith(".pdf")
+                      ? `${project.brochureFile}.pdf`
+                      : project.brochureFile;
+
   // Fetch related projects in same category/region
   const relatedProjects = await getRelatedProjects({
     projectId: project.id,
@@ -412,8 +418,8 @@ export default async function ProjectDetailPage({ params }) {
               </div>
 
               {/* Brochure Download Card */}
-              {project.brochureFile && (
-                <div className="p-5 rounded-2xl border border-neutral-200/80 bg-white shadow-xs dark:border-zinc-850 dark:bg-zinc-900/40 flex items-center justify-between gap-4">
+              {brochureUrl && (
+                <div className="p-5 rounded-2xl border border-neutral-200/80 bg-white shadow-xs dark:border-zinc-855 dark:bg-zinc-900/40 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/20 dark:text-indigo-400">
                       <FileDown className="h-5 w-5" />
@@ -423,7 +429,7 @@ export default async function ProjectDetailPage({ params }) {
                       <p className="text-[10px] text-neutral-400">PDF, floor layouts & pricing</p>
                     </div>
                   </div>
-                  <a href={project.brochureFile} target="_blank" rel="noopener noreferrer">
+                  <a href={brochureUrl} target="_blank" rel="noopener noreferrer">
                     <Button size="sm" className="bg-slate-950 text-white hover:bg-slate-800 cursor-pointer h-9 font-bold px-4 rounded-xl">
                       Download
                     </Button>
