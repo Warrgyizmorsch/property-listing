@@ -49,14 +49,13 @@ export default async function CategorySection() {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
-            Categorized Listings
+            Categorized Projects
           </span>
           <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
             Browse By Category
           </h2>
           <p className="mt-4 text-neutral-500 dark:text-neutral-400 text-base">
-            Find the perfect matching layout type for your residential,
-            investment, or commercial operations.
+            Find the perfect matching layout type for your residential, investment, or commercial operations.
           </p>
         </div>
 
@@ -67,12 +66,12 @@ export default async function CategorySection() {
             const theme =
               colors[slug.toLowerCase()] ||
               "from-neutral-500/10 to-slate-500/10 text-neutral-600 dark:text-neutral-400 border-neutral-100 dark:border-neutral-800";
-            const count = category._count?.properties ?? 0;
+            const count = category._count?.projects ?? 0;
 
             return (
               <Link
                 key={category.id}
-                href={`/properties?category=${category.slug}`}
+                href={`/projects?category=${category.slug}`}
                 className="group relative flex flex-col items-center text-center p-6 rounded-2xl border border-neutral-100 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-indigo-100 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/20 dark:hover:border-zinc-700/80"
               >
                 {/* Icon Container */}
@@ -89,7 +88,7 @@ export default async function CategorySection() {
 
                 {/* Active counts */}
                 <p className="mt-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400">
-                  {count} {count === 1 ? "Listing" : "Listings"}
+                  {count} {count === 1 ? "Project" : "Projects"}
                 </p>
 
                 {/* Arrow slide-in effect */}

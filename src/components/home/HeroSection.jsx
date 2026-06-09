@@ -6,7 +6,7 @@ import SearchSection from "./SearchSection";
 
 export default async function HeroSection() {
   // Fetch dropdown metadata on the server
-  const { purposes, categories, cities } = await getSearchMetadata();
+  const { categories, cities } = await getSearchMetadata();
 
   return (
     <section className="relative flex min-h-[85vh] flex-col items-center justify-center overflow-hidden bg-neutral-900 py-20 px-4 dark:bg-zinc-950 sm:px-6 lg:px-8">
@@ -32,26 +32,25 @@ export default async function HeroSection() {
 
         {/* Big Headline */}
         <h1 className="max-w-4xl font-heading text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl lg:leading-[1.1]">
-          Find Your Next{" "}
+          Discover Your Next{" "}
           <span className="bg-linear-to-r from-indigo-400 via-violet-400 to-indigo-300 bg-clip-text text-transparent">
-            Masterpiece Home
+            Masterpiece Project
           </span>
         </h1>
 
         {/* Subheadline */}
         <p className="mt-6 max-w-2xl text-base text-neutral-200 sm:text-lg md:text-xl leading-8">
-          Discover a curated list of exceptional luxury villas, penthouses, and
-          prime commercial spaces in India's most desirable neighborhoods.
+          Explore a curated collection of exceptional luxury residential, upcoming villa complexes, and premier commercial projects in prime locations.
         </p>
 
         {/* Action Buttons */}
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4 motion-safe:animate-fade-in-up">
-          <Link href="/properties">
+          <Link href="/projects">
             <Button
               size="lg"
-              className="h-12 bg-linear-to-r from-indigo-600 to-violet-600 font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all duration-300 hover:from-indigo-700 hover:to-violet-700"
+              className="h-12 bg-linear-to-r from-indigo-600 to-violet-600 font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all duration-300 hover:from-indigo-700 hover:to-violet-700 cursor-pointer"
             >
-              Browse Listings
+              Browse Projects
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
@@ -59,9 +58,9 @@ export default async function HeroSection() {
             <Button
               size="lg"
               variant="outline"
-              className="h-12 border-neutral-700/80 bg-transparent font-semibold text-white transition-all duration-300 hover:bg-neutral-800/85"
+              className="h-12 border-neutral-700/80 bg-transparent font-semibold text-white transition-all duration-300 hover:bg-neutral-800/85 cursor-pointer"
             >
-              Contact an Agent
+              Contact an Advisory Agent
             </Button>
           </Link>
         </div>
@@ -73,8 +72,8 @@ export default async function HeroSection() {
               <Building className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xl font-bold text-white">12,000+</p>
-              <p className="text-xs text-neutral-400">Exclusive Properties</p>
+              <p className="text-xl font-bold text-white">450+</p>
+              <p className="text-xs text-neutral-400">Premium Real Estate Projects</p>
             </div>
           </div>
           <div className="flex items-center gap-3.5">
@@ -82,8 +81,8 @@ export default async function HeroSection() {
               <Key className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xl font-bold text-white">4,800+</p>
-              <p className="text-xs text-neutral-400">Properties Sold</p>
+              <p className="text-xl font-bold text-white">1,200+</p>
+              <p className="text-xs text-neutral-400">Available Units</p>
             </div>
           </div>
           <div className="flex items-center gap-3.5">
@@ -91,8 +90,8 @@ export default async function HeroSection() {
               <Users className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xl font-bold text-white">20,000+</p>
-              <p className="text-xs text-neutral-400">Happy Homeowners</p>
+              <p className="text-xl font-bold text-white">15,000+</p>
+              <p className="text-xs text-neutral-400">Satisfied Families</p>
             </div>
           </div>
         </div>
@@ -100,7 +99,6 @@ export default async function HeroSection() {
         {/* Floating Search Bar */}
         <div className="mt-16 w-full px-2 lg:px-0">
           <SearchSection
-            purposes={purposes}
             categories={categories}
             cities={cities}
           />

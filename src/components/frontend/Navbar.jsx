@@ -19,7 +19,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Properties", href: "/properties" },
+    { name: "Projects", href: "/projects" },
     { name: "About Us", href: "/about" },
     { name: "Contact", href: "/contact" },
   ];
@@ -80,12 +80,12 @@ export default function Navbar() {
               Agent Login
             </Button>
           </Link>
-          <Link href="/properties">
+          <Link href="/projects">
             <Button
               size="sm"
               className="gap-1.5 bg-neutral-900 font-semibold text-white hover:bg-neutral-800 dark:bg-indigo-600 dark:hover:bg-indigo-700"
             >
-              Explore Listings
+              Explore Projects
               <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
@@ -149,12 +149,12 @@ export default function Navbar() {
                   </Button>
                 </Link>
                 <Link
-                  href="/properties"
+                  href="/projects"
                   onClick={() => setMobileOpen(false)}
                   className="w-full"
                 >
                   <Button className="w-full justify-center gap-1.5 bg-indigo-600 font-semibold text-white hover:bg-indigo-700">
-                    Explore Listings
+                    Explore Projects
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>

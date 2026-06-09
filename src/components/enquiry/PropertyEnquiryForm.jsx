@@ -12,15 +12,23 @@ import EnquirySuccess from "./EnquirySuccess";
 export default function PropertyEnquiryForm({
   propertyId,
   propertyTitle,
+  projectId,
+  projectTitle,
   onSuccess = null,
 }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const defaultRef = propertyId ? String(propertyId).slice(0, 8) : null;
+  const defaultRef = propertyId
+    ? String(propertyId).slice(0, 8)
+    : projectId
+    ? String(projectId).slice(0, 8)
+    : null;
   const [message, setMessage] = useState(
-    defaultRef
+    propertyTitle
       ? `I am interested in "${propertyTitle}" (Ref: ${defaultRef}) and would like to arrange a private viewing. Please contact me.`
+      : projectTitle
+      ? `I am interested in project "${projectTitle}" (Ref: ${defaultRef}) and would like to receive pricing details. Please contact me.`
       : `I am interested and would like to learn more. Please contact me.`,
   );
   const [website, setWebsite] = useState(""); // Honeypot field for spam prevention
@@ -44,6 +52,7 @@ export default function PropertyEnquiryForm({
         phone: phone.trim(),
         message: message.trim(),
         propertyId,
+        projectId,
         website: website.trim(), // Send honeypot value
       });
 

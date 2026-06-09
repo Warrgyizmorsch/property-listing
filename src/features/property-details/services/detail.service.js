@@ -30,6 +30,20 @@ export async function getPropertyDetails(slug) {
         images: {
           orderBy: { sortOrder: "asc" },
         },
+        project: {
+          include: {
+            city: {
+              include: {
+                state: {
+                  include: {
+                    country: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        specifications: true,
       },
     });
 

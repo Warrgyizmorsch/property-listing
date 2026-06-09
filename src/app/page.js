@@ -9,7 +9,7 @@ import StatisticsSection from "@/components/home/StatisticsSection";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import CTASection from "@/components/home/CTASection";
-import { PropertyCardSkeleton } from "@/components/home/PropertyCard";
+import { ProjectCardSkeleton } from "@/components/projects/ProjectCard";
 import { generatePageMetadata } from "@/lib/seo/metadata";
 import { getOrganizationSchema, getWebSiteSchema } from "@/lib/seo/schemas";
 
@@ -18,22 +18,22 @@ export async function generateMetadata() {
   return await generatePageMetadata({
     pageType: "HOME",
     fallbackData: {
-      title: "Property Expert | Premium Property Listings & Luxury Real Estate",
+      title: "Property Expert | Premium Real Estate Projects & Luxury Developments",
       description:
-        "Discover exceptional luxury apartments, villas, penthouses, and commercial properties. Property Expert provides curated listings and transparent transaction pathways with certified agents.",
+        "Discover exceptional residential projects, luxury villa developments, penthouses, and premier commercial projects. Property Expert provides curated real estate catalogs and developer contact channels.",
       keywords:
-        "real estate, luxury villas, buy apartments, penthouses, commercial properties, property finder, property listing",
+        "real estate, property expert, luxury projects, buy flats, residential complexes, villa communities, commercial projects",
       path: "/",
     },
   });
 }
 
 // Loader skeletons for dynamic database sections
-function PropertiesGridSkeleton({ count = 3 }) {
+function ProjectsGridSkeleton({ count = 3 }) {
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {[...Array(count)].map((_, i) => (
-        <PropertyCardSkeleton key={i} />
+        <ProjectCardSkeleton key={i} />
       ))}
     </div>
   );
@@ -96,7 +96,7 @@ export default function Home() {
           fallback={
             <div className="mx-auto max-w-7xl py-20 px-4">
               <div className="h-8 w-48 rounded bg-neutral-200 dark:bg-zinc-800 mb-8" />
-              <PropertiesGridSkeleton count={6} />
+              <ProjectsGridSkeleton count={3} />
             </div>
           }
         >

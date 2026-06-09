@@ -108,6 +108,9 @@ export async function getHomeCategories() {
             properties: {
               where: { deletedAt: null },
             },
+            projects: {
+              where: { deletedAt: null },
+            },
           },
         },
       },
@@ -140,7 +143,7 @@ export async function getHomeLocations(limit = 8) {
         },
         _count: {
           select: {
-            properties: {
+            projects: {
               where: { deletedAt: null },
             },
           },
@@ -150,8 +153,8 @@ export async function getHomeLocations(limit = 8) {
 
     // In-memory sorting for compatibility safety across Prisma versions
     return cities
-      .filter((c) => c._count.properties > 0)
-      .sort((a, b) => b._count.properties - a._count.properties)
+      .filter((c) => c._count.projects > 0)
+      .sort((a, b) => b._count.projects - a._count.projects)
       .slice(0, limit);
   } catch (error) {
     console.error("Error fetching home locations:", error);

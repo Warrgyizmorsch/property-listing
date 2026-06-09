@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-neutral-300 max-w-2xl">
             Personalized advisory, premium search filters, and verified luxury
-            properties for discerning homeowners and investors.
+            projects for discerning homeowners and investors.
           </p>
           <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
             <span className="inline-flex items-center rounded-full border border-neutral-700/90 bg-white/5 px-3 py-1.5 text-neutral-300">
@@ -100,10 +100,10 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/properties"
+                  href="/projects"
                   className="hover:text-white transition-colors duration-200"
                 >
-                  Properties
+                  Projects
                 </Link>
               </li>
               <li>
@@ -136,12 +136,12 @@ export default function Footer() {
           {/* Column 3: Categories */}
           <div className="flex flex-col gap-4">
             <h3 className="text-sm font-semibold tracking-wider text-white uppercase font-heading">
-              Property Types
+              Project Categories
             </h3>
             <ul className="flex flex-col gap-2.5 text-sm">
               <li>
                 <Link
-                  href="/properties?category=apartment"
+                  href="/projects?category=apartment"
                   className="hover:text-white transition-colors duration-200"
                 >
                   Apartments
@@ -149,7 +149,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/properties?category=villa"
+                  href="/projects?category=villa"
                   className="hover:text-white transition-colors duration-200"
                 >
                   Villas
@@ -157,7 +157,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/properties?category=commercial"
+                  href="/projects?category=commercial"
                   className="hover:text-white transition-colors duration-200"
                 >
                   Commercial Spaces
@@ -165,7 +165,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/properties?category=penthouse"
+                  href="/projects?category=penthouse"
                   className="hover:text-white transition-colors duration-200"
                 >
                   Penthouses
@@ -173,7 +173,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/properties?category=land"
+                  href="/projects?category=land"
                   className="hover:text-white transition-colors duration-200"
                 >
                   Lands / Plots

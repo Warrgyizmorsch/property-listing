@@ -22,7 +22,7 @@ export default async function LocationSection() {
               Browse By Location
             </h2>
             <p className="mt-4 text-neutral-500 dark:text-neutral-400">
-              Explore property listing counts across top regions.
+              Explore projects across top regions.
             </p>
           </div>
         </div>
@@ -30,13 +30,13 @@ export default async function LocationSection() {
         {/* Location Grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {locations.map((city) => {
-            const count = city._count?.properties ?? 0;
+            const count = city._count?.projects ?? 0;
             const subtext = `${city.state?.name || ""}, ${city.state?.country?.name || ""}`;
 
             return (
               <Link
                 key={city.id}
-                href={`/properties?country=${city.state?.country?.slug}&state=${city.state?.slug}&city=${city.slug}`}
+                href={`/projects?country=${city.state?.country?.slug}&state=${city.state?.slug}&city=${city.slug}`}
                 className="group relative flex items-center justify-between p-5 rounded-2xl border border-neutral-100 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/20"
               >
                 <div className="flex items-center gap-3">
@@ -55,7 +55,7 @@ export default async function LocationSection() {
 
                 <div className="flex flex-col items-end gap-1 shrink-0">
                   <span className="inline-flex items-center rounded-lg bg-neutral-100 px-2.5 py-1 text-xs font-bold text-neutral-800 dark:bg-zinc-800 dark:text-neutral-200">
-                    {count} {count === 1 ? "Listing" : "Listings"}
+                    {count} {count === 1 ? "Project" : "Projects"}
                   </span>
                 </div>
               </Link>

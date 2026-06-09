@@ -37,7 +37,8 @@ export async function createPublicEnquiryAction(data) {
       email: data.email,
       phone: data.phone,
       message: data.message,
-      propertyId: data.propertyId,
+      propertyId: data.propertyId || undefined,
+      projectId: data.projectId || undefined,
     });
 
     if (!validated.success) {
@@ -47,9 +48,9 @@ export async function createPublicEnquiryAction(data) {
       return { error: firstError || "Validation failed on submitted fields." };
     }
 
-    const { name, email, phone, message, propertyId } = validated.data;
+    const { name, email, phone, message, propertyId, projectId } = validated.data;
 
-    // 4. Resolve Property Context & Slug for revalidation tasks (propertyId optional)
+    // 4. Resolve Property Context
     let property = null;
     if (propertyId) {
       property = await db.property.findFirst({
@@ -62,7 +63,20 @@ export async function createPublicEnquiryAction(data) {
       }
     }
 
-    // 5. Database Save (Defaults status to NEW). propertyId can be null for general enquiries.
+    // Resolve Project Context
+    let project = null;
+    if (projectId) {
+      project = await db.project.findFirst({
+        where: { id: projectId, deletedAt: null },
+        select: { projectName: true, slug: true, id: true },
+      });
+
+      if (!project) {
+        return { error: "The selected project could not be found." };
+      }
+    }
+
+    // 5. Database Save (Defaults status to NEW).
     await db.enquiry.create({
       data: {
         name,
@@ -70,6 +84,7 @@ export async function createPublicEnquiryAction(data) {
         phone,
         message,
         propertyId: property ? property.id : null,
+        projectId: project ? project.id : null,
         status: "NEW",
       },
     });
@@ -85,7 +100,7 @@ export async function createPublicEnquiryAction(data) {
     // 7. Dispatch Admin Email Notification via Resend (Fails Gracefully)
     try {
       await sendAdminEnquiryNotification({
-        propertyTitle: property ? property.title : "General Enquiry",
+        propertyTitle: property ? property.title : project ? `Project: ${project.projectName}` : "General Enquiry",
         name,
         email,
         phone,
@@ -102,6 +117,7 @@ export async function createPublicEnquiryAction(data) {
     revalidatePath("/admin/dashboard");
     revalidatePath("/admin/enquiries");
     if (property) revalidatePath(`/properties/${property.slug}`);
+    if (project) revalidatePath(`/projects/${project.slug}`);
 
     return { success: true };
   } catch (error) {

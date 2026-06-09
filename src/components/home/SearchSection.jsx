@@ -1,81 +1,85 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, MapPin, Home, IndianRupee, ArrowRight } from "lucide-react";
+import { Search, MapPin, Building, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default function SearchSection({ purposes = [], categories = [], cities = [] }) {
+export default function SearchSection({ categories = [], cities = [] }) {
   const router = useRouter();
-  const [purposeId, setPurposeId] = useState("");
+  const [keyword, setKeyword] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [cityId, setCityId] = useState("");
-  const [priceRange, setPriceRange] = useState("");
-
-  const priceOptions = [
-    { label: "Up to ₹25 Lakh", max: 2500000 },
-    { label: "₹25 Lakh - ₹50 Lakh", min: 2500000, max: 5000000 },
-    { label: "₹50 Lakh - ₹1 Crore", min: 5000000, max: 10000000 },
-    { label: "₹1 Crore - ₹2 Crore", min: 10000000, max: 20000000 },
-    { label: "₹2 Crore+", min: 20000000 },
-  ];
+  const [status, setStatus] = useState(""); // ONGOING | UPCOMING | COMPLETED | ""
 
   const handleSearch = (e) => {
     e.preventDefault();
-    
-    // Construct search URL parameters
+
     const params = new URLSearchParams();
-    if (purposeId) params.set("purpose", purposeId);
+    if (keyword.trim()) params.set("search", keyword.trim());
     if (categoryId) params.set("category", categoryId);
     if (cityId) params.set("city", cityId);
-
+    if (status) params.set("status", status);
     params.set("page", "1");
-    
-    if (priceRange) {
-      const selectedRange = priceOptions[parseInt(priceRange, 10)];
-      if (selectedRange.min) params.set("priceMin", selectedRange.min.toString());
-      if (selectedRange.max) params.set("priceMax", selectedRange.max.toString());
-    }
 
-    router.push(`/properties?${params.toString()}`);
+    router.push(`/projects?${params.toString()}`);
   };
 
+  const statusOptions = [
+    { label: "All Statuses", value: "" },
+    { label: "Ongoing", value: "ONGOING" },
+    { label: "Upcoming", value: "UPCOMING" },
+    { label: "Completed", value: "COMPLETED" },
+  ];
+
   return (
-    <div className="w-full max-w-5xl rounded-3xl border border-neutral-200/50 bg-white/90 p-5 shadow-xl backdrop-blur-lg dark:border-zinc-800/40 dark:bg-zinc-950/90 sm:p-7">
-      <form
-        onSubmit={handleSearch}
-        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5"
-      >
-        {/* Purpose selector */}
-        <div className="flex flex-col gap-1.5">
-          <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
-            <Home className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
-            Purpose
-          </label>
-          <select
-            value={purposeId}
-            onChange={(e) => setPurposeId(e.target.value)}
-            className="h-11 w-full rounded-xl border border-neutral-200/80 bg-white px-3 text-sm font-semibold text-neutral-800 transition-colors focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100 dark:focus:border-indigo-400 cursor-pointer"
+    <div className="w-full max-w-4xl mx-auto rounded-3xl border border-neutral-200/50 bg-white/95 p-6 shadow-2xl backdrop-blur-lg dark:border-zinc-800/40 dark:bg-zinc-950/95 sm:p-8">
+      {/* Status Filter Tabs */}
+      <div className="flex border-b border-neutral-100 dark:border-zinc-850 pb-4 mb-6 gap-2 overflow-x-auto select-none">
+        {statusOptions.map((opt) => (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => setStatus(opt.value)}
+            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+              status === opt.value
+                ? "bg-slate-950 text-white shadow-sm"
+                : "text-slate-500 hover:text-slate-900 hover:bg-slate-50 dark:text-zinc-400 dark:hover:text-zinc-200"
+            }`}
           >
-            <option value="">Any Purpose</option>
-            {purposes.map((p) => (
-              <option key={p.id} value={p.name}>
-                {p.name}
-              </option>
-            ))}
-          </select>
+            {opt.label}
+          </button>
+        ))}
+      </div>
+
+      <form onSubmit={handleSearch} className="grid grid-cols-1 gap-5 md:grid-cols-4 items-end">
+        {/* Keyword Search */}
+        <div className="flex flex-col gap-2">
+          <label className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
+            <Sparkles className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
+            Search Keyword
+          </label>
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="e.g. Prestige, Landmark"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              className="h-11 w-full rounded-xl border border-neutral-200/85 bg-white pl-3 pr-8 text-sm font-semibold text-neutral-800 transition-colors focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100 dark:focus:border-indigo-400"
+            />
+          </div>
         </div>
 
-        {/* Category selector */}
-        <div className="flex flex-col gap-1.5">
-          <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
-            <Home className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
-            Property Type
+        {/* Category Selector */}
+        <div className="flex flex-col gap-2">
+          <label className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
+            <Building className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
+            Project Type
           </label>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            className="h-11 w-full rounded-xl border border-neutral-200/80 bg-white px-3 text-sm font-semibold text-neutral-800 transition-colors focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100 dark:focus:border-indigo-400 cursor-pointer"
+            className="h-11 w-full rounded-xl border border-neutral-200/85 bg-white px-3 text-sm font-semibold text-neutral-800 transition-colors focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100 dark:focus:border-indigo-400 cursor-pointer"
           >
             <option value="">Any Category</option>
             {categories.map((c) => (
@@ -86,16 +90,16 @@ export default function SearchSection({ purposes = [], categories = [], cities =
           </select>
         </div>
 
-        {/* Location selector */}
-        <div className="flex flex-col gap-1.5">
-          <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
+        {/* Location Selector */}
+        <div className="flex flex-col gap-2">
+          <label className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
             <MapPin className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
             Location
           </label>
           <select
             value={cityId}
             onChange={(e) => setCityId(e.target.value)}
-            className="h-11 w-full rounded-xl border border-neutral-200/80 bg-white px-3 text-sm font-semibold text-neutral-800 transition-colors focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100 dark:focus:border-indigo-400 cursor-pointer"
+            className="h-11 w-full rounded-xl border border-neutral-200/85 bg-white px-3 text-sm font-semibold text-neutral-800 transition-colors focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100 dark:focus:border-indigo-400 cursor-pointer"
           >
             <option value="">Any Location</option>
             {cities.map((city) => (
@@ -106,34 +110,14 @@ export default function SearchSection({ purposes = [], categories = [], cities =
           </select>
         </div>
 
-        {/* Price Range selector */}
-        <div className="flex flex-col gap-1.5">
-          <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
-            <IndianRupee className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
-            Price Range
-          </label>
-          <select
-            value={priceRange}
-            onChange={(e) => setPriceRange(e.target.value)}
-            className="h-11 w-full rounded-xl border border-neutral-200/80 bg-white px-3 text-sm font-semibold text-neutral-800 transition-colors focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100 dark:focus:border-indigo-400 cursor-pointer"
-          >
-            <option value="">Any Price</option>
-            {priceOptions.map((opt, idx) => (
-              <option key={idx} value={idx}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
         {/* Search CTA Button */}
-        <div className="flex items-end">
+        <div>
           <Button
             type="submit"
-            className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 font-bold text-white shadow-lg shadow-indigo-200 transition-all hover:from-indigo-700 hover:to-violet-700 hover:shadow-indigo-300 dark:shadow-none"
+            className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-slate-950 font-bold text-white shadow-lg shadow-neutral-900/10 transition-all hover:bg-slate-800 cursor-pointer"
           >
             <Search className="h-4 w-4" />
-            Search Properties
+            Search Projects
           </Button>
         </div>
       </form>
