@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, MapPin, Home, DollarSign, ArrowRight } from "lucide-react";
+import { Search, MapPin, Home, IndianRupee, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function SearchSection({ purposes = [], categories = [], cities = [] }) {
@@ -13,11 +13,11 @@ export default function SearchSection({ purposes = [], categories = [], cities =
   const [priceRange, setPriceRange] = useState("");
 
   const priceOptions = [
-    { label: "Up to $100,000", max: 100000 },
-    { label: "$100,000 - $300,000", min: 100000, max: 300000 },
-    { label: "$300,000 - $600,000", min: 300000, max: 600000 },
-    { label: "$600,000 - $1,000,000", min: 600000, max: 1000000 },
-    { label: "$1,000,000+", min: 1000000 },
+    { label: "Up to ₹25 Lakh", max: 2500000 },
+    { label: "₹25 Lakh - ₹50 Lakh", min: 2500000, max: 5000000 },
+    { label: "₹50 Lakh - ₹1 Crore", min: 5000000, max: 10000000 },
+    { label: "₹1 Crore - ₹2 Crore", min: 10000000, max: 20000000 },
+    { label: "₹2 Crore+", min: 20000000 },
   ];
 
   const handleSearch = (e) => {
@@ -25,14 +25,16 @@ export default function SearchSection({ purposes = [], categories = [], cities =
     
     // Construct search URL parameters
     const params = new URLSearchParams();
-    if (purposeId) params.set("purposeId", purposeId);
-    if (categoryId) params.set("categoryId", categoryId);
-    if (cityId) params.set("cityId", cityId);
+    if (purposeId) params.set("purpose", purposeId);
+    if (categoryId) params.set("category", categoryId);
+    if (cityId) params.set("city", cityId);
+
+    params.set("page", "1");
     
     if (priceRange) {
       const selectedRange = priceOptions[parseInt(priceRange, 10)];
-      if (selectedRange.min) params.set("minPrice", selectedRange.min.toString());
-      if (selectedRange.max) params.set("maxPrice", selectedRange.max.toString());
+      if (selectedRange.min) params.set("priceMin", selectedRange.min.toString());
+      if (selectedRange.max) params.set("priceMax", selectedRange.max.toString());
     }
 
     router.push(`/properties?${params.toString()}`);
@@ -40,8 +42,10 @@ export default function SearchSection({ purposes = [], categories = [], cities =
 
   return (
     <div className="w-full max-w-5xl rounded-3xl border border-neutral-200/50 bg-white/90 p-5 shadow-xl backdrop-blur-lg dark:border-zinc-800/40 dark:bg-zinc-950/90 sm:p-7">
-      <form onSubmit={handleSearch} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        
+      <form
+        onSubmit={handleSearch}
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5"
+      >
         {/* Purpose selector */}
         <div className="flex flex-col gap-1.5">
           <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
@@ -55,7 +59,7 @@ export default function SearchSection({ purposes = [], categories = [], cities =
           >
             <option value="">Any Purpose</option>
             {purposes.map((p) => (
-              <option key={p.id} value={p.id}>
+              <option key={p.id} value={p.name}>
                 {p.name}
               </option>
             ))}
@@ -75,7 +79,7 @@ export default function SearchSection({ purposes = [], categories = [], cities =
           >
             <option value="">Any Category</option>
             {categories.map((c) => (
-              <option key={c.id} value={c.id}>
+              <option key={c.id} value={c.slug}>
                 {c.name}
               </option>
             ))}
@@ -95,7 +99,7 @@ export default function SearchSection({ purposes = [], categories = [], cities =
           >
             <option value="">Any Location</option>
             {cities.map((city) => (
-              <option key={city.id} value={city.id}>
+              <option key={city.id} value={city.slug}>
                 {city.name}
               </option>
             ))}
@@ -105,7 +109,7 @@ export default function SearchSection({ purposes = [], categories = [], cities =
         {/* Price Range selector */}
         <div className="flex flex-col gap-1.5">
           <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
-            <DollarSign className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
+            <IndianRupee className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
             Price Range
           </label>
           <select
@@ -132,7 +136,6 @@ export default function SearchSection({ purposes = [], categories = [], cities =
             Search Properties
           </Button>
         </div>
-
       </form>
     </div>
   );

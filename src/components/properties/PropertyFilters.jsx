@@ -2,7 +2,15 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Home, MapPin, DollarSign, Bed, Bath, Sparkles, RotateCcw } from "lucide-react";
+import {
+  Home,
+  MapPin,
+  IndianRupee,
+  Bed,
+  Bath,
+  Sparkles,
+  RotateCcw,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
@@ -197,7 +205,9 @@ export default function PropertyFilters({ metadata = {} }) {
 
         {/* Country Select */}
         <div className="space-y-1">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">Country</span>
+          <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
+            Country
+          </span>
           <select
             value={currentCountry}
             onChange={handleCountryChange}
@@ -214,7 +224,9 @@ export default function PropertyFilters({ metadata = {} }) {
 
         {/* State Select */}
         <div className="space-y-1">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">State</span>
+          <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
+            State
+          </span>
           <select
             value={currentState}
             onChange={handleStateChange}
@@ -232,7 +244,9 @@ export default function PropertyFilters({ metadata = {} }) {
 
         {/* City Select */}
         <div className="space-y-1">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">City</span>
+          <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
+            City
+          </span>
           <select
             value={currentCity}
             onChange={handleCityChange}
@@ -291,7 +305,7 @@ export default function PropertyFilters({ metadata = {} }) {
       {/* 6. Price Range */}
       <div className="space-y-2 border-t border-neutral-100 pt-4 dark:border-neutral-850">
         <Label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
-          <DollarSign className="h-3.5 w-3.5" />
+          <IndianRupee className="h-3.5 w-3.5" />
           Price Range
         </Label>
         <div className="grid grid-cols-2 gap-2">
@@ -318,10 +332,15 @@ export default function PropertyFilters({ metadata = {} }) {
           id="isFeatured"
           type="checkbox"
           checked={currentIsFeatured}
-          onChange={(e) => updateQueryParam("isFeatured", e.target.checked ? "true" : "")}
+          onChange={(e) =>
+            updateQueryParam("isFeatured", e.target.checked ? "true" : "")
+          }
           className="h-4.5 w-4.5 rounded-lg border-neutral-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
         />
-        <label htmlFor="isFeatured" className="text-xs font-bold text-neutral-700 dark:text-neutral-300 cursor-pointer">
+        <label
+          htmlFor="isFeatured"
+          className="text-xs font-bold text-neutral-700 dark:text-neutral-300 cursor-pointer"
+        >
           Show Featured Listings Only
         </label>
       </div>

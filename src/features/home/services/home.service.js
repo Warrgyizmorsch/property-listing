@@ -132,7 +132,7 @@ export async function getHomeLocations(limit = 8) {
         state: {
           select: {
             name: true,
-            slug:true,
+            slug: true,
             country: {
               select: { name: true, slug: true },
             },
@@ -217,12 +217,12 @@ export async function getSearchMetadata() {
       }),
       db.category.findMany({
         where: { deletedAt: null },
-        select: { id: true, name: true },
+        select: { id: true, name: true, slug: true },
         orderBy: { name: "asc" },
       }),
       db.city.findMany({
         where: { deletedAt: null },
-        select: { id: true, name: true },
+        select: { id: true, name: true, slug: true },
         orderBy: { name: "asc" },
       }),
     ]);

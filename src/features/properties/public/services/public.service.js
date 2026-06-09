@@ -12,8 +12,8 @@ export async function getPublicProperties({
   country = "",
   status = "",
   purpose = "",
-  minPrice = undefined,
-  maxPrice = undefined,
+  priceMin = undefined,
+  priceMax = undefined,
   bedrooms = undefined,
   bathrooms = undefined,
   isFeatured = undefined,
@@ -88,14 +88,14 @@ export async function getPublicProperties({
     }
 
     // Price range bounds
-    if (minPrice !== undefined && minPrice !== null && minPrice !== "") {
-      const minVal = parseFloat(minPrice);
+    if (priceMin !== undefined && priceMin !== null && priceMin !== "") {
+      const minVal = parseFloat(priceMin);
       if (!isNaN(minVal)) {
         where.price = { ...where.price, gte: minVal };
       }
     }
-    if (maxPrice !== undefined && maxPrice !== null && maxPrice !== "") {
-      const maxVal = parseFloat(maxPrice);
+    if (priceMax !== undefined && priceMax !== null && priceMax !== "") {
+      const maxVal = parseFloat(priceMax);
       if (!isNaN(maxVal)) {
         where.price = { ...where.price, lte: maxVal };
       }
