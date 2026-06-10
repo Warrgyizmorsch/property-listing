@@ -108,6 +108,7 @@ export default async function PropertyDetailPage({ params }) {
       <Navbar />
 
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+        <div className="h-20 md:h-28"></div>
         <div className="mx-auto max-w-7xl">
           {/* Back Navigation Button */}
           <div className="mb-6">
@@ -166,7 +167,7 @@ export default async function PropertyDetailPage({ params }) {
                       </span>
                     </div>
                   </div>
-                  
+
                   <div>
                     <p className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-650 dark:text-indigo-400">Part of Project</p>
                     <h4 className="text-base font-bold text-neutral-900 dark:text-white mt-1 hover:underline">

@@ -70,7 +70,7 @@ export default function ProjectFilters({ metadata = {} }) {
   const handleCountryChange = (e) => {
     const slug = e.target.value;
     const params = new URLSearchParams(searchParams.toString());
-    
+
     if (slug) {
       params.set("country", slug);
       const countryObj = countries.find((c) => c.slug === slug);
@@ -79,7 +79,7 @@ export default function ProjectFilters({ metadata = {} }) {
       params.delete("country");
       setSelectedCountryId("");
     }
-    
+
     // Clear child state and city params when country changes
     params.delete("state");
     params.delete("city");
@@ -91,7 +91,7 @@ export default function ProjectFilters({ metadata = {} }) {
   const handleStateChange = (e) => {
     const slug = e.target.value;
     const params = new URLSearchParams(searchParams.toString());
-    
+
     if (slug) {
       params.set("state", slug);
       const stateObj = states.find((s) => s.slug === slug);
@@ -100,7 +100,7 @@ export default function ProjectFilters({ metadata = {} }) {
       params.delete("state");
       setSelectedStateId("");
     }
-    
+
     // Clear child city param when state changes
     params.delete("city");
     params.set("page", "1");

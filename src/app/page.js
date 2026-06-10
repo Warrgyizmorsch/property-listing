@@ -5,10 +5,9 @@ import HeroSection from "@/components/home/HeroSection";
 import HomeProperties from "@/components/home/HomeProperties";
 import CategorySection from "@/components/home/CategorySection";
 import LocationSection from "@/components/home/LocationSection";
-import StatisticsSection from "@/components/home/StatisticsSection";
-import WhyChooseUs from "@/components/home/WhyChooseUs";
-import TestimonialSection from "@/components/home/TestimonialSection";
-import CTASection from "@/components/home/CTASection";
+import HowItWorks from "@/components/home/HowItWorks";
+import BgImageSection from "@/components/home/BgImageSection";
+import WhyYouShouldWorkWithUs from "@/components/home/WhyYouShouldWorkWithUs";
 import { ProjectCardSkeleton } from "@/components/projects/ProjectCard";
 import { generatePageMetadata } from "@/lib/seo/metadata";
 import { getOrganizationSchema, getWebSiteSchema } from "@/lib/seo/schemas";
@@ -28,20 +27,9 @@ export async function generateMetadata() {
   });
 }
 
-// Loader skeletons for dynamic database sections
-function ProjectsGridSkeleton({ count = 3 }) {
-  return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {[...Array(count)].map((_, i) => (
-        <ProjectCardSkeleton key={i} />
-      ))}
-    </div>
-  );
-}
-
 function SectionSkeleton() {
   return (
-    <div className="mx-auto max-w-7xl py-12 px-4 animate-pulse">
+    <div className="mx-auto max-w-7xl py-12 px-6 animate-pulse">
       <div className="h-6 w-48 rounded bg-neutral-200 dark:bg-zinc-800" />
       <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
         {[...Array(4)].map((_, i) => (
@@ -60,7 +48,7 @@ export default function Home() {
   const websiteSchema = getWebSiteSchema();
 
   return (
-    <div className="flex flex-col min-h-screen bg-neutral-50/30 dark:bg-zinc-950 font-sans">
+    <div className="flex flex-col min-h-screen bg-white dark:bg-zinc-950 font-sans">
       {/* Structured JSON-LD Data */}
       <script
         type="application/ld+json"
@@ -75,10 +63,10 @@ export default function Home() {
       <Navbar />
 
       <main className="grow">
-        {/* 1. Hero Section & Quick Search Form */}
+        {/* 1. Hero Section & Filter Search Form */}
         <Suspense
           fallback={
-            <div className="relative flex min-h-[70vh] items-center justify-center bg-neutral-900 animate-pulse">
+            <div className="relative flex min-h-[85vh] flex-col items-center justify-center bg-neutral-900 animate-pulse">
               <div className="h-8 w-64 rounded bg-neutral-800" />
             </div>
           }
@@ -86,48 +74,51 @@ export default function Home() {
           <HeroSection />
         </Suspense>
 
-        {/* 2. Browse By Category */}
-        <Suspense fallback={<SectionSkeleton />}>
-          <CategorySection />
-        </Suspense>
+        {/* Padding container to balance floating absolute elements in Hero Section */}
+        <div className="h-10 md:h-16"></div>
 
-        {/* 3. Main Properties (Featured + Latest) */}
-        <Suspense
-          fallback={
-            <div className="mx-auto max-w-7xl py-20 px-4">
-              <div className="h-8 w-48 rounded bg-neutral-200 dark:bg-zinc-800 mb-8" />
-              <ProjectsGridSkeleton count={3} />
-            </div>
-          }
-        >
-          <HomeProperties />
-        </Suspense>
+        <div className="max-w-[1500px] mx-auto space-y-10">
+          {/* 2. Browse By Category */}
+          <Suspense fallback={<SectionSkeleton />}>
+            <CategorySection />
+          </Suspense>
 
-        {/* 4. Statistics Overview */}
-        <Suspense
-          fallback={
-            <div className="w-full bg-neutral-900 py-16 animate-pulse">
-              <div className="mx-auto max-w-7xl grid grid-cols-4 gap-6 px-4">
-                {[...Array(4)].map((_, i) => (
-                  <div key={i} className="h-20 rounded-xl bg-neutral-800" />
-                ))}
+          {/* 3. Main Properties (Featured + Status Lists) */}
+          <Suspense
+            fallback={
+              <div className="mx-auto max-w-7xl py-8 px-6">
+                <div className="h-8 w-48 rounded bg-neutral-200 dark:bg-zinc-800 mb-5" />
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {[...Array(3)].map((_, i) => (
+                    <ProjectCardSkeleton key={i} />
+                  ))}
+                </div>
               </div>
-            </div>
-          }
-        >
-          <StatisticsSection />
-        </Suspense>
+            }
+          >
+            <HomeProperties />
+          </Suspense>
 
-        {/* 6. Browse By Location */}
-        <Suspense fallback={<SectionSkeleton />}>
-          <LocationSection />
-        </Suspense>
+          {/* 4. Browse By Location */}
+          <Suspense fallback={<SectionSkeleton />}>
+            <LocationSection />
+          </Suspense>
 
-        {/* 8. Testimonials Section */}
-        <TestimonialSection />
+          {/* 5. How It Works */}
+          <div className="px-6 lg:px-8">
+            <HowItWorks />
+          </div>
 
-        {/* 9. Conversion CTA Section */}
-        <CTASection />
+          {/* 6. Background Promo Banner */}
+          <div className="px-6 lg:px-8">
+            <BgImageSection />
+          </div>
+
+          {/* 7. Why You Should Work With Us */}
+          <div className="px-6 lg:px-8 pb-16">
+            <WhyYouShouldWorkWithUs />
+          </div>
+        </div>
       </main>
 
       {/* Global Footer */}

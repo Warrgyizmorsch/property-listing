@@ -97,11 +97,11 @@ export default async function ProjectDetailPage({ params }) {
     notFound();
   }
 
-  const brochureUrl = project.brochureFile?.includes("res.cloudinary.com") && 
-                      project.brochureFile.includes("/image/upload/") && 
-                      !project.brochureFile.toLowerCase().endsWith(".pdf")
-                      ? `${project.brochureFile}.pdf`
-                      : project.brochureFile;
+  const brochureUrl = project.brochureFile?.includes("res.cloudinary.com") &&
+    project.brochureFile.includes("/image/upload/") &&
+    !project.brochureFile.toLowerCase().endsWith(".pdf")
+    ? `${project.brochureFile}.pdf`
+    : project.brochureFile;
 
   // Fetch related projects in same category/region
   const relatedProjects = await getRelatedProjects({
@@ -130,6 +130,7 @@ export default async function ProjectDetailPage({ params }) {
       <Navbar />
 
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+        <div className="h-20 md:h-28"></div>
         <div className="mx-auto max-w-7xl">
           {/* Back Button */}
           <div className="mb-6">
@@ -154,7 +155,7 @@ export default async function ProjectDetailPage({ params }) {
                 className="h-full w-full object-cover object-center opacity-75"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
-              
+
               {/* Bottom Floating Info */}
               <div className="absolute bottom-6 left-6 right-6 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
                 <div className="space-y-2">
@@ -227,10 +228,10 @@ export default async function ProjectDetailPage({ params }) {
 
           {/* Core Layout Grid */}
           <div className="flex flex-col lg:flex-row gap-10 items-start">
-            
+
             {/* Left Column: Details, Highlights, Specifications, Gallery */}
             <div className="flex-grow w-full space-y-10">
-              
+
               {/* Overview Details */}
               <div className="bg-white border border-neutral-200/80 rounded-2xl p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/30 space-y-6">
                 <div>
@@ -404,7 +405,7 @@ export default async function ProjectDetailPage({ params }) {
 
             {/* Right Column: Sticky Enquiry Form & CTAs */}
             <aside className="w-full lg:w-96 shrink-0 space-y-6 lg:sticky lg:top-24">
-              
+
               {/* Inquiry Lead Box */}
               <div className="bg-white border border-neutral-200/80 rounded-3xl p-6 shadow-md dark:border-zinc-850 dark:bg-zinc-900/40 space-y-5">
                 <div className="space-y-1">
@@ -441,7 +442,7 @@ export default async function ProjectDetailPage({ params }) {
               <div className="bg-slate-950 text-white rounded-3xl p-6 space-y-4 shadow-lg flex flex-col">
                 <h3 className="text-base font-bold font-heading">Direct Consultation</h3>
                 <p className="text-xs text-slate-400 leading-relaxed">Speak directly with developer sales consultants regarding allocations, discounts, and custom floor customizations.</p>
-                
+
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <a href={`tel:${project.builderPhone || "+912240404040"}`} className="block w-full">
                     <Button variant="outline" className="w-full gap-1.5 h-10 text-xs font-bold border-white/20 bg-transparent text-white hover:bg-white/10 rounded-xl cursor-pointer">

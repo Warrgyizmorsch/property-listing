@@ -22,14 +22,14 @@ export default function PropertyEnquiryForm({
   const defaultRef = propertyId
     ? String(propertyId).slice(0, 8)
     : projectId
-    ? String(projectId).slice(0, 8)
-    : null;
+      ? String(projectId).slice(0, 8)
+      : null;
   const [message, setMessage] = useState(
     propertyTitle
       ? `I am interested in "${propertyTitle}" (Ref: ${defaultRef}) and would like to arrange a private viewing. Please contact me.`
       : projectTitle
-      ? `I am interested in project "${projectTitle}" (Ref: ${defaultRef}) and would like to receive pricing details. Please contact me.`
-      : `I am interested and would like to learn more. Please contact me.`,
+        ? `I am interested in project "${projectTitle}" (Ref: ${defaultRef}) and would like to receive pricing details. Please contact me.`
+        : `I am interested and would like to learn more. Please contact me.`,
   );
   const [website, setWebsite] = useState(""); // Honeypot field for spam prevention
   const [isPending, setIsPending] = useState(false);
@@ -72,7 +72,7 @@ export default function PropertyEnquiryForm({
       const msg = err?.message || (err && String(err)) || null;
       toast.error(
         msg ||
-          "Something went wrong. Please check your connection and try again.",
+        "Something went wrong. Please check your connection and try again.",
       );
     } finally {
       setIsPending(false);

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Building2, Menu, X, ArrowRight, User } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Building2, Menu, ArrowRight, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -16,6 +16,17 @@ import {
 export default function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -30,19 +41,25 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-neutral-200/70 bg-white/95 backdrop-blur-xl shadow-sm dark:border-neutral-800/70 dark:bg-zinc-950/95">
-      <div className="mx-auto flex min-h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header
+      className={`fixed right-0 left-0 z-50 transition-all duration-300 border-neutral-200/40 dark:border-neutral-800/40 ${
+        isScrolled
+          ? "bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl shadow-md border md:rounded-full rounded-2xl md:top-5 top-3 md:mx-8 mx-3"
+          : "bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md top-0 border-b"
+      }`}
+    >
+      <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between px-6 lg:px-8">
         {/* Brand Logo */}
         <Link
           href="/"
           className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-tr from-indigo-600 to-violet-500 text-white shadow-md shadow-indigo-200 dark:shadow-none">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white shadow-md">
             <Building2 className="h-5 w-5" />
           </div>
-          <span className="font-heading text-lg font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-xl">
+          <span className="font-heading text-lg font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-xl">
             Property
-            <span className="bg-linear-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent dark:from-indigo-400 dark:to-violet-400">
+            <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent dark:from-indigo-400 dark:to-violet-400">
               Expert
             </span>
           </span>
@@ -62,7 +79,7 @@ export default function Navbar() {
             >
               {link.name}
               {isActive(link.href) && (
-                <span className="absolute bottom-0 left-0 h-0.5 w-full bg-linear-to-r from-indigo-600 to-violet-500 rounded-full" />
+                <span className="absolute bottom-0 left-0 h-0.5 w-full bg-gradient-to-r from-indigo-600 to-violet-500 rounded-full" />
               )}
             </Link>
           ))}
@@ -74,7 +91,7 @@ export default function Navbar() {
             <Button
               variant="ghost"
               size="sm"
-              className="gap-1.5 text-neutral-600 dark:text-neutral-300 font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              className="gap-1.5 text-neutral-600 dark:text-neutral-300 font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full"
             >
               <User className="h-4 w-4" />
               Agent Login
@@ -83,7 +100,7 @@ export default function Navbar() {
           <Link href="/projects">
             <Button
               size="sm"
-              className="gap-1.5 bg-neutral-900 font-semibold text-white hover:bg-neutral-800 dark:bg-indigo-600 dark:hover:bg-indigo-700"
+              className="gap-1.5 bg-neutral-900 hover:bg-neutral-800 dark:bg-indigo-600 dark:hover:bg-indigo-700 font-semibold text-white rounded-full shadow-md"
             >
               Explore Projects
               <ArrowRight className="h-4 w-4" />
@@ -98,7 +115,7 @@ export default function Navbar() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                className="text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full"
               >
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
@@ -142,7 +159,7 @@ export default function Navbar() {
                 >
                   <Button
                     variant="outline"
-                    className="w-full justify-center gap-1.5 font-semibold text-neutral-700 dark:text-neutral-300"
+                    className="w-full justify-center gap-1.5 font-semibold text-neutral-700 dark:text-neutral-300 rounded-xl"
                   >
                     <User className="h-4 w-4" />
                     Agent Login
@@ -153,7 +170,7 @@ export default function Navbar() {
                   onClick={() => setMobileOpen(false)}
                   className="w-full"
                 >
-                  <Button className="w-full justify-center gap-1.5 bg-indigo-600 font-semibold text-white hover:bg-indigo-700">
+                  <Button className="w-full justify-center gap-1.5 bg-indigo-600 font-semibold text-white hover:bg-indigo-700 rounded-xl">
                     Explore Projects
                     <ArrowRight className="h-4 w-4" />
                   </Button>

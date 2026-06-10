@@ -135,6 +135,7 @@ export default async function ProjectsPage({ searchParams }) {
       <Navbar />
 
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+        <div className="h-20 md:h-28"></div>
         <div className="mx-auto max-w-7xl">
           {/* Headline Section */}
           <div className="mb-10 text-left">
