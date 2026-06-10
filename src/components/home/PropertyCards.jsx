@@ -1,154 +1,184 @@
 "use client";
 
 import React from "react";
-import { MapPin, Layers, Building2, Calendar, Star } from "lucide-react";
+import { MapPin, Layers, Building2, SquareStack, ArrowUpRight } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { formatCurrency, formatArea } from "@/lib/format";
 import Link from "next/link";
 
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const PropertyCards = ({ title, description, projects, isBestDeal }) => {
-  const getStatusLabel = (status) => {
-    switch (status) {
-      case "ONGOING":
-        return "Ongoing";
-      case "COMPLETED":
-        return "Completed";
-      case "UPCOMING":
-        return "Upcoming";
-      default:
-        return status;
-    }
-  };
+const STATUS_CONFIG = {
+  ONGOING:   { label: "Ongoing",   color: "bg-blue-500" },
+  COMPLETED: { label: "Completed", color: "bg-emerald-500" },
+  UPCOMING:  { label: "Upcoming",  color: "bg-orange-400" },
+};
 
-  const getStatusBadgeClass = (status) => {
-    switch (status) {
-      case "ONGOING":
-        return "bg-blue-600 text-white";
-      case "COMPLETED":
-        return "bg-emerald-600 text-white";
-      case "UPCOMING":
-        return "bg-amber-500 text-white";
-      default:
-        return "bg-slate-600 text-white";
-    }
-  };
+const PropertyCard = ({ project, isBestDeal }) => {
+  const coverImage =
+    project.mainImage ||
+    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800";
+
+  const locationText = [project.address, project.city?.name].filter(Boolean).join(", ");
+
+  const priceDisplay =
+    project.startingPrice && project.startingPrice > 0
+      ? `₹${formatCurrency(project.startingPrice).replace("₹", "")}`
+      : "Price on Request";
+
+  let areaDisplay = "On Request";
+  if (project.minArea && project.minArea > 0) {
+    areaDisplay =
+      project.maxArea && project.maxArea > project.minArea
+        ? `${formatArea(project.minArea)} – ${formatArea(project.maxArea)}`
+        : formatArea(project.minArea);
+  }
+
+  const status = STATUS_CONFIG[project.status] || { label: project.status, color: "bg-muted-foreground" };
 
   return (
-    <div className="py-6">
-      <div className="text-center mb-10">
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white">
+    <Link href={`/projects/${project.slug}`} className="block h-full">
+      <div className="group relative flex flex-col h-full rounded-xl overflow-hidden bg-card border border-border transition-all duration-300 ease-out shadow-md hover:-translate-y-1 hover:shadow-xl hover:border-foreground/10">
+
+        {/* Portrait image */}
+        <div className="relative overflow-hidden flex-shrink-0">
+          <img
+            src={coverImage}
+            alt={project.projectName}
+            className={[
+              "w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105",
+              isBestDeal ? "h-72" : "h-64",
+            ].join(" ")}
+          />
+
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent pointer-events-none" />
+
+          {/* Status — top left: frosted pill with dot */}
+          <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-background/75 dark:bg-card/80 backdrop-blur-md border border-border/50 text-foreground text-[10px] font-semibold tracking-[0.08em] uppercase px-2.5 py-1 rounded-full shadow-sm">
+            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${status.color}`} />
+            {status.label}
+          </div>
+
+          {/* Category — top right */}
+          {project.category?.name && (
+            <div className="absolute top-3 right-3 bg-background/75 dark:bg-card/80 backdrop-blur-md border border-border/50 text-muted-foreground text-[9px] font-bold tracking-[0.1em] uppercase px-2.5 py-1 rounded-full shadow-sm">
+              {project.category.name}
+            </div>
+          )}
+
+          {/* Price pinned bottom of image */}
+          <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+            <div>
+              <p className="text-white/60 text-[9px] font-semibold tracking-[0.12em] uppercase mb-0.5">Starting from</p>
+              <p className="text-white text-xl font-bold leading-none tracking-tight drop-shadow-sm">
+                {priceDisplay}
+              </p>
+            </div>
+            <div className="w-8 h-8 rounded-full bg-white/15 backdrop-blur-sm border border-white/25 flex items-center justify-center transition-all duration-300 group-hover:bg-white/90 group-hover:border-white flex-shrink-0">
+              <ArrowUpRight className="w-3.5 h-3.5 text-white group-hover:text-foreground transition-colors duration-300" />
+            </div>
+          </div>
+        </div>
+
+        {/* Compact body */}
+        <div className="flex flex-col p-4 gap-3">
+
+          {/* Name + location */}
+          <div>
+            <h3 className="text-[18px] font-bold text-foreground line-clamp-1 tracking-tight leading-snug">
+              {project.projectName}
+            </h3>
+            <p className="flex items-center gap-1 mt-1 text-[11px] text-muted-foreground leading-none">
+              <MapPin className="w-3 h-3 flex-shrink-0" />
+              <span className="line-clamp-1">{locationText}</span>
+            </p>
+          </div>
+
+          {/* Divider */}
+          <div className="h-px bg-border" />
+
+          {/* Meta — 3 compact items in a row */}
+          <div className="grid grid-cols-3 gap-1 text-center">
+            <div className="flex flex-col gap-0.5">
+              <span className="text-[9px] font-semibold tracking-widest uppercase text-muted-foreground">Units</span>
+              <span className="text-[12px] font-bold text-foreground leading-tight">
+                {project.availableProps}<span className="font-normal text-muted-foreground">/{project.totalProps}</span>
+              </span>
+            </div>
+            <div className="flex flex-col gap-0.5 border-x border-border px-1">
+              <span className="text-[9px] font-semibold tracking-widest uppercase text-muted-foreground">Area</span>
+              <span className="text-[12px] font-bold text-foreground leading-tight truncate">{areaDisplay}</span>
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-[9px] font-semibold tracking-widest uppercase text-muted-foreground">By</span>
+              <span className="text-[12px] font-bold text-foreground leading-tight truncate">{project.builderName}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </Link>
+  );
+};
+
+const PropertyCards = ({ title, description, projects, isBestDeal }) => {
+  return (
+    <div className="md:py-6 py-4">
+      {/* Section header */}
+      <div className="text-center mb-8">
+        <h2 className="section-heading">
           {title}
         </h2>
-        <p className="text-slate-600 dark:text-slate-400 mt-2 max-w-2xl mx-auto">
+        <p className="text-sm text-muted-foreground mt-2 max-w-xl mx-auto leading-relaxed">
           {description}
         </p>
       </div>
 
-      <Swiper
-        modules={[Pagination]}
-        pagination={{ clickable: true, el: null }}
-        spaceBetween={20}
-        breakpoints={{
-          320: { slidesPerView: 1 },
-          640: { slidesPerView: 2 },
-          1024: { slidesPerView: isBestDeal ? 3 : 4 },
-        }}
-      >
-        {projects.map((project, index) => {
-          const coverImage =
-            project.mainImage ||
-            "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800";
-
-          const locationText = `${project.address || ""}, ${project.city?.name || ""}`;
-
-          const priceDisplay =
-            project.startingPrice && project.startingPrice > 0
-              ? `Starting ₹${formatCurrency(project.startingPrice).replace("₹", "")}`
-              : "Price on Request";
-
-          let areaDisplay = "Area on Request";
-          if (project.minArea && project.minArea > 0) {
-            if (project.maxArea && project.maxArea > project.minArea) {
-              areaDisplay = `${formatArea(project.minArea)} - ${formatArea(project.maxArea)}`;
-            } else {
-              areaDisplay = formatArea(project.minArea);
-            }
-          }
-
-          return (
-            <SwiperSlide key={index} className="pb-10">
-              <Link href={`/projects/${project.slug}`}>
-                <div className="bg-white dark:bg-zinc-900 rounded-3xl overflow-hidden hover:shadow-xl transition border border-neutral-100 dark:border-neutral-800 flex flex-col h-full cursor-pointer">
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={coverImage}
-                      alt={project.projectName}
-                      className={`w-full object-cover transition-transform duration-300 hover:scale-103 ${isBestDeal ? "h-64" : "h-48"
-                        }`}
-                    />
-                    <div className="absolute top-3 left-3 flex gap-2 font-semibold z-10">
-                      <div className={`text-xs px-2.5 py-1 rounded-lg font-bold shadow-md ${getStatusBadgeClass(project.status)}`}>
-                        {getStatusLabel(project.status)}
-                      </div>
-                      {project.isFeatured && (
-                        <div className="bg-amber-500 text-white text-xs px-2.5 py-1 rounded-lg font-bold shadow-md flex items-center gap-1">
-                          <Star className="w-3.5 h-3.5 fill-white" />
-                          Featured
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="p-5 flex flex-col flex-grow">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-[10px] font-bold tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 px-2.5 py-1 rounded-md uppercase">
-                        {project.category?.name || "Real Estate"}
-                      </span>
-                    </div>
-
-                    <h3 className="text-lg font-bold text-slate-800 dark:text-white line-clamp-1 mb-1">
-                      {project.projectName}
-                    </h3>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1 leading-relaxed mb-4">
-                      <MapPin className="w-3.5 h-3.5 shrink-0 text-gray-400" />
-                      <span className="line-clamp-1">{locationText}</span>
-                    </p>
-
-                    <hr className="my-3 border-slate-100 dark:border-neutral-800" />
-
-                    <div className="mt-auto space-y-3">
-                      <div className="grid grid-cols-2 gap-3 text-xs font-semibold text-slate-650 dark:text-slate-350">
-                        <div className="flex items-center gap-1.5">
-                          <Layers className="h-4 w-4 text-slate-400" />
-                          <span>{project.availableProps} / {project.totalProps} units</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 justify-end">
-                          <Calendar className="h-4 w-4 text-slate-400" />
-                          <span className="truncate">{areaDisplay}</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 font-medium">
-                        <Building2 className="h-4 w-4 text-neutral-400" />
-                        <span className="truncate">By {project.builderName}</span>
-                      </div>
-
-                      <div className="text-rose-500 dark:text-rose-400 font-bold text-lg mt-2 font-heading">
-                        {priceDisplay}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
+      {/* px-1 + slide py-2 prevents shadow clipping inside swiper overflow */}
+      <div className="px-1">
+        <Swiper
+          modules={[Pagination]}
+          pagination={{ clickable: true }}
+          spaceBetween={16}
+          breakpoints={{
+            320: { slidesPerView: 1 },
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: isBestDeal ? 3 : 4 },
+          }}
+          className="!pb-10"
+        >
+          {projects.map((project, index) => (
+            <SwiperSlide key={index} className="!h-auto py-2">
+              <PropertyCard project={project} isBestDeal={isBestDeal} />
             </SwiperSlide>
-          );
-        })}
-      </Swiper>
+          ))}
+        </Swiper>
+      </div>
+
+      <style jsx global>{`
+        .swiper-pagination-bullet {
+          width: 5px !important;
+          height: 5px !important;
+          background: oklch(0.708 0 0) !important;
+          opacity: 1 !important;
+          transition: all 0.25s ease !important;
+          border-radius: 9999px !important;
+        }
+        .swiper-pagination-bullet-active {
+          background: oklch(0.205 0 0) !important;
+          width: 16px !important;
+          border-radius: 3px !important;
+        }
+        .dark .swiper-pagination-bullet {
+          background: oklch(0.439 0 0) !important;
+        }
+        .dark .swiper-pagination-bullet-active {
+          background: oklch(0.922 0 0) !important;
+        }
+      `}</style>
     </div>
   );
 };

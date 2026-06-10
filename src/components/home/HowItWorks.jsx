@@ -28,16 +28,16 @@ const HowItWorks = () => {
   return (
     <section className="py-6">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white text-center">
+        <h2 className="section-heading">
           How It works? Find a perfect home
         </h2>
-        <p className="text-slate-500 dark:text-slate-400 mb-12 mt-2 text-center">
+        <p className="text-slate-500 dark:text-slate-400 mb-5 md:mb-12 mt-2 text-center">
           Follow three simple steps to secure your dream space
         </p>
         <div className="grid md:grid-cols-2 gap-10 items-center">
           {/* Left - Text Content */}
           <div>
-            <div className="space-y-12 border-l-[1px] border-gray-300 dark:border-neutral-700 pl-8 md:py-14 py-4">
+            <div className="space-y-8 border-l-[1px] border-gray-300 dark:border-neutral-700 md:pl-8 pl-3 md:py-14 py-4">
               {steps.map((step, idx) => (
                 <div key={idx} className="flex gap-4 items-start">
                   <div className="space-y-2">

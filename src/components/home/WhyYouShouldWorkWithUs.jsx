@@ -32,7 +32,7 @@ export default function WhyYouShouldWorkWithUs() {
 
         {/* Right Side - Content */}
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+          <h2 className="section-heading text-center">
             Why You Should Work <br /> With Us
           </h2>
           <p className="text-gray-600 dark:text-gray-450 mb-8 leading-relaxed">
@@ -59,7 +59,7 @@ export default function WhyYouShouldWorkWithUs() {
           </div>
 
           <Link href="/about">
-            <button className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold flex items-center gap-2 transition shadow-md">
+            <button className="gap-2 primary-btn">
               Learn More <ArrowRight className="w-4 h-4" />
             </button>
           </Link>

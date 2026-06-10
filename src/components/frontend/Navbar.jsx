@@ -100,7 +100,7 @@ export default function Navbar() {
           <Link href="/projects">
             <Button
               size="sm"
-              className="gap-1.5 bg-neutral-900 hover:bg-neutral-800 dark:bg-indigo-600 dark:hover:bg-indigo-700 font-semibold text-white rounded-full shadow-md"
+              className="primary-btn"
             >
               Explore Projects
               <ArrowRight className="h-4 w-4" />
@@ -170,7 +170,7 @@ export default function Navbar() {
                   onClick={() => setMobileOpen(false)}
                   className="w-full"
                 >
-                  <Button className="w-full justify-center gap-1.5 bg-indigo-600 font-semibold text-white hover:bg-indigo-700 rounded-xl">
+                  <Button className="primary-btn">
                     Explore Projects
                     <ArrowRight className="h-4 w-4" />
                   </Button>

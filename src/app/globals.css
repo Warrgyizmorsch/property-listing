@@ -55,9 +55,9 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: #0B1F3A;
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
+  --secondary: #C8A45D;
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
@@ -90,9 +90,9 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
+  --primary: #0B1F3A;
   --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --secondary: #C8A45D;
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
@@ -243,4 +243,219 @@ input[type="radio"],
 .card-table tbody tr.active-row button,
 .card-table tbody tr.active-row svg {
   color: #ffffff !important;
+}
+
+.section-heading {
+    position: relative;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+
+    /* Animation */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s ease forwards;
+}
+
+/* Animated Underline */
+.section-heading::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -2px;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--secondary), var(--secondary));
+    border-radius: 10px;
+    transform: translateX(-50%);
+    animation: underlineGrow 1s ease forwards;
+    animation-delay: 0.5s;
+}
+
+/* Fade Up Animation */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Underline Animation */
+@keyframes underlineGrow {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100px;
+    }
+}
+
+/* Hover Effect */
+.section-heading:hover {
+    transform: translateY(-3px);
+    transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .section-heading {
+        font-size: 26px;
+        margin-bottom: 10px;
+    }
+}
+
+.section-subheading {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--secondary);
+    max-width: 800px;
+    text-align: center;
+    margin: 0 auto 40px;
+    font-weight: 400;
+}
+
+.page-heading {
+    position: relative;
+    font-size: 42px;
+    font-weight: 600;
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+
+    /* Animation */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s ease forwards;
+}
+
+/* Animated Underline */
+.page-heading::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -2px;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--secondary), var(--secondary));
+    border-radius: 10px;
+    transform: translateX(-50%);
+    animation: underlineGrow 1s ease forwards;
+    animation-delay: 0.5s;
+}
+.page-heading:hover {
+    transform: translateY(-3px);
+    transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-heading {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+}
+
+/* =========================
+   Primary Button
+========================= */
+.primary-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 12px;
+    background: var(--primary);
+    color: #fff;
+    border: 2px solid var(--primary);
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    z-index: 1;
+}
+
+.primary-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--secondary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+    z-index: -1;
+}
+
+.primary-btn:hover::before {
+    transform: scaleX(1);
+}
+
+.primary-btn:hover {
+    border-color: var(--secondary);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.primary-btn:active {
+    transform: translateY(-1px);
+}
+
+/* =========================
+   Secondary Button
+========================= */
+.secondary-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 12px;
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--secondary);
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    z-index: 1;
+}
+
+.secondary-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--secondary);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.4s ease;
+    z-index: -1;
+}
+
+.secondary-btn:hover::before {
+    transform: scaleY(1);
+}
+
+.secondary-btn:hover {
+    color: #fff;
+    border-color: var(--secondary);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.secondary-btn:active {
+    transform: translateY(-1px);
 }

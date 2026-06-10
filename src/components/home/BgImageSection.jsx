@@ -19,7 +19,7 @@ const BgImageSection = () => {
 
       {/* Overlay content */}
       <div className="relative z-10 px-4">
-        <h2 className="text-3xl md:text-5xl font-bold text-neutral-900 dark:text-white leading-tight">
+        <h2 className="page-heading">
           Discover a place you'll<br className="hidden md:block" /> love to live
         </h2>
         <p className="text-neutral-700 dark:text-neutral-300 mt-4 max-w-xl mx-auto font-medium">
@@ -27,7 +27,7 @@ const BgImageSection = () => {
         </p>
         <div className="flex justify-center items-center">
           <Link href="/projects" className="mt-8">
-            <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition flex items-center gap-2 shadow-md">
+            <button className="gap-1 primary-btn">
               View All Projects <ArrowRight className="w-5 h-5" />
             </button>
           </Link>

@@ -113,7 +113,7 @@ export default function SearchSection({ categories = [], cities = [] }) {
         <div>
           <Button
             type="submit"
-            className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-slate-950 font-bold text-white shadow-lg shadow-neutral-900/10 transition-all hover:bg-slate-800 cursor-pointer"
+            className="primary-btn"
           >
             <Search className="h-4 w-4" />
             Search Projects

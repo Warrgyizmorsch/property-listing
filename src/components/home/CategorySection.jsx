@@ -16,7 +16,7 @@ export default async function CategorySection() {
   };
 
   return (
-    <section className="bg-white py-6 px-6 lg:px-8 dark:bg-zinc-950">
+    <section className="bg-white px-6 lg:px-8 dark:bg-zinc-950">
       <div className="mx-auto max-w-7xl">
         <ExploreCards exploreCardData={explorePropData} isProperty={true} />
       </div>

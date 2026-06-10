@@ -139,7 +139,7 @@ export default async function ProjectsPage({ searchParams }) {
         <div className="mx-auto max-w-7xl">
           {/* Headline Section */}
           <div className="mb-10 text-left">
-            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+            <span className="section-subheading">
               Premium Collections
             </span>
             <h1 className="mt-2 font-heading text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">

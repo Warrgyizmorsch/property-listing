@@ -22,7 +22,7 @@ export default async function HeroSection() {
         <div className="md:h-28 h-20"></div>
 
         {/* Big Headline */}
-        <h1 className="max-w-4xl font-heading text-3xl font-semibold tracking-tight text-slate-800 dark:text-white md:text-5xl leading-tight mb-2">
+        <h1 className="page-heading">
           Believe in Finding it
         </h1>
 
