@@ -120,4 +120,15 @@ export const projectFormSchema = z.object({
     )
     .optional()
     .default([]),
+  images: z
+    .array(
+      z.object({
+        url: z.string().url({ message: "Image must contain a valid URL." }),
+        publicId: z.string().trim().min(1, { message: "Public ID is required." }),
+        isFeatured: z.boolean().default(false),
+        sortOrder: z.number().int().default(0),
+      })
+    )
+    .optional()
+    .default([]),
 });

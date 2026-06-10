@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import PageHeader from "@/components/admin/PageHeader"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Edit2, ShieldCheck, MapPin, Phone, Mail, Award, CheckSquare, Hammer, Bookmark, LayoutGrid, Calendar, HelpCircle, User, Image as ImageIcon } from "lucide-react"
+import { ArrowLeft, Edit2, ShieldCheck, MapPin, Phone, Mail, Award, CheckSquare, Hammer, Bookmark, LayoutGrid, Calendar, HelpCircle, User, Image as ImageIcon, Plus } from "lucide-react"
 import { getProjectById } from "@/features/projects/services"
 import { formatCurrency } from "@/lib/format"
 
@@ -62,22 +62,35 @@ export default async function ProjectDetailsPage({ params }) {
             asChild
             className="border-neutral-200 hover:bg-neutral-50 h-9 text-xs font-semibold text-neutral-700 cursor-pointer"
           >
-            <Link href="/admin/projects">
+            <Link href="/admin/projects" className="flex items-center">
               <ArrowLeft className="h-4 w-4 mr-1.5" />
               Back to Projects
             </Link>
           </Button>
         </div>
 
-        <Button
-          asChild
-          className="bg-neutral-950 text-white hover:bg-neutral-800 h-9 text-xs font-semibold px-4 cursor-pointer self-start sm:self-auto"
-        >
-          <Link href={`/admin/projects/${project.id}/edit`}>
-            <Edit2 className="h-4 w-4 mr-1.5" />
-            Edit Project
-          </Link>
-        </Button>
+        <div className="flex items-center gap-3 self-start sm:self-auto">
+          <Button
+            variant="outline"
+            asChild
+            className="border-neutral-200 hover:bg-neutral-50 h-9 text-xs font-semibold px-4 cursor-pointer"
+          >
+            <Link href={`/admin/properties/create?projectId=${project.id}`} className="flex items-center">
+              <Plus className="h-4 w-4 mr-1.5" />
+              Add Property
+            </Link>
+          </Button>
+
+          <Button
+            asChild
+            className="bg-neutral-950 text-white hover:bg-neutral-800 h-9 text-xs font-semibold px-4 cursor-pointer"
+          >
+            <Link href={`/admin/projects/${project.id}/edit`} className="flex items-center">
+              <Edit2 className="h-4 w-4 mr-1.5" />
+              Edit Project
+            </Link>
+          </Button>
+        </div>
       </div>
 
       {/* Hero Banner Section */}

@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"
 const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
-export default function PropertyImageUploader({ propertyId, currentCount = 0 }) {
+export default function PropertyImageUploader({ propertyId, currentCount = 0, isEdit = true, onUploadSuccess }) {
   const router = useRouter()
   const [dragActive, setDragActive] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -92,7 +92,7 @@ export default function PropertyImageUploader({ propertyId, currentCount = 0 }) 
 
       try {
         // Step A: Request signature credentials from Server Action
-        const sigResult = await getUploadSignatureAction(propertyId)
+        const sigResult = await getUploadSignatureAction(isEdit ? propertyId : "temp")
         if (!sigResult.success) {
           throw new Error(sigResult.error || "Failed to generate signature credentials.")
         }
@@ -102,14 +102,24 @@ export default function PropertyImageUploader({ propertyId, currentCount = 0 }) 
         // Step B: Upload file directly to Cloudinary via XHR to support progress tracking
         const uploadResponse = await uploadToCloudinaryXHR(item, credentials, folder)
         
-        // Step C: Save image metadata to database
-        const saveResult = await saveUploadedImageAction(propertyId, {
-          url: uploadResponse.secure_url,
-          publicId: uploadResponse.public_id,
-        })
+        if (isEdit) {
+          // Step C: Save image metadata to database
+          const saveResult = await saveUploadedImageAction(propertyId, {
+            url: uploadResponse.secure_url,
+            publicId: uploadResponse.public_id,
+          })
 
-        if (!saveResult.success) {
-          throw new Error(saveResult.error || "Failed to save metadata to database.")
+          if (!saveResult.success) {
+            throw new Error(saveResult.error || "Failed to save metadata to database.")
+          }
+        } else {
+          // Client-side/creation phase callback
+          if (onUploadSuccess) {
+            onUploadSuccess({
+              url: uploadResponse.secure_url,
+              publicId: uploadResponse.public_id,
+            })
+          }
         }
 
         updateQueueItem(item.id, { status: "success", progress: 100 })
@@ -121,7 +131,9 @@ export default function PropertyImageUploader({ propertyId, currentCount = 0 }) 
     }
 
     setUploading(false)
-    router.refresh()
+    if (isEdit) {
+      router.refresh()
+    }
     
     // Clear success queue items after 3 seconds
     setTimeout(() => {

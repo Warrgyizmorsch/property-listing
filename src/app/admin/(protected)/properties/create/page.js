@@ -5,7 +5,10 @@ import { getPropertyFormMetadata } from "@/features/properties/services"
 
 export const dynamic = "force-dynamic"
 
-export default async function CreatePropertyPage() {
+export default async function CreatePropertyPage({ searchParams }) {
+  const resolvedSearchParams = await searchParams
+  const defaultProjectId = resolvedSearchParams?.projectId || ""
+
   // Fetch dropdown dependencies to populate selectors
   const metadata = await getPropertyFormMetadata()
 
@@ -15,7 +18,7 @@ export default async function CreatePropertyPage() {
         title="Publish Property"
         description="Add a new property listing details, locations, classifications, and features to the public directory."
       />
-      <PropertyForm metadata={metadata} />
+      <PropertyForm metadata={metadata} defaultProjectId={defaultProjectId} />
     </div>
   )
 }

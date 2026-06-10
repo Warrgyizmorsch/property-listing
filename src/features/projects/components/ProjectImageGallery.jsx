@@ -11,7 +11,15 @@ import {
 } from "../actions/image.actions"
 import { toast } from "@/components/ui/toast"
 
-export default function ProjectImageGallery({ images = [], projectId }) {
+export default function ProjectImageGallery({
+  images = [],
+  projectId,
+  isEdit = true,
+  onDelete,
+  onReorder,
+  onDragReorder,
+  onSetFeatured,
+}) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
 
@@ -29,6 +37,11 @@ export default function ProjectImageGallery({ images = [], projectId }) {
     const dragIndexStr = e.dataTransfer.getData("text/plain")
     const dragIndex = parseInt(dragIndexStr, 10)
     if (isNaN(dragIndex) || dragIndex === hoverIndex) return
+
+    if (!isEdit) {
+      if (onDragReorder) onDragReorder(dragIndex, hoverIndex)
+      return
+    }
 
     const reorderedIds = images.map((img) => img.id)
     const [draggedItem] = reorderedIds.splice(dragIndex, 1)
@@ -48,6 +61,11 @@ export default function ProjectImageGallery({ images = [], projectId }) {
   const handleMove = (index, direction) => {
     const targetIndex = direction === "left" ? index - 1 : index + 1
     if (targetIndex < 0 || targetIndex >= images.length) return
+
+    if (!isEdit) {
+      if (onReorder) onReorder(index, direction)
+      return
+    }
 
     // Create a swapped array of IDs
     const reorderedIds = images.map((img) => img.id)
@@ -70,6 +88,11 @@ export default function ProjectImageGallery({ images = [], projectId }) {
     const confirm = window.confirm("Are you sure you want to delete this project photo? This will permanently remove it from Cloudinary and database records.")
     if (!confirm) return
 
+    if (!isEdit) {
+      if (onDelete) onDelete(id)
+      return
+    }
+
     startTransition(async () => {
       const result = await deleteImageAction(id, projectId)
       if (result.success) {
@@ -82,6 +105,11 @@ export default function ProjectImageGallery({ images = [], projectId }) {
   }
 
   const handleSetFeatured = (imageId) => {
+    if (!isEdit) {
+      if (onSetFeatured) onSetFeatured(imageId)
+      return
+    }
+
     startTransition(async () => {
       const result = await setImageFeaturedAction(projectId, imageId)
       if (result.success) {

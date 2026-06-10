@@ -98,17 +98,17 @@ export default function Sidebar({ className = "" }) {
           {/* Subchildren list */}
           {catalogOpen && (
             <div className="space-y-0.5 mt-0.5">
-              <Link href="/admin/properties" className="block">
-                <div className={subNavItemClass(pathname.startsWith("/admin/properties"))}>
-                  <Building className="h-4 w-4 shrink-0" />
-                  <span>Properties</span>
-                </div>
-              </Link>
-
               <Link href="/admin/projects" className="block">
                 <div className={subNavItemClass(pathname.startsWith("/admin/projects"))}>
                   <FolderOpen className="h-4 w-4 shrink-0" />
                   <span>Projects</span>
+                </div>
+              </Link>
+
+              <Link href="/admin/properties" className="block">
+                <div className={subNavItemClass(pathname.startsWith("/admin/properties"))}>
+                  <Building className="h-4 w-4 shrink-0" />
+                  <span>Properties</span>
                 </div>
               </Link>
 

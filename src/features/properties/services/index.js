@@ -25,6 +25,7 @@ function getSupportedPropertyPayload(data) {
     categoryId: _categoryId,
     purposeId: _purposeId,
     cityId: _cityId,
+    images: _images,
     ...propertyData
   } = data;
 
@@ -260,13 +261,21 @@ export async function createProperty(data, userId) {
         cityId: project.cityId,
         address: project.address,
         createdById: userId,
-        // Create mock placeholder image reference
         images: {
-          create: {
-            url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800",
-            isFeatured: true,
-            sortOrder: 0,
-          },
+          create: data.images && data.images.length > 0
+            ? data.images.map((img, idx) => ({
+                url: img.url,
+                publicId: img.publicId,
+                isFeatured: img.isFeatured || (idx === 0 && !data.images.some(i => i.isFeatured)),
+                sortOrder: img.sortOrder !== undefined ? img.sortOrder : idx,
+              }))
+            : [
+                {
+                  url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800",
+                  isFeatured: true,
+                  sortOrder: 0,
+                },
+              ],
         },
         specifications: {
           create: specsToCreate,

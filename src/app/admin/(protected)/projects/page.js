@@ -54,12 +54,12 @@ export default async function ProjectsPage({ searchParams }) {
             className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
           >
             {isArchived ? (
-              <Link href="/admin/projects">
+              <Link href="/admin/projects" className="flex items-center">
                 <ShieldAlert className="h-4 w-4 mr-2 text-neutral-500" />
                 Active Projects
               </Link>
             ) : (
-              <Link href="/admin/projects?archive=true">
+              <Link href="/admin/projects?archive=true" className="flex items-center">
                 <Archive className="h-4 w-4 mr-2 text-neutral-500" />
                 Archived Projects
               </Link>
@@ -70,7 +70,7 @@ export default async function ProjectsPage({ searchParams }) {
             asChild
             className="bg-neutral-950 text-white hover:bg-neutral-800 h-10 text-xs font-semibold cursor-pointer"
           >
-            <Link href="/admin/projects/create">
+            <Link href="/admin/projects/create" className="flex items-center">
               <Plus className="h-4 w-4 mr-1.5" />
               Add Project
             </Link>

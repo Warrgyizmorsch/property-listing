@@ -40,7 +40,7 @@ export default async function PropertyImagesPage({ params }) {
           asChild
           className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer self-start md:self-auto"
         >
-          <Link href="/admin/properties">
+          <Link href="/admin/properties" className="flex items-center">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Listings
           </Link>

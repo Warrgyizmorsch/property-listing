@@ -17,11 +17,12 @@ import PropertyImageUploader from "./PropertyImageUploader";
 import PropertyImageGallery from "./PropertyImageGallery";
 import { LayoutGrid, Globe, Info, Image as ImageIcon, ListPlus, Plus, Trash2, Layers } from "lucide-react";
 
-export default function PropertyForm({ property = null, metadata = {} }) {
+export default function PropertyForm({ property = null, metadata = {}, defaultProjectId = "" }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [manualSlug, setManualSlug] = useState(false);
   const [activeFormTab, setActiveFormTab] = useState("basic");
+  const [createModeImages, setCreateModeImages] = useState([]);
 
   const isEdit = !!property;
 
@@ -52,6 +53,7 @@ export default function PropertyForm({ property = null, metadata = {} }) {
       propertyCode: "",
       unitType: "1 BHK",
       specifications: [],
+      images: [],
     },
   });
 
@@ -85,9 +87,10 @@ export default function PropertyForm({ property = null, metadata = {} }) {
         propertyCode: property.propertyCode || "",
         unitType: property.unitType || "1 BHK",
         specifications: property.specifications || [],
+        images: [],
       });
       setManualSlug(true);
-      setActiveFormTab("images"); // Default to images tab on edit
+      setActiveFormTab("basic"); // Default to basic info tab on edit
     } else {
       reset({
         title: "",
@@ -98,7 +101,7 @@ export default function PropertyForm({ property = null, metadata = {} }) {
         bathrooms: 0,
         areaSize: "",
         contactNumber: "",
-        projectId: "",
+        projectId: defaultProjectId || "",
         statusId: "",
         isFeatured: false,
         metaTitle: "",
@@ -106,11 +109,77 @@ export default function PropertyForm({ property = null, metadata = {} }) {
         propertyCode: "",
         unitType: "1 BHK",
         specifications: [],
+        images: [],
       });
       setManualSlug(false);
       setActiveFormTab("basic"); // Default to basic info tab on create
+      setCreateModeImages([]); // Reset local temp images state
     }
-  }, [property, reset]);
+  }, [property, reset, defaultProjectId]);
+
+  const handleCreateModeImageUpload = (newImg) => {
+    setCreateModeImages((prev) => {
+      const isFeatured = prev.length === 0;
+      const nextImages = [
+        ...prev,
+        {
+          id: Math.random().toString(36).substring(2, 9),
+          url: newImg.url,
+          publicId: newImg.publicId,
+          isFeatured,
+          sortOrder: prev.length,
+        },
+      ];
+      setValue("images", nextImages);
+      return nextImages;
+    });
+  };
+
+  const handleCreateModeImageDelete = (id) => {
+    setCreateModeImages((prev) => {
+      const filtered = prev.filter((img) => img.id !== id);
+      const updated = filtered.map((img, idx) => ({
+        ...img,
+        sortOrder: idx,
+      }));
+      const wasFeaturedDeleted = prev.find((img) => img.id === id)?.isFeatured;
+      if (wasFeaturedDeleted && updated.length > 0) {
+        updated[0].isFeatured = true;
+      }
+      setValue("images", updated);
+      return updated;
+    });
+  };
+
+  const handleCreateModeImageReorder = (index, direction) => {
+    const targetIndex = direction === "left" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= createModeImages.length) return;
+
+    setCreateModeImages((prev) => {
+      const next = [...prev];
+      const temp = next[index];
+      next[index] = next[targetIndex];
+      next[targetIndex] = temp;
+
+      const updated = next.map((img, idx) => ({
+        ...img,
+        sortOrder: idx,
+      }));
+      setValue("images", updated);
+      return updated;
+    });
+  };
+
+  const handleCreateModeImageSetFeatured = (id) => {
+    setCreateModeImages((prev) => {
+      const updated = prev.map((img) => ({
+        ...img,
+        isFeatured: img.id === id,
+      }));
+      setValue("images", updated);
+      return updated;
+    });
+  };
 
   // Handle auto slugification
   useEffect(() => {
@@ -146,18 +215,6 @@ export default function PropertyForm({ property = null, metadata = {} }) {
     <div className="space-y-6">
       {/* Tabs Selector */}
       <div className="flex flex-wrap border-b border-slate-200">
-        <button
-          type="button"
-          onClick={() => setActiveFormTab("images")}
-          className={`flex items-center gap-2 px-5 py-3 text-sm font-semibold border-b-2 transition-all -mb-px ${
-            activeFormTab === "images"
-              ? "border-slate-900 text-slate-900 font-bold"
-              : "border-transparent text-slate-500 hover:text-slate-700"
-          }`}
-        >
-          <ImageIcon className="h-4 w-4" />
-          Images
-        </button>
         <button
           type="button"
           onClick={() => setActiveFormTab("basic")}
@@ -206,50 +263,25 @@ export default function PropertyForm({ property = null, metadata = {} }) {
           <Globe className="h-4 w-4" />
           SEO Overrides
         </button>
+        <button
+          type="button"
+          onClick={() => setActiveFormTab("images")}
+          className={`flex items-center gap-2 px-5 py-3 text-sm font-semibold border-b-2 transition-all -mb-px ${
+            activeFormTab === "images"
+              ? "border-slate-900 text-slate-900 font-bold"
+              : "border-transparent text-slate-500 hover:text-slate-700"
+          }`}
+        >
+          <ImageIcon className="h-4 w-4" />
+          Images
+        </button>
       </div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-8 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm"
       >
-        {/* Tab 1: Images Content */}
-        <div className={activeFormTab === "images" ? "space-y-8 block" : "hidden"}>
-          {isEdit ? (
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <h3 className="text-lg font-bold text-slate-800">Gallery Images</h3>
-                <p className="text-xs text-slate-500">
-                  Upload up to 10 images. Drag/reorder to change sorting order. Set one image as featured cover photo.
-                </p>
-              </div>
-              
-              <div className="bg-slate-50/50 border border-slate-200/60 rounded-xl p-5">
-                <PropertyImageUploader propertyId={property.id} currentCount={property.images?.length || 0} />
-              </div>
-              
-              <div className="bg-white border border-slate-200/60 rounded-xl p-5">
-                <PropertyImageGallery images={property.images || []} propertyId={property.id} />
-              </div>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-16 px-4 text-center bg-slate-50 border border-dashed border-slate-200 rounded-2xl">
-              <div className="p-4 bg-indigo-50 text-indigo-600 rounded-full mb-4">
-                <ImageIcon className="h-10 w-10" />
-              </div>
-              <h3 className="text-base font-bold text-slate-900">Images Upload is Locked</h3>
-              <p className="text-sm text-slate-500 mt-2 max-w-md">
-                You can upload photos, change their sorting sequence, and set the featured cover photo once the property is published. Save the details first!
-              </p>
-              <Button
-                type="button"
-                onClick={() => setActiveFormTab("basic")}
-                className="mt-6 bg-slate-950 text-white hover:bg-slate-800 cursor-pointer"
-              >
-                Proceed to Basic Info
-              </Button>
-            </div>
-          )}
-        </div>
+
 
         {/* Tab 2: Basic Information Content */}
         <div className={activeFormTab === "basic" ? "space-y-6 block" : "hidden"}>
@@ -673,6 +705,38 @@ export default function PropertyForm({ property = null, metadata = {} }) {
                 description={watchedMetaDescription || watchedTitle}
                 slug={watchedSlug}
                 pageType="PROPERTY"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Tab 5: Images Content */}
+        <div className={activeFormTab === "images" ? "space-y-8 block" : "hidden"}>
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <h3 className="text-lg font-bold text-slate-800">Gallery Images</h3>
+              <p className="text-xs text-slate-500">
+                Upload up to 10 images. Drag/reorder to change sorting order. Set one image as featured cover photo.
+              </p>
+            </div>
+            
+            <div className="bg-slate-50/50 border border-slate-200/60 rounded-xl p-5">
+              <PropertyImageUploader
+                propertyId={isEdit ? property.id : "temp"}
+                currentCount={isEdit ? (property.images?.length || 0) : createModeImages.length}
+                isEdit={isEdit}
+                onUploadSuccess={!isEdit ? handleCreateModeImageUpload : undefined}
+              />
+            </div>
+            
+            <div className="bg-white border border-slate-200/60 rounded-xl p-5">
+              <PropertyImageGallery
+                images={isEdit ? (property.images || []) : createModeImages}
+                propertyId={isEdit ? property.id : "temp"}
+                isEdit={isEdit}
+                onDelete={!isEdit ? handleCreateModeImageDelete : undefined}
+                onReorder={!isEdit ? handleCreateModeImageReorder : undefined}
+                onSetFeatured={!isEdit ? handleCreateModeImageSetFeatured : undefined}
               />
             </div>
           </div>

@@ -208,16 +208,16 @@ export async function createProject(data, userId) {
 
   const amenitiesList = data.amenities
     ? data.amenities
-        .split(",")
-        .map((a) => a.trim())
-        .filter(Boolean)
+      .split(",")
+      .map((a) => a.trim())
+      .filter(Boolean)
     : [];
 
   const highlightsList = data.highlights
     ? data.highlights
-        .split(",")
-        .map((h) => h.trim())
-        .filter(Boolean)
+      .split(",")
+      .map((h) => h.trim())
+      .filter(Boolean)
     : [];
 
   return db.project.create({
@@ -228,8 +228,8 @@ export async function createProject(data, userId) {
       description: data.description,
       shortDescription: data.shortDescription || null,
       builderName: data.builderName,
-      builderPhone: data.builderPhone || null,
-      builderEmail: data.builderEmail || null,
+      builderPhone: data.builderPhone || "",
+      builderEmail: data.builderEmail || "",
       status: data.status,
       bannerImage: data.bannerImage || null,
       mainImage: data.mainImage || null,
@@ -237,9 +237,15 @@ export async function createProject(data, userId) {
       googleMapIframe: data.googleMapIframe || null,
       isFeatured: data.isFeatured || false,
       displayOrder: data.displayOrder || 0,
-      categoryId: data.categoryId,
-      cityId: data.cityId,
-      createdById: userId,
+      category: {
+        connect: { id: data.categoryId },
+      },
+      city: {
+        connect: { id: data.cityId },
+      },
+      createdBy: {
+        connect: { id: userId },
+      },
       metaTitle: data.metaTitle || null,
       metaDescription: data.metaDescription || null,
       amenities: {
@@ -250,6 +256,16 @@ export async function createProject(data, userId) {
       },
       specifications: {
         create: data.specifications || [],
+      },
+      images: {
+        create: data.images && data.images.length > 0
+          ? data.images.map((img, idx) => ({
+              url: img.url,
+              publicId: img.publicId,
+              isFeatured: img.isFeatured || (idx === 0 && !data.images.some(i => i.isFeatured)),
+              sortOrder: img.sortOrder !== undefined ? img.sortOrder : idx,
+            }))
+          : [],
       },
     },
   });
@@ -265,16 +281,16 @@ export async function updateProject(id, data) {
 
   const amenitiesList = data.amenities
     ? data.amenities
-        .split(",")
-        .map((a) => a.trim())
-        .filter(Boolean)
+      .split(",")
+      .map((a) => a.trim())
+      .filter(Boolean)
     : [];
 
   const highlightsList = data.highlights
     ? data.highlights
-        .split(",")
-        .map((h) => h.trim())
-        .filter(Boolean)
+      .split(",")
+      .map((h) => h.trim())
+      .filter(Boolean)
     : [];
 
   return db.$transaction(async (tx) => {
@@ -293,8 +309,8 @@ export async function updateProject(id, data) {
         description: data.description,
         shortDescription: data.shortDescription || null,
         builderName: data.builderName,
-        builderPhone: data.builderPhone || null,
-        builderEmail: data.builderEmail || null,
+        builderPhone: data.builderPhone || "",
+        builderEmail: data.builderEmail || "",
         status: data.status,
         bannerImage: data.bannerImage || null,
         mainImage: data.mainImage || null,
@@ -302,8 +318,12 @@ export async function updateProject(id, data) {
         googleMapIframe: data.googleMapIframe || null,
         isFeatured: data.isFeatured || false,
         displayOrder: data.displayOrder || 0,
-        categoryId: data.categoryId,
-        cityId: data.cityId,
+        category: {
+          connect: { id: data.categoryId },
+        },
+        city: {
+          connect: { id: data.cityId },
+        },
         metaTitle: data.metaTitle || null,
         metaDescription: data.metaDescription || null,
         amenities: {

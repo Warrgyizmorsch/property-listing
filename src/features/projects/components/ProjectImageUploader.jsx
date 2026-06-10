@@ -9,12 +9,12 @@ import { useRouter } from "next/navigation"
 const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
-export default function ProjectImageUploader({ projectId, currentCount = 0 }) {
+export default function ProjectImageUploader({ projectId, currentCount = 0, isEdit = true, onUploadSuccess }) {
   const router = useRouter()
   const [dragActive, setDragActive] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [queue, setQueue] = useState([]) // Array of { id, file, name, progress, status: 'pending'|'uploading'|'success'|'error', errorMsg }
-  
+
   const fileInputRef = useRef(null)
 
   const handleDrag = (e) => {
@@ -31,7 +31,7 @@ export default function ProjectImageUploader({ projectId, currentCount = 0 }) {
     e.preventDefault()
     e.stopPropagation()
     setDragActive(false)
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFiles(Array.from(e.dataTransfer.files))
     }
@@ -84,13 +84,13 @@ export default function ProjectImageUploader({ projectId, currentCount = 0 }) {
 
   const startUploads = async (filesToUpload) => {
     setUploading(true)
-    
+
     for (const item of filesToUpload) {
       updateQueueItem(item.id, { status: "uploading", progress: 5 })
 
       try {
         // Step A: Request signature credentials from Server Action
-        const sigResult = await getUploadSignatureAction(projectId)
+        const sigResult = await getUploadSignatureAction(isEdit ? projectId : "temp")
         if (!sigResult.success) {
           throw new Error(sigResult.error || "Failed to generate signature credentials.")
         }
@@ -99,15 +99,25 @@ export default function ProjectImageUploader({ projectId, currentCount = 0 }) {
 
         // Step B: Upload file directly to Cloudinary via XHR to support progress tracking
         const uploadResponse = await uploadToCloudinaryXHR(item, credentials, folder)
-        
-        // Step C: Save image metadata to database
-        const saveResult = await saveUploadedImageAction(projectId, {
-          url: uploadResponse.secure_url,
-          publicId: uploadResponse.public_id,
-        })
 
-        if (!saveResult.success) {
-          throw new Error(saveResult.error || "Failed to save metadata to database.")
+        if (isEdit) {
+          // Step C: Save image metadata to database
+          const saveResult = await saveUploadedImageAction(projectId, {
+            url: uploadResponse.secure_url,
+            publicId: uploadResponse.public_id,
+          })
+
+          if (!saveResult.success) {
+            throw new Error(saveResult.error || "Failed to save metadata to database.")
+          }
+        } else {
+          // Client-side/creation phase callback
+          if (onUploadSuccess) {
+            onUploadSuccess({
+              url: uploadResponse.secure_url,
+              publicId: uploadResponse.public_id,
+            })
+          }
         }
 
         updateQueueItem(item.id, { status: "success", progress: 100 })
@@ -119,8 +129,10 @@ export default function ProjectImageUploader({ projectId, currentCount = 0 }) {
     }
 
     setUploading(false)
-    router.refresh()
-    
+    if (isEdit) {
+      router.refresh()
+    }
+
     // Clear success queue items after 3 seconds
     setTimeout(() => {
       setQueue((prev) => prev.filter((item) => item.status === "error"))
@@ -177,11 +189,10 @@ export default function ProjectImageUploader({ projectId, currentCount = 0 }) {
         onDragLeave={handleDrag}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200 cursor-pointer ${
-          dragActive
+        className={`flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200 cursor-pointer ${dragActive
             ? "border-neutral-900 bg-neutral-50/50"
             : "border-neutral-200 bg-white hover:bg-neutral-50/20 hover:border-neutral-300"
-        } ${currentCount >= 10 ? "opacity-50 pointer-events-none" : ""}`}
+          } ${currentCount >= 10 ? "opacity-50 pointer-events-none" : ""}`}
       >
         <input
           ref={fileInputRef}
@@ -194,7 +205,7 @@ export default function ProjectImageUploader({ projectId, currentCount = 0 }) {
         />
 
         <UploadCloud className={`h-10 w-10 text-neutral-400 mb-3 ${dragActive ? "text-neutral-900 scale-110" : ""} transition-transform`} />
-        
+
         {currentCount >= 10 ? (
           <div>
             <h4 className="text-sm font-semibold text-neutral-900">Maximum limit reached</h4>
@@ -225,7 +236,7 @@ export default function ProjectImageUploader({ projectId, currentCount = 0 }) {
                   <FileImage className="h-4 w-4 text-neutral-400 shrink-0" />
                   <span className="truncate font-medium text-neutral-700">{item.name}</span>
                 </div>
-                
+
                 <div className="flex items-center gap-3 flex-1 justify-end">
                   {/* Progress bar */}
                   {item.status === "uploading" && (
@@ -244,7 +255,7 @@ export default function ProjectImageUploader({ projectId, currentCount = 0 }) {
                       <span>{item.progress}%</span>
                     </span>
                   )}
-                  
+
                   {item.status === "success" && (
                     <span className="text-green-600 font-semibold flex items-center gap-1">
                       <CheckCircle className="h-3.5 w-3.5" />

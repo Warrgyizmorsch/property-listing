@@ -11,13 +11,25 @@ import {
 } from "../actions/image.actions"
 import { toast } from "@/components/ui/toast"
 
-export default function PropertyImageGallery({ images = [], propertyId }) {
+export default function PropertyImageGallery({
+  images = [],
+  propertyId,
+  isEdit = true,
+  onDelete,
+  onReorder,
+  onSetFeatured,
+}) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
 
   const handleMove = (index, direction) => {
     const targetIndex = direction === "left" ? index - 1 : index + 1
     if (targetIndex < 0 || targetIndex >= images.length) return
+
+    if (!isEdit) {
+      if (onReorder) onReorder(index, direction)
+      return
+    }
 
     // Create a swapped array of IDs
     const reorderedIds = images.map((img) => img.id)
@@ -41,6 +53,11 @@ export default function PropertyImageGallery({ images = [], propertyId }) {
     const confirm = window.confirm("Are you sure you want to delete this image? This will permanently remove it from Cloudinary and the database.")
     if (!confirm) return
 
+    if (!isEdit) {
+      if (onDelete) onDelete(id)
+      return
+    }
+
     startTransition(async () => {
       const result = await deleteImageAction(id, propertyId)
       if (result.success) {
@@ -53,6 +70,11 @@ export default function PropertyImageGallery({ images = [], propertyId }) {
   }
 
   const handleSetFeatured = (imageId) => {
+    if (!isEdit) {
+      if (onSetFeatured) onSetFeatured(imageId)
+      return
+    }
+
     startTransition(async () => {
       const result = await setImageFeaturedAction(propertyId, imageId)
       if (result.success) {

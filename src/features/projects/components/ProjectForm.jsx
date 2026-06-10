@@ -26,7 +26,7 @@ export default function ProjectForm({ project = null, metadata = {} }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [manualSlug, setManualSlug] = useState(false);
-  const [activeFormTab, setActiveFormTab] = useState(project ? "gallery" : "basic");
+  const [activeFormTab, setActiveFormTab] = useState(project ? "basic" : "basic");
 
   // Cascading Location States
   const [states, setStates] = useState([]);
@@ -40,6 +40,7 @@ export default function ProjectForm({ project = null, metadata = {} }) {
   const [isUploadingBanner, setIsUploadingBanner] = useState(false);
   const [isUploadingMain, setIsUploadingMain] = useState(false);
   const [isUploadingBrochure, setIsUploadingBrochure] = useState(false);
+  const [createModeImages, setCreateModeImages] = useState([]);
 
   // Dynamic Lists States
   const [highlightsList, setHighlightsList] = useState([]);
@@ -86,6 +87,7 @@ export default function ProjectForm({ project = null, metadata = {} }) {
       amenities: "",
       highlights: "",
       specifications: [],
+      images: [],
     },
   });
 
@@ -151,8 +153,44 @@ export default function ProjectForm({ project = null, metadata = {} }) {
         amenities: project.amenities?.map((a) => a.name).join(", ") || "",
         highlights: project.highlights?.map((h) => h.text).join(", ") || "",
         specifications: project.specifications || [],
+        images: [],
       });
       setManualSlug(true);
+    } else {
+      setSelectedCountryId("");
+      setSelectedStateId("");
+      setStates([]);
+      setCities([]);
+      setHighlightsList([]);
+      setAmenitiesList([]);
+      setSpecsList([]);
+      reset({
+        projectName: "",
+        slug: "",
+        address: "",
+        description: "",
+        shortDescription: "",
+        builderName: "",
+        builderPhone: "",
+        builderEmail: "",
+        status: "ONGOING",
+        bannerImage: "",
+        mainImage: "",
+        brochureFile: "",
+        googleMapIframe: "",
+        isFeatured: false,
+        displayOrder: 0,
+        categoryId: "",
+        cityId: "",
+        metaTitle: "",
+        metaDescription: "",
+        amenities: "",
+        highlights: "",
+        specifications: [],
+        images: [],
+      });
+      setManualSlug(false);
+      setCreateModeImages([]);
     }
   }, [project, reset]);
 
@@ -315,15 +353,94 @@ export default function ProjectForm({ project = null, metadata = {} }) {
     setSpecsList(specsList.filter((_, i) => i !== index));
   };
 
+  const handleCreateModeImageUpload = (newImg) => {
+    setCreateModeImages((prev) => {
+      const isFeatured = prev.length === 0;
+      const nextImages = [
+        ...prev,
+        {
+          id: Math.random().toString(36).substring(2, 9),
+          url: newImg.url,
+          publicId: newImg.publicId,
+          isFeatured,
+          sortOrder: prev.length,
+        },
+      ];
+      setValue("images", nextImages);
+      return nextImages;
+    });
+  };
+
+  const handleCreateModeImageDelete = (id) => {
+    setCreateModeImages((prev) => {
+      const filtered = prev.filter((img) => img.id !== id);
+      const updated = filtered.map((img, idx) => ({
+        ...img,
+        sortOrder: idx,
+      }));
+      const wasFeaturedDeleted = prev.find((img) => img.id === id)?.isFeatured;
+      if (wasFeaturedDeleted && updated.length > 0) {
+        updated[0].isFeatured = true;
+      }
+      setValue("images", updated);
+      return updated;
+    });
+  };
+
+  const handleCreateModeImageReorder = (index, direction) => {
+    const targetIndex = direction === "left" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= createModeImages.length) return;
+
+    setCreateModeImages((prev) => {
+      const next = [...prev];
+      const temp = next[index];
+      next[index] = next[targetIndex];
+      next[targetIndex] = temp;
+
+      const updated = next.map((img, idx) => ({
+        ...img,
+        sortOrder: idx,
+      }));
+      setValue("images", updated);
+      return updated;
+    });
+  };
+
+  const handleCreateModeImageDragReorder = (dragIndex, hoverIndex) => {
+    setCreateModeImages((prev) => {
+      const next = [...prev];
+      const [draggedItem] = next.splice(dragIndex, 1);
+      next.splice(hoverIndex, 0, draggedItem);
+
+      const updated = next.map((img, idx) => ({
+        ...img,
+        sortOrder: idx,
+      }));
+      setValue("images", updated);
+      return updated;
+    });
+  };
+
+  const handleCreateModeImageSetFeatured = (id) => {
+    setCreateModeImages((prev) => {
+      const updated = prev.map((img) => ({
+        ...img,
+        isFeatured: img.id === id,
+      }));
+      setValue("images", updated);
+      return updated;
+    });
+  };
+
   return (
     <div className="space-y-6">
       {/* Form Tabs */}
       <div className="flex flex-wrap border-b border-slate-200">
         {[
-          { id: "gallery", label: "Gallery", icon: ImageIcon },
           { id: "basic", label: "Basic Info", icon: LayoutGrid },
           { id: "builder", label: "Builder & Location", icon: Info },
           { id: "media", label: "Media & Attachments", icon: UploadCloud },
+          { id: "gallery", label: "Gallery", icon: ImageIcon },
           { id: "details", label: "Details & Specifications", icon: Plus },
           { id: "seo", label: "SEO Overrides", icon: Globe },
         ].map((tab) => {
@@ -334,8 +451,8 @@ export default function ProjectForm({ project = null, metadata = {} }) {
               type="button"
               onClick={() => setActiveFormTab(tab.id)}
               className={`flex items-center gap-2 px-5 py-3 text-sm font-semibold border-b-2 transition-all -mb-px ${activeFormTab === tab.id
-                  ? "border-slate-900 text-slate-900"
-                  : "border-transparent text-slate-500 hover:text-slate-700"
+                ? "border-slate-900 text-slate-900"
+                : "border-transparent text-slate-500 hover:text-slate-700"
                 }`}
             >
               <Icon className="h-4 w-4" />
@@ -351,41 +468,35 @@ export default function ProjectForm({ project = null, metadata = {} }) {
       >
         {/* TAB 0: GALLERY */}
         <div className={activeFormTab === "gallery" ? "space-y-8 block" : "hidden"}>
-          {isEdit ? (
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <h3 className="text-lg font-bold text-slate-800">Gallery Images</h3>
-                <p className="text-xs text-slate-500 font-medium">
-                  Upload up to 10 images. Drag/reorder to change sorting order. Set one image as featured cover photo.
-                </p>
-              </div>
-
-              <div className="bg-slate-50/50 border border-slate-200/60 rounded-xl p-5">
-                <ProjectImageUploader projectId={project.id} currentCount={project.images?.length || 0} />
-              </div>
-
-              <div className="bg-white border border-slate-200/60 rounded-xl p-5">
-                <ProjectImageGallery images={project.images || []} projectId={project.id} />
-              </div>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-16 px-4 text-center bg-slate-50 border border-dashed border-slate-200 rounded-2xl">
-              <div className="p-4 bg-indigo-50 text-indigo-600 rounded-full mb-4 animate-bounce">
-                <ImageIcon className="h-10 w-10" />
-              </div>
-              <h3 className="text-base font-bold text-slate-900">Project Gallery Upload is Locked</h3>
-              <p className="text-sm text-slate-500 mt-2 max-w-md">
-                You can upload photos, change their sorting sequence, and set the featured cover photo once the project is created. Save the details first!
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <h3 className="text-lg font-bold text-slate-800">Gallery Images</h3>
+              <p className="text-xs text-slate-500 font-medium">
+                Upload up to 10 images. Drag/reorder to change sorting order. Set one image as featured cover photo.
               </p>
-              <Button
-                type="button"
-                onClick={() => setActiveFormTab("basic")}
-                className="mt-6 bg-slate-950 text-white hover:bg-slate-800 cursor-pointer"
-              >
-                Proceed to Basic Info
-              </Button>
             </div>
-          )}
+
+            <div className="bg-slate-50/50 border border-slate-200/60 rounded-xl p-5">
+              <ProjectImageUploader
+                projectId={isEdit ? project.id : "temp"}
+                currentCount={isEdit ? (project.images?.length || 0) : createModeImages.length}
+                isEdit={isEdit}
+                onUploadSuccess={!isEdit ? handleCreateModeImageUpload : undefined}
+              />
+            </div>
+
+            <div className="bg-white border border-slate-200/60 rounded-xl p-5">
+              <ProjectImageGallery
+                images={isEdit ? (project.images || []) : createModeImages}
+                projectId={isEdit ? project.id : "temp"}
+                isEdit={isEdit}
+                onDelete={!isEdit ? handleCreateModeImageDelete : undefined}
+                onReorder={!isEdit ? handleCreateModeImageReorder : undefined}
+                onDragReorder={!isEdit ? handleCreateModeImageDragReorder : undefined}
+                onSetFeatured={!isEdit ? handleCreateModeImageSetFeatured : undefined}
+              />
+            </div>
+          </div>
         </div>
 
         {/* TAB 1: BASIC INFORMATION */}
