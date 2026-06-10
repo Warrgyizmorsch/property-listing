@@ -12,7 +12,7 @@ export default async function LatestProperties() {
       <section className="bg-white py-20 px-4 dark:bg-zinc-950 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-12">
-            <h2 className="font-heading text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
+            <h2 className="font-heading text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
               Latest Listings
             </h2>
             <p className="mt-4 text-lg text-neutral-500 dark:text-neutral-400">

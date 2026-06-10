@@ -46,7 +46,7 @@ export default async function StatisticsSection() {
               </div>
 
               {/* Numerical Value */}
-              <span className="mt-4 font-heading text-3xl font-extrabold text-white sm:text-4xl tracking-tight">
+              <span className="mt-4 font-heading text-3xl font-bold text-white sm:text-4xl tracking-tight">
                 {item.value}
               </span>
 

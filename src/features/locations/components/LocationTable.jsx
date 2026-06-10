@@ -115,7 +115,22 @@ export default function LocationTable({
           <TableBody>
             {data.map((record) => (
               <TableRow key={record.id} className="hover:bg-neutral-50/50 transition-colors">
-                <TableCell className="font-medium text-neutral-900">{record.name}</TableCell>
+                <TableCell className="font-medium text-neutral-900 flex items-center gap-3">
+                  {tab === "cities" && (
+                    record.coverImage ? (
+                      <img
+                        src={record.coverImage}
+                        alt={record.name}
+                        className="h-8 w-8 rounded-md object-cover border border-neutral-250 shrink-0"
+                      />
+                    ) : (
+                      <div className="h-8 w-8 rounded-md bg-neutral-100 border border-neutral-200 flex items-center justify-center text-neutral-400 shrink-0">
+                        <MapPin className="h-4 w-4" />
+                      </div>
+                    )
+                  )}
+                  <span>{record.name}</span>
+                </TableCell>
                 <TableCell className="font-mono text-xs text-neutral-500">{record.slug}</TableCell>
                 {tab === "states" && (
                   <TableCell className="text-neutral-600">{record.country?.name || "Unknown"}</TableCell>

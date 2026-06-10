@@ -19,11 +19,11 @@ export default async function ProjectDetailsPage({ params }) {
     notFound()
   }
 
-  const brochureUrl = project.brochureFile?.includes("res.cloudinary.com") && 
-                      project.brochureFile.includes("/image/upload/") && 
-                      !project.brochureFile.toLowerCase().endsWith(".pdf")
-                      ? `${project.brochureFile}.pdf`
-                      : project.brochureFile;
+  const brochureUrl = project.brochureFile?.includes("res.cloudinary.com") &&
+    project.brochureFile.includes("/image/upload/") &&
+    !project.brochureFile.toLowerCase().endsWith(".pdf")
+    ? `${project.brochureFile}.pdf`
+    : project.brochureFile;
 
   const getStatusBadgeClass = (status) => {
     switch (status) {
@@ -53,7 +53,7 @@ export default async function ProjectDetailsPage({ params }) {
 
   return (
     <div className="space-y-8 max-w-6xl mx-auto animate-in fade-in duration-300">
-      
+
       {/* Top Header Buttons */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-2">
@@ -91,7 +91,7 @@ export default async function ProjectDetailsPage({ params }) {
         ) : (
           <div className="absolute inset-0 bg-gradient-to-tr from-slate-950 to-slate-800 opacity-80" />
         )}
-        
+
         {/* Project Title and Stats overlay */}
         <div className="relative z-10 p-6 md:p-8 text-white w-full flex flex-col md:flex-row md:items-end md:justify-between gap-4 bg-gradient-to-t from-slate-950/90 to-transparent">
           <div className="space-y-2">
@@ -132,10 +132,10 @@ export default async function ProjectDetailsPage({ params }) {
 
       {/* Main Grid Info Layout */}
       <div className="grid gap-6 lg:grid-cols-3">
-        
+
         {/* Left Column: Project Stats & Builder */}
         <div className="lg:col-span-1 space-y-6">
-          
+
           {/* Quick Metrics */}
           <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-4">
             <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
@@ -146,19 +146,19 @@ export default async function ProjectDetailsPage({ params }) {
 
             <div className="grid grid-cols-3 gap-4 text-center">
               <div className="p-3 bg-slate-50 rounded-xl">
-                <div className="text-xl font-extrabold text-slate-950">{project.totalProperties}</div>
+                <div className="text-xl font-bold text-slate-950">{project.totalProperties}</div>
                 <div className="text-[10px] text-slate-400 font-bold uppercase mt-1">Total</div>
               </div>
               <div className="p-3 bg-emerald-50 rounded-xl">
-                <div className="text-xl font-extrabold text-emerald-700">{project.availableProperties}</div>
+                <div className="text-xl font-bold text-emerald-700">{project.availableProperties}</div>
                 <div className="text-[10px] text-emerald-500 font-bold uppercase mt-1">Available</div>
               </div>
               <div className="p-3 bg-red-50 rounded-xl">
-                <div className="text-xl font-extrabold text-red-700">{project.soldProperties}</div>
+                <div className="text-xl font-bold text-red-700">{project.soldProperties}</div>
                 <div className="text-[10px] text-red-500 font-bold uppercase mt-1">Sold</div>
               </div>
             </div>
-            
+
             <div className="space-y-2.5 pt-2 text-xs font-semibold text-slate-600">
               <div className="flex justify-between">
                 <span>Category:</span>
@@ -189,7 +189,7 @@ export default async function ProjectDetailsPage({ params }) {
 
             <div className="space-y-3.5 text-slate-700">
               <div className="font-bold text-slate-900 text-base">{project.builderName}</div>
-              
+
               {project.builderPhone && (
                 <div className="flex items-center gap-2 text-sm">
                   <Phone className="h-4 w-4 text-slate-400 shrink-0" />
@@ -208,10 +208,10 @@ export default async function ProjectDetailsPage({ params }) {
 
         {/* Right Column: Descriptions & Details */}
         <div className="lg:col-span-2 space-y-6">
-          
+
           {/* Details Tabs */}
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-6">
-            
+
             {/* Description */}
             <div className="space-y-2">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Description</h3>
@@ -267,7 +267,7 @@ export default async function ProjectDetailsPage({ params }) {
                   <Hammer className="h-3.5 w-3.5" />
                   Specifications
                 </h3>
-                
+
                 <div className="border border-slate-100 rounded-lg overflow-hidden">
                   <table className="min-w-full divide-y divide-slate-100 text-left text-xs">
                     <thead className="bg-slate-50 font-bold text-slate-700">
@@ -347,13 +347,12 @@ export default async function ProjectDetailsPage({ params }) {
                     {formatCurrency(property.price)}
                   </td>
                   <td className="px-4 py-3">
-                    <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-bold ${
-                      property.status?.name === "Available"
+                    <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-bold ${property.status?.name === "Available"
                         ? "bg-green-50 text-green-700 ring-1 ring-green-600/20"
                         : property.status?.name === "Sold"
-                        ? "bg-red-50 text-red-700 ring-1 ring-red-600/20"
-                        : "bg-amber-50 text-amber-700 ring-1 ring-amber-600/20"
-                    }`}>
+                          ? "bg-red-50 text-red-700 ring-1 ring-red-600/20"
+                          : "bg-amber-50 text-amber-700 ring-1 ring-amber-600/20"
+                      }`}>
                       {property.status?.name || "No Status"}
                     </span>
                   </td>

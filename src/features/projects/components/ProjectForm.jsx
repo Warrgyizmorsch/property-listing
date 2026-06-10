@@ -18,13 +18,15 @@ import {
 import { slugify } from "@/lib/slugify";
 import { toast } from "@/components/ui/toast";
 import SeoPreview from "@/components/seo/SeoPreview";
-import { LayoutGrid, Globe, Info, Plus, Trash2, ArrowUpRight, UploadCloud, Loader2 } from "lucide-react";
+import ProjectImageUploader from "./ProjectImageUploader";
+import ProjectImageGallery from "./ProjectImageGallery";
+import { LayoutGrid, Globe, Info, Plus, Trash2, ArrowUpRight, UploadCloud, Loader2, Image as ImageIcon } from "lucide-react";
 
 export default function ProjectForm({ project = null, metadata = {} }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [manualSlug, setManualSlug] = useState(false);
-  const [activeFormTab, setActiveFormTab] = useState("basic");
+  const [activeFormTab, setActiveFormTab] = useState(project ? "gallery" : "basic");
 
   // Cascading Location States
   const [states, setStates] = useState([]);
@@ -318,6 +320,7 @@ export default function ProjectForm({ project = null, metadata = {} }) {
       {/* Form Tabs */}
       <div className="flex flex-wrap border-b border-slate-200">
         {[
+          { id: "gallery", label: "Gallery", icon: ImageIcon },
           { id: "basic", label: "Basic Info", icon: LayoutGrid },
           { id: "builder", label: "Builder & Location", icon: Info },
           { id: "media", label: "Media & Attachments", icon: UploadCloud },
@@ -330,11 +333,10 @@ export default function ProjectForm({ project = null, metadata = {} }) {
               key={tab.id}
               type="button"
               onClick={() => setActiveFormTab(tab.id)}
-              className={`flex items-center gap-2 px-5 py-3 text-sm font-semibold border-b-2 transition-all -mb-px ${
-                activeFormTab === tab.id
+              className={`flex items-center gap-2 px-5 py-3 text-sm font-semibold border-b-2 transition-all -mb-px ${activeFormTab === tab.id
                   ? "border-slate-900 text-slate-900"
                   : "border-transparent text-slate-500 hover:text-slate-700"
-              }`}
+                }`}
             >
               <Icon className="h-4 w-4" />
               {tab.label}
@@ -347,6 +349,45 @@ export default function ProjectForm({ project = null, metadata = {} }) {
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-8 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm"
       >
+        {/* TAB 0: GALLERY */}
+        <div className={activeFormTab === "gallery" ? "space-y-8 block" : "hidden"}>
+          {isEdit ? (
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <h3 className="text-lg font-bold text-slate-800">Gallery Images</h3>
+                <p className="text-xs text-slate-500 font-medium">
+                  Upload up to 10 images. Drag/reorder to change sorting order. Set one image as featured cover photo.
+                </p>
+              </div>
+
+              <div className="bg-slate-50/50 border border-slate-200/60 rounded-xl p-5">
+                <ProjectImageUploader projectId={project.id} currentCount={project.images?.length || 0} />
+              </div>
+
+              <div className="bg-white border border-slate-200/60 rounded-xl p-5">
+                <ProjectImageGallery images={project.images || []} projectId={project.id} />
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-16 px-4 text-center bg-slate-50 border border-dashed border-slate-200 rounded-2xl">
+              <div className="p-4 bg-indigo-50 text-indigo-600 rounded-full mb-4 animate-bounce">
+                <ImageIcon className="h-10 w-10" />
+              </div>
+              <h3 className="text-base font-bold text-slate-900">Project Gallery Upload is Locked</h3>
+              <p className="text-sm text-slate-500 mt-2 max-w-md">
+                You can upload photos, change their sorting sequence, and set the featured cover photo once the project is created. Save the details first!
+              </p>
+              <Button
+                type="button"
+                onClick={() => setActiveFormTab("basic")}
+                className="mt-6 bg-slate-950 text-white hover:bg-slate-800 cursor-pointer"
+              >
+                Proceed to Basic Info
+              </Button>
+            </div>
+          )}
+        </div>
+
         {/* TAB 1: BASIC INFORMATION */}
         <div className={activeFormTab === "basic" ? "space-y-6 block" : "hidden"}>
           <div className="space-y-4">
@@ -413,9 +454,8 @@ export default function ProjectForm({ project = null, metadata = {} }) {
                 <select
                   id="categoryId"
                   disabled={isPending}
-                  className={`flex w-full h-9 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm outline-hidden focus:border-slate-400 cursor-pointer ${
-                    errors.categoryId ? "border-red-500" : ""
-                  }`}
+                  className={`flex w-full h-9 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm outline-hidden focus:border-slate-400 cursor-pointer ${errors.categoryId ? "border-red-500" : ""
+                    }`}
                   {...register("categoryId")}
                 >
                   <option value="">Select Category...</option>
@@ -529,9 +569,8 @@ export default function ProjectForm({ project = null, metadata = {} }) {
                 rows={5}
                 placeholder="Provide details about the architectural inspiration, layout options, locality updates..."
                 disabled={isPending}
-                className={`flex w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-hidden focus:border-slate-400 ${
-                  errors.description ? "border-red-500" : ""
-                }`}
+                className={`flex w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-hidden focus:border-slate-400 ${errors.description ? "border-red-500" : ""
+                  }`}
                 {...register("description")}
               />
               {errors.description && (
@@ -643,8 +682,8 @@ export default function ProjectForm({ project = null, metadata = {} }) {
                     {!selectedCountryId
                       ? "Select Country first..."
                       : isLoadingStates
-                      ? "Loading states..."
-                      : "Select State..."}
+                        ? "Loading states..."
+                        : "Select State..."}
                   </option>
                   {states.map((s) => (
                     <option key={s.id} value={s.id}>
@@ -662,17 +701,16 @@ export default function ProjectForm({ project = null, metadata = {} }) {
                 <select
                   id="cityId"
                   disabled={isPending || isLoadingCities || !selectedStateId}
-                  className={`flex w-full h-9 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm outline-hidden focus:border-slate-400 cursor-pointer ${
-                    errors.cityId ? "border-red-500" : ""
-                  }`}
+                  className={`flex w-full h-9 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm outline-hidden focus:border-slate-400 cursor-pointer ${errors.cityId ? "border-red-500" : ""
+                    }`}
                   {...register("cityId")}
                 >
                   <option value="">
                     {!selectedStateId
                       ? "Select State first..."
                       : isLoadingCities
-                      ? "Loading cities..."
-                      : "Select City..."}
+                        ? "Loading cities..."
+                        : "Select City..."}
                   </option>
                   {cities.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -893,7 +931,7 @@ export default function ProjectForm({ project = null, metadata = {} }) {
                   <button
                     type="button"
                     onClick={() => removeHighlight(item)}
-                    className="text-indigo-400 hover:text-indigo-600 font-extrabold cursor-pointer"
+                    className="text-indigo-400 hover:text-indigo-600 font-bold cursor-pointer"
                   >
                     ×
                   </button>
@@ -935,7 +973,7 @@ export default function ProjectForm({ project = null, metadata = {} }) {
                   <button
                     type="button"
                     onClick={() => removeAmenity(item)}
-                    className="text-emerald-400 hover:text-emerald-600 font-extrabold cursor-pointer"
+                    className="text-emerald-400 hover:text-emerald-600 font-bold cursor-pointer"
                   >
                     ×
                   </button>

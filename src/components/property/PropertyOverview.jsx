@@ -64,7 +64,7 @@ export default function PropertyOverview({ property }) {
                 <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
                   {item.label}
                 </p>
-                <p className="text-sm font-extrabold text-neutral-850 dark:text-neutral-200 mt-0.5">
+                <p className="text-sm font-bold text-neutral-850 dark:text-neutral-200 mt-0.5">
                   {item.value}
                 </p>
               </div>
@@ -84,7 +84,7 @@ export default function PropertyOverview({ property }) {
                 key={spec.id}
                 className="flex flex-col p-3 rounded-xl bg-slate-50/50 dark:bg-zinc-900/20 border border-slate-100/50 dark:border-zinc-850"
               >
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                   {spec.title}
                 </span>
                 <span className="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-0.5">

@@ -108,21 +108,9 @@ export default async function PropertyDetailPage({ params }) {
       <Navbar />
 
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
-        <div className="h-20 md:h-28"></div>
+        <div className="h-12 md:h-20"></div>
         <div className="mx-auto max-w-7xl">
-          {/* Back Navigation Button */}
-          <div className="mb-6">
-            <Link href={property.project ? `/projects/${property.project.slug}` : "/projects"}>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="gap-1.5 font-semibold text-neutral-650 dark:text-neutral-350 hover:bg-neutral-100 dark:hover:bg-neutral-900 cursor-pointer"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                {property.project ? `Back to ${property.project.projectName}` : "Back to Projects"}
-              </Button>
-            </Link>
-          </div>
+          
 
           {/* Core Layout Grid */}
           <div className="flex flex-col lg:flex-row gap-10 items-start">
@@ -169,7 +157,7 @@ export default async function PropertyDetailPage({ params }) {
                   </div>
 
                   <div>
-                    <p className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-650 dark:text-indigo-400">Part of Project</p>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-650 dark:text-indigo-400">Part of Project</p>
                     <h4 className="text-base font-bold text-neutral-900 dark:text-white mt-1 hover:underline">
                       <Link href={`/projects/${property.project.slug}`}>
                         {property.project.projectName}

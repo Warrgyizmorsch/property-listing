@@ -67,4 +67,11 @@ export const cityFormSchema = z.object({
       { message: "Slug must contain only lowercase letters, numbers, and hyphens (e.g. 'toronto')." }
     )
     .optional(),
+  coverImage: z
+    .string()
+    .trim()
+    .url({ message: "Invalid cover image URL." })
+    .nullable()
+    .optional()
+    .or(z.literal("")),
 });

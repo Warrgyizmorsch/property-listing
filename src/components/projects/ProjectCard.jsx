@@ -88,10 +88,10 @@ export default function ProjectCard({ project }) {
       <div className="flex flex-1 flex-col p-5">
         {/* Category & Starting Price */}
         <div className="flex items-center justify-between gap-2 mb-2">
-          <span className="text-[10px] font-extrabold tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 px-2.5 py-1 rounded-md uppercase">
+          <span className="text-[10px] font-bold tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 px-2.5 py-1 rounded-md uppercase">
             {project.category?.name || "Real Estate"}
           </span>
-          <span className="text-base font-extrabold text-neutral-900 dark:text-neutral-50 font-heading">
+          <span className="text-base font-bold text-neutral-900 dark:text-neutral-50 font-heading">
             {priceDisplay}
           </span>
         </div>

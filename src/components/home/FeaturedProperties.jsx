@@ -12,7 +12,7 @@ export default async function FeaturedProperties() {
       <section className="bg-neutral-50 py-20 px-4 dark:bg-zinc-900/10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-12">
-            <h2 className="font-heading text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
+            <h2 className="font-heading text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
               Featured Properties
             </h2>
             <p className="mt-4 text-lg text-neutral-500 dark:text-neutral-400">

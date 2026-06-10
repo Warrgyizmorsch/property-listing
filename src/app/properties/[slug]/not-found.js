@@ -17,7 +17,7 @@ export default function PropertyNotFound() {
           </div>
 
           {/* Heading */}
-          <h2 className="mt-6 font-heading text-2xl font-extrabold text-neutral-900 dark:text-white sm:text-3xl">
+          <h2 className="mt-6 font-heading text-2xl font-bold text-neutral-900 dark:text-white sm:text-3xl">
             Listing Not Found
           </h2>
 

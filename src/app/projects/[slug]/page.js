@@ -26,6 +26,7 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/frontend/Navbar";
 import Footer from "@/components/frontend/Footer";
 import PropertyEnquiryForm from "@/components/enquiry/PropertyEnquiryForm";
+import ProjectGallery from "@/components/projects/ProjectGallery";
 import { getPublicProjectDetails, getRelatedProjects } from "@/features/projects/public/services/public-project.service";
 import { generatePageMetadata } from "@/lib/seo/metadata";
 import { formatCurrency, formatArea } from "@/lib/format";
@@ -130,21 +131,8 @@ export default async function ProjectDetailPage({ params }) {
       <Navbar />
 
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
-        <div className="h-20 md:h-28"></div>
+        <div className="h-12 md:h-20"></div>
         <div className="mx-auto max-w-7xl">
-          {/* Back Button */}
-          <div className="mb-6">
-            <Link href="/projects">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="gap-1.5 font-semibold text-neutral-650 dark:text-neutral-350 hover:bg-neutral-100 dark:hover:bg-neutral-900 cursor-pointer"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back to Projects
-              </Button>
-            </Link>
-          </div>
 
           {/* Hero Banner Grid */}
           <div className="relative mb-10 overflow-hidden rounded-3xl border border-neutral-200/60 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900/40">
@@ -162,7 +150,7 @@ export default async function ProjectDetailPage({ params }) {
                   <span className={`inline-flex items-center rounded-lg border px-2.5 py-1 text-xs font-bold shadow-xs ${getStatusBadgeClass(project.status)}`}>
                     {getStatusLabel(project.status)}
                   </span>
-                  <h1 className="text-2xl sm:text-4xl font-extrabold text-white font-heading tracking-tight leading-none mt-1">
+                  <h1 className="text-2xl sm:text-4xl font-bold text-white font-heading tracking-tight leading-none mt-1">
                     {project.projectName}
                   </h1>
                   <p className="text-slate-300 text-sm font-medium">
@@ -171,7 +159,7 @@ export default async function ProjectDetailPage({ params }) {
                 </div>
                 <div className="text-left md:text-right">
                   <p className="text-slate-400 text-xs font-bold uppercase tracking-wider">Prices From</p>
-                  <p className="text-xl sm:text-2xl font-extrabold text-white font-heading mt-0.5">{priceDisplay}</p>
+                  <p className="text-xl sm:text-2xl font-bold text-white font-heading mt-0.5">{priceDisplay}</p>
                 </div>
               </div>
             </div>
@@ -263,24 +251,6 @@ export default async function ProjectDetailPage({ params }) {
                 </div>
               )}
 
-              {/* Specifications */}
-              {project.specifications?.length > 0 && (
-                <div className="bg-white border border-neutral-200/80 rounded-2xl p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/30 space-y-6">
-                  <div>
-                    <h2 className="text-xl font-bold text-neutral-900 dark:text-white font-heading">Project Specifications</h2>
-                    <hr className="border-slate-100 dark:border-zinc-800 mt-3" />
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {project.specifications.map((spec) => (
-                      <div key={spec.id} className="flex flex-col p-3 rounded-xl bg-slate-50/50 dark:bg-zinc-900/20 border border-slate-100/50 dark:border-zinc-850">
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-450">{spec.title}</span>
-                        <span className="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-0.5">{spec.value}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {/* Amenities */}
               {project.amenities?.length > 0 && (
                 <div className="bg-white border border-neutral-200/80 rounded-2xl p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/30 space-y-6">
@@ -301,26 +271,26 @@ export default async function ProjectDetailPage({ params }) {
                 </div>
               )}
 
-              {/* Gallery Grid/Slider */}
-              {project.images?.length > 0 && (
+              {/* Specifications */}
+              {project.specifications?.length > 0 && (
                 <div className="bg-white border border-neutral-200/80 rounded-2xl p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/30 space-y-6">
                   <div>
-                    <h2 className="text-xl font-bold text-neutral-900 dark:text-white font-heading">Project Photos Gallery</h2>
+                    <h2 className="text-xl font-bold text-neutral-900 dark:text-white font-heading">Project Specifications</h2>
                     <hr className="border-slate-100 dark:border-zinc-800 mt-3" />
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {project.images.map((image) => (
-                      <div key={image.id} className="group relative aspect-video overflow-hidden rounded-xl bg-slate-100">
-                        <img
-                          src={image.url}
-                          alt="Project Layout"
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {project.specifications.map((spec) => (
+                      <div key={spec.id} className="flex flex-col p-3 rounded-xl bg-slate-50/50 dark:bg-zinc-900/20 border border-slate-100/50 dark:border-zinc-850">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-450">{spec.title}</span>
+                        <span className="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-0.5">{spec.value}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
+
+              {/* Gallery Section */}
+              <ProjectGallery images={project.images} />
 
               {/* Child Properties under Project */}
               <div className="bg-white border border-neutral-200/80 rounded-2xl p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/30 space-y-6">
@@ -343,7 +313,7 @@ export default async function ProjectDetailPage({ params }) {
                             <img
                               src={propCover}
                               alt={property.title}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-550"
                             />
                             <div className="absolute right-3 top-3">
                               <span className={`inline-flex items-center rounded-lg px-2.5 py-1 text-[10px] font-bold border shadow-xs ${property.status?.colorClass || "bg-white text-neutral-800 border-neutral-205"}`}>
@@ -354,10 +324,10 @@ export default async function ProjectDetailPage({ params }) {
                           <div className="p-5 flex-grow flex flex-col justify-between">
                             <div>
                               <div className="flex justify-between items-center gap-2 mb-2">
-                                <span className="text-[10px] font-extrabold uppercase text-indigo-600 dark:text-indigo-400 bg-indigo-50 px-2 py-0.5 rounded">
+                                <span className="text-[10px] font-bold uppercase text-indigo-600 dark:text-indigo-400 bg-indigo-50 px-2 py-0.5 rounded">
                                   {property.unitType || "1 BHK"}
                                 </span>
-                                <span className="text-base font-extrabold text-neutral-900 dark:text-white font-heading">
+                                <span className="text-base font-bold text-neutral-900 dark:text-white font-heading">
                                   {property.price ? formatCurrency(property.price) : "Price on Request"}
                                 </span>
                               </div>
@@ -378,6 +348,42 @@ export default async function ProjectDetailPage({ params }) {
                     })}
                   </div>
                 )}
+              </div>
+
+              {/* Builder Information Section */}
+              <div className="bg-white border border-neutral-200/80 rounded-2xl p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/30 space-y-6">
+                <div>
+                  <h2 className="text-xl font-bold text-neutral-900 dark:text-white font-heading">Builder Information</h2>
+                  <hr className="border-slate-100 dark:border-zinc-800 mt-3" />
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                  <div className="space-y-1">
+                    <p className="text-sm font-bold text-neutral-900 dark:text-white">
+                      {project.builderName || "Premium Developer"}
+                    </p>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-450">
+                      Developer Sales Representative
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    {project.builderPhone && (
+                      <a href={`tel:${project.builderPhone}`}>
+                        <Button variant="outline" className="gap-1.5 h-9 text-xs font-bold border-slate-200 hover:bg-slate-50 dark:border-zinc-800 dark:hover:bg-zinc-900 cursor-pointer">
+                          <Phone className="h-3.5 w-3.5" />
+                          {project.builderPhone}
+                        </Button>
+                      </a>
+                    )}
+                    {project.builderEmail && (
+                      <a href={`mailto:${project.builderEmail}`}>
+                        <Button variant="outline" className="gap-1.5 h-9 text-xs font-bold border-slate-200 hover:bg-slate-50 dark:border-zinc-800 dark:hover:bg-zinc-900 cursor-pointer">
+                          <Mail className="h-3.5 w-3.5" />
+                          Email Developer
+                        </Button>
+                      </a>
+                    )}
+                  </div>
+                </div>
               </div>
 
               {/* Location Map Section */}
@@ -406,18 +412,6 @@ export default async function ProjectDetailPage({ params }) {
             {/* Right Column: Sticky Enquiry Form & CTAs */}
             <aside className="w-full lg:w-96 shrink-0 space-y-6 lg:sticky lg:top-24">
 
-              {/* Inquiry Lead Box */}
-              <div className="bg-white border border-neutral-200/80 rounded-3xl p-6 shadow-md dark:border-zinc-850 dark:bg-zinc-900/40 space-y-5">
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-neutral-800 dark:text-white">Register Interest</h3>
-                  <p className="text-xs text-neutral-500 leading-normal">Submit details to receive callback brochure, pricing layout sheets, and viewing itineraries.</p>
-                </div>
-                <PropertyEnquiryForm
-                  projectId={project.id}
-                  projectTitle={project.projectName}
-                />
-              </div>
-
               {/* Brochure Download Card */}
               {brochureUrl && (
                 <div className="p-5 rounded-2xl border border-neutral-200/80 bg-white shadow-xs dark:border-zinc-855 dark:bg-zinc-900/40 flex items-center justify-between gap-4">
@@ -438,10 +432,22 @@ export default async function ProjectDetailPage({ params }) {
                 </div>
               )}
 
+              {/* Enquiry Form */}
+              <div className="bg-white border border-neutral-200/80 rounded-3xl p-6 shadow-md dark:border-zinc-850 dark:bg-zinc-900/40 space-y-5">
+                <div className="space-y-1">
+                  <h3 className="text-base font-bold text-neutral-800 dark:text-white">Register Interest</h3>
+                  <p className="text-xs text-neutral-500 leading-normal">Submit details to receive callback brochure, pricing layout sheets, and viewing itineraries.</p>
+                </div>
+                <PropertyEnquiryForm
+                  projectId={project.id}
+                  projectTitle={project.projectName}
+                />
+              </div>
+
               {/* Quick Communication Box */}
               <div className="bg-slate-950 text-white rounded-3xl p-6 space-y-4 shadow-lg flex flex-col">
                 <h3 className="text-base font-bold font-heading">Direct Consultation</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">Speak directly with developer sales consultants regarding allocations, discounts, and custom floor customizations.</p>
+                <p className="text-xs text-slate-400 leading-relaxed">Speak directly with developer sales consultants regarding allocations, discounts, and floor customizations.</p>
 
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <a href={`tel:${project.builderPhone || "+912240404040"}`} className="block w-full">
@@ -472,7 +478,7 @@ export default async function ProjectDetailPage({ params }) {
             <div className="mt-16 pt-16 border-t border-slate-100 dark:border-zinc-800">
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                 <div>
-                  <span className="text-xs font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Related Developments</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Related Developments</span>
                   <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mt-1 font-heading">Other Projects You May Like</h3>
                 </div>
                 <Link href="/projects" className="text-xs font-bold text-indigo-600 hover:underline flex items-center gap-1">

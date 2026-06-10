@@ -74,10 +74,7 @@ export default function Home() {
           <HeroSection />
         </Suspense>
 
-        {/* Padding container to balance floating absolute elements in Hero Section */}
-        <div className="h-10 md:h-16"></div>
-
-        <div className="max-w-[1500px] mx-auto space-y-10">
+        <div className="max-w-[1500px] mx-auto">
           {/* 2. Browse By Category */}
           <Suspense fallback={<SectionSkeleton />}>
             <CategorySection />

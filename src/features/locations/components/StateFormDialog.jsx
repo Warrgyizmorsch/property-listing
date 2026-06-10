@@ -115,7 +115,7 @@ export default function StateFormDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-neutral-900 font-bold tracking-tight text-lg">
             {isEdit ? "Edit State" : "Create State"}

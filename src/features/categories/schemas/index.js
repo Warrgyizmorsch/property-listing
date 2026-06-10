@@ -19,4 +19,11 @@ export const categoryFormSchema = z.object({
       { message: "Slug must contain only lowercase letters, numbers, and hyphens (e.g. 'my-category')." }
     )
     .optional(),
+  coverImage: z
+    .string()
+    .trim()
+    .url({ message: "Invalid cover image URL." })
+    .nullable()
+    .optional()
+    .or(z.literal("")),
 });

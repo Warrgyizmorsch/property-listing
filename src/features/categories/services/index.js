@@ -64,7 +64,7 @@ export async function getCategoryById(id) {
 /**
  * Creates a new category. Checks for unique name and slug first.
  */
-export async function createCategory({ name, slug }) {
+export async function createCategory({ name, slug, coverImage }) {
   const generatedSlug = slug ? slugify(slug) : slugify(name);
 
   // Check for duplicates (active or archived)
@@ -89,6 +89,7 @@ export async function createCategory({ name, slug }) {
     data: {
       name,
       slug: generatedSlug,
+      coverImage: coverImage || null,
     },
   });
 }
@@ -96,7 +97,7 @@ export async function createCategory({ name, slug }) {
 /**
  * Updates an existing category name or slug.
  */
-export async function updateCategory(id, { name, slug }) {
+export async function updateCategory(id, { name, slug, coverImage }) {
   const generatedSlug = slug ? slugify(slug) : slugify(name);
 
   // Check for duplicate name/slug in other categories
@@ -123,6 +124,7 @@ export async function updateCategory(id, { name, slug }) {
     data: {
       name,
       slug: generatedSlug,
+      coverImage: coverImage !== undefined ? coverImage : undefined,
     },
   });
 }

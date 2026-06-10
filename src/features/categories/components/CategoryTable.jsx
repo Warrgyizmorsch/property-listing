@@ -87,8 +87,19 @@ export default function CategoryTable({
           <TableBody>
             {categories.map((category) => (
               <TableRow key={category.id} className="hover:bg-neutral-50/50 transition-colors">
-                <TableCell className="font-medium text-neutral-900">
-                  {category.name}
+                <TableCell className="font-medium text-neutral-900 flex items-center gap-3">
+                  {category.coverImage ? (
+                    <img
+                      src={category.coverImage}
+                      alt={category.name}
+                      className="h-8 w-8 rounded-md object-cover border border-neutral-250 shrink-0"
+                    />
+                  ) : (
+                    <div className="h-8 w-8 rounded-md bg-neutral-100 border border-neutral-200 flex items-center justify-center text-neutral-400 shrink-0">
+                      <Building className="h-4 w-4" />
+                    </div>
+                  )}
+                  <span>{category.name}</span>
                 </TableCell>
                 <TableCell className="font-mono text-xs text-neutral-500">
                   {category.slug}

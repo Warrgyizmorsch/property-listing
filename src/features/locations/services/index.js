@@ -381,7 +381,7 @@ export async function getCities({ search = "", page = 1, limit = 10, stateId = "
   }
 }
 
-export async function createCity({ name, slug, stateId }) {
+export async function createCity({ name, slug, stateId, coverImage }) {
   const generatedSlug = slug ? slugify(slug) : slugify(name);
 
   // Check unique constraints within stateId
@@ -404,11 +404,11 @@ export async function createCity({ name, slug, stateId }) {
   }
 
   return db.city.create({
-    data: { name, slug: generatedSlug, stateId },
+    data: { name, slug: generatedSlug, stateId, coverImage: coverImage || null },
   });
 }
 
-export async function updateCity(id, { name, slug, stateId }) {
+export async function updateCity(id, { name, slug, stateId, coverImage }) {
   const generatedSlug = slug ? slugify(slug) : slugify(name);
 
   const existing = await db.city.findFirst({
@@ -432,7 +432,7 @@ export async function updateCity(id, { name, slug, stateId }) {
 
   return db.city.update({
     where: { id },
-    data: { name, slug: generatedSlug, stateId },
+    data: { name, slug: generatedSlug, stateId, coverImage: coverImage !== undefined ? coverImage : undefined },
   });
 }
 

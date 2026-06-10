@@ -32,7 +32,7 @@ export default function WhyYouShouldWorkWithUs() {
 
         {/* Right Side - Content */}
         <div>
-          <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-6">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
             Why You Should Work <br /> With Us
           </h2>
           <p className="text-gray-600 dark:text-gray-450 mb-8 leading-relaxed">

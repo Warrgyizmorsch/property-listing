@@ -32,9 +32,8 @@ export default function PropertyCard({ property }) {
         <div className="absolute left-3.5 top-3.5 flex flex-wrap gap-2">
           {/* Purpose Badge: Buy/Sell/Rent */}
           <span
-            className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-bold shadow-sm ${
-              isBuy ? "bg-indigo-600 text-white" : "bg-emerald-600 text-white"
-            }`}
+            className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-bold shadow-sm ${isBuy ? "bg-indigo-600 text-white" : "bg-emerald-600 text-white"
+              }`}
           >
             For {property.purpose?.name || "Sale"}
           </span>
@@ -64,7 +63,7 @@ export default function PropertyCard({ property }) {
           <span className="text-xs font-bold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase">
             {property.category?.name}
           </span>
-          <span className="text-lg font-extrabold text-neutral-900 dark:text-neutral-50 font-heading">
+          <span className="text-lg font-bold text-neutral-900 dark:text-neutral-50 font-heading">
             {formatCurrency(property.price)}
           </span>
         </div>

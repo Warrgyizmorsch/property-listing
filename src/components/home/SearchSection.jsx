@@ -41,11 +41,10 @@ export default function SearchSection({ categories = [], cities = [] }) {
             key={opt.value}
             type="button"
             onClick={() => setStatus(opt.value)}
-            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-              status === opt.value
+            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${status === opt.value
                 ? "bg-slate-950 text-white shadow-sm"
                 : "text-slate-500 hover:text-slate-900 hover:bg-slate-50 dark:text-zinc-400 dark:hover:text-zinc-200"
-            }`}
+              }`}
           >
             {opt.label}
           </button>
@@ -55,7 +54,7 @@ export default function SearchSection({ categories = [], cities = [] }) {
       <form onSubmit={handleSearch} className="grid grid-cols-1 gap-5 md:grid-cols-4 items-end">
         {/* Keyword Search */}
         <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
+          <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
             <Sparkles className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
             Search Keyword
           </label>
@@ -72,7 +71,7 @@ export default function SearchSection({ categories = [], cities = [] }) {
 
         {/* Category Selector */}
         <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
+          <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
             <Building className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
             Project Type
           </label>
@@ -92,7 +91,7 @@ export default function SearchSection({ categories = [], cities = [] }) {
 
         {/* Location Selector */}
         <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
+          <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
             <MapPin className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
             Location
           </label>

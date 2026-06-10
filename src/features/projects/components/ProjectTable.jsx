@@ -131,7 +131,7 @@ export default function ProjectTable({
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
                   {/* Category Name */}
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
                     {project.category?.name || "Uncategorized"}
                   </span>
 
@@ -169,17 +169,16 @@ export default function ProjectTable({
                       {availableProps} / {totalProps} properties
                     </span>
                   </div>
-                  
+
                   {totalProps > 0 ? (
                     <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
                       <div
-                        className={`h-full transition-all duration-500 ${
-                          availableProps === 0
+                        className={`h-full transition-all duration-500 ${availableProps === 0
                             ? "bg-red-500"
                             : availableProps < 3
-                            ? "bg-amber-500"
-                            : "bg-indigo-600"
-                        }`}
+                              ? "bg-amber-500"
+                              : "bg-indigo-600"
+                          }`}
                         style={{ width: `${progressPercent}%` }}
                       />
                     </div>

@@ -8,13 +8,13 @@ export default function StickySidebar({ property }) {
 
   return (
     <div className="sticky top-24 flex flex-col gap-6 w-full lg:max-w-sm">
-      
+
       {/* Dynamic Validated Enquiry Form Container */}
       <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/40">
-        <h3 className="font-heading text-base font-extrabold text-neutral-900 uppercase tracking-widest mb-4 dark:text-white">
+        <h3 className="font-heading text-base font-bold text-neutral-900 uppercase tracking-widest mb-4 dark:text-white">
           Enquire About Property
         </h3>
-        
+
         <PropertyEnquiryForm propertyId={property.id} propertyTitle={property.title} />
       </div>
 
@@ -31,7 +31,7 @@ export default function StickySidebar({ property }) {
             />
           </div>
           <div>
-            <h4 className="text-sm font-extrabold text-neutral-900 dark:text-white">Sarah Sterling</h4>
+            <h4 className="text-sm font-bold text-neutral-900 dark:text-white">Sarah Sterling</h4>
             <p className="text-xs font-semibold text-neutral-500 dark:text-neutral-400">Senior Real Estate Advisor</p>
           </div>
         </div>

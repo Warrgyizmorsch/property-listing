@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { UploadCloud, Loader2, Trash2 } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -20,6 +21,7 @@ import {
   getActiveStatesAction,
   createCityAction,
   updateCityAction,
+  getCityUploadSignatureAction,
 } from "../actions"
 import { slugify } from "@/lib/slugify"
 import { toast } from "@/components/ui/toast"
@@ -32,6 +34,7 @@ export default function CityFormDialog({
 }) {
   const [isPending, startTransition] = useTransition()
   const [manualSlug, setManualSlug] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
   
   // Selection States
   const [countries, setCountries] = useState([])
@@ -55,10 +58,12 @@ export default function CityFormDialog({
       name: "",
       slug: "",
       stateId: "",
+      coverImage: "",
     },
   })
 
   const watchedName = watch("name")
+  const watchedCoverImage = watch("coverImage")
 
   // Load all countries on open
   useEffect(() => {
@@ -81,6 +86,7 @@ export default function CityFormDialog({
           name: cityRecord.name,
           slug: cityRecord.slug,
           stateId: cityRecord.stateId,
+          coverImage: cityRecord.coverImage || "",
         })
         setManualSlug(true)
       } else {
@@ -89,6 +95,7 @@ export default function CityFormDialog({
           name: "",
           slug: "",
           stateId: "",
+          coverImage: "",
         })
         setManualSlug(false)
         setStates([])
@@ -116,6 +123,48 @@ export default function CityFormDialog({
     }
   }, [watchedName, manualSlug, isEdit, setValue])
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setIsUploading(true)
+    try {
+      const signatureResult = await getCityUploadSignatureAction()
+      if (!signatureResult.success) {
+        throw new Error(signatureResult.error || "Failed to fetch secure signature.")
+      }
+
+      const { credentials, folder } = signatureResult
+
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("api_key", credentials.apiKey)
+      formData.append("timestamp", credentials.timestamp)
+      formData.append("signature", credentials.signature)
+      formData.append("folder", folder)
+
+      const endpoint = `https://api.cloudinary.com/v1_1/${credentials.cloudName}/image/upload`
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error("Direct Cloudinary upload request failed.")
+      }
+
+      const uploadData = await response.json()
+      setValue("coverImage", uploadData.secure_url, { shouldValidate: true })
+      toast.success("City cover image uploaded securely.")
+    } catch (err) {
+      console.error(err)
+      toast.error(`Upload error: ${err.message}`)
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
   const onSubmit = (data) => {
     startTransition(async () => {
       let result
@@ -141,7 +190,7 @@ export default function CityFormDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-neutral-900 font-bold tracking-tight text-lg">
             {isEdit ? "Edit City" : "Create City"}
@@ -268,6 +317,58 @@ export default function CityFormDialog({
             {!manualSlug && !isEdit && (
               <p className="text-[11px] text-neutral-400">
                 Auto-generated based on name.
+              </p>
+            )}
+          </div>
+
+          {/* Cover Image Upload */}
+          <div className="space-y-2">
+            <Label className="text-sm font-semibold text-neutral-700">
+              City Cover Image
+            </Label>
+            
+            {watchedCoverImage ? (
+              <div className="relative rounded-lg border border-neutral-200 overflow-hidden bg-neutral-50 h-32 flex items-center justify-center group">
+                <img
+                  src={watchedCoverImage}
+                  alt="City Cover Preview"
+                  className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-102"
+                />
+                <button
+                  type="button"
+                  onClick={() => setValue("coverImage", "", { shouldValidate: true })}
+                  className="absolute top-2 right-2 p-1.5 rounded-full bg-red-650/90 text-white hover:bg-red-700 hover:scale-110 transition-all shadow-md cursor-pointer border-none flex items-center justify-center"
+                  title="Remove Image"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <label className="flex flex-col items-center justify-center border-2 border-dashed border-neutral-200 rounded-lg p-5 text-center cursor-pointer hover:bg-neutral-50/50 hover:border-neutral-300 transition-all duration-200 min-h-[128px]">
+                <input
+                  type="file"
+                  accept="image/jpeg,image/jpg,image/png,image/webp"
+                  onChange={handleImageUpload}
+                  disabled={isUploading || isPending}
+                  className="hidden"
+                />
+                {isUploading ? (
+                  <div className="flex flex-col items-center gap-2">
+                    <Loader2 className="h-8 w-8 text-neutral-800 animate-spin" />
+                    <span className="text-xs font-semibold text-neutral-500 font-medium">Uploading to Cloudinary...</span>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center">
+                    <UploadCloud className="h-8 w-8 text-neutral-400 mb-2" />
+                    <span className="text-xs font-bold text-neutral-900">Upload Cover Image</span>
+                    <span className="text-[10px] text-neutral-400 mt-1 font-medium">Supports JPG, PNG, WEBP (Max 5MB)</span>
+                  </div>
+                )}
+              </label>
+            )}
+            {errors.coverImage && (
+              <p className="text-xs font-medium text-red-500 mt-1">
+                {errors.coverImage.message}
               </p>
             )}
           </div>

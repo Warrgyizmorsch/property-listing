@@ -2,12 +2,28 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth-helpers";
+import { generateUploadSignature } from "@/lib/cloudinary";
 import { db } from "@/lib/db";
 import {
   countryFormSchema,
   stateFormSchema,
   cityFormSchema
 } from "../schemas";
+
+/**
+ * Action: Generates Cloudinary signature credentials for cities cover image upload.
+ */
+export async function getCityUploadSignatureAction() {
+  try {
+    await requireAdmin();
+    const folder = "property-listing/cities";
+    const credentials = generateUploadSignature(folder, "image");
+    return { success: true, credentials, folder };
+  } catch (error) {
+    console.error("Action error generating city upload signature:", error);
+    return { success: false, error: error.message || "Failed to generate upload signature." };
+  }
+}
 import {
   createCountry,
   updateCountry,

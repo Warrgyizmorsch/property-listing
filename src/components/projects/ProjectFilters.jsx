@@ -175,7 +175,7 @@ export default function ProjectFilters({ metadata = {} }) {
 
         {/* Country Select */}
         <div className="space-y-1">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
             Country
           </span>
           <select
@@ -194,7 +194,7 @@ export default function ProjectFilters({ metadata = {} }) {
 
         {/* State Select */}
         <div className="space-y-1">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
             State
           </span>
           <select
@@ -214,7 +214,7 @@ export default function ProjectFilters({ metadata = {} }) {
 
         {/* City Select */}
         <div className="space-y-1">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
             City
           </span>
           <select

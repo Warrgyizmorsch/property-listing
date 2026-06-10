@@ -135,14 +135,14 @@ export default async function ProjectsPage({ searchParams }) {
       <Navbar />
 
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
-        <div className="h-20 md:h-28"></div>
+        <div className="h-12 md:h-20"></div>
         <div className="mx-auto max-w-7xl">
           {/* Headline Section */}
           <div className="mb-10 text-left">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
               Premium Collections
             </span>
-            <h1 className="mt-2 font-heading text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
+            <h1 className="mt-2 font-heading text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
               Explore Our Real Estate Projects
             </h1>
             <p className="mt-2 text-neutral-500 dark:text-neutral-400 max-w-2xl text-sm leading-6">
@@ -155,7 +155,7 @@ export default async function ProjectsPage({ searchParams }) {
             {/* Desktop Left Sidebar Filters */}
             <aside className="hidden lg:block w-72 shrink-0 border border-neutral-100 bg-white p-6 rounded-2xl shadow-xs dark:border-zinc-800 dark:bg-zinc-900/40">
               <div className="border-b border-neutral-100 pb-4 mb-4 dark:border-neutral-850">
-                <h2 className="text-sm font-extrabold tracking-widest text-neutral-900 uppercase dark:text-white">
+                <h2 className="text-sm font-bold tracking-widest text-neutral-900 uppercase dark:text-white">
                   Filter Projects
                 </h2>
               </div>

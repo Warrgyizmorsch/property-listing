@@ -15,6 +15,36 @@ export default function ProjectImageGallery({ images = [], projectId }) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
 
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData("text/plain", index.toString())
+  }
+
+  const handleDragOver = (e) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = "move"
+  }
+
+  const handleDrop = (e, hoverIndex) => {
+    e.preventDefault()
+    const dragIndexStr = e.dataTransfer.getData("text/plain")
+    const dragIndex = parseInt(dragIndexStr, 10)
+    if (isNaN(dragIndex) || dragIndex === hoverIndex) return
+
+    const reorderedIds = images.map((img) => img.id)
+    const [draggedItem] = reorderedIds.splice(dragIndex, 1)
+    reorderedIds.splice(hoverIndex, 0, draggedItem)
+
+    startTransition(async () => {
+      const result = await updateImagesOrderAction(projectId, reorderedIds)
+      if (result.success) {
+        toast.success("Project image order updated.")
+        router.refresh()
+      } else {
+        toast.error(result.error || "Failed to update image order.")
+      }
+    })
+  }
+
   const handleMove = (index, direction) => {
     const targetIndex = direction === "left" ? index - 1 : index + 1
     if (targetIndex < 0 || targetIndex >= images.length) return
@@ -82,23 +112,31 @@ export default function ProjectImageGallery({ images = [], projectId }) {
           Project Photo Gallery ({images.length} / 10)
         </h3>
         <span className="text-xs text-neutral-400 font-medium">
-          Sequence numbers update automatically on moving left/right.
+          Drag/reorder cards or use controls to adjust sequence numbers.
         </span>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {images.map((image, index) => (
-          <ProjectImageCard
+          <div
             key={image.id}
-            image={image}
-            isFirst={index === 0}
-            isLast={index === images.length - 1}
-            onMoveLeft={() => handleMove(index, "left")}
-            onMoveRight={() => handleMove(index, "right")}
-            onDelete={() => handleDelete(image.id, image.url)}
-            onSetFeatured={() => handleSetFeatured(image.id)}
-            disabled={isPending}
-          />
+            draggable={!isPending}
+            onDragStart={(e) => handleDragStart(e, index)}
+            onDragOver={handleDragOver}
+            onDrop={(e) => handleDrop(e, index)}
+            className="cursor-grab active:cursor-grabbing"
+          >
+            <ProjectImageCard
+              image={image}
+              isFirst={index === 0}
+              isLast={index === images.length - 1}
+              onMoveLeft={() => handleMove(index, "left")}
+              onMoveRight={() => handleMove(index, "right")}
+              onDelete={() => handleDelete(image.id, image.url)}
+              onSetFeatured={() => handleSetFeatured(image.id)}
+              disabled={isPending}
+            />
+          </div>
         ))}
       </div>
     </div>

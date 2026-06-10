@@ -8,16 +8,15 @@ export default function PropertyHeader({ property }) {
 
   return (
     <div className="flex flex-col gap-4 border-b border-neutral-100 pb-6 dark:border-neutral-850">
-      
+
       {/* Badges Row */}
       <div className="flex flex-wrap items-center gap-2">
-        <span className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-bold text-white shadow-sm ${
-          isBuy ? "bg-indigo-600" : "bg-emerald-600"
-        }`}>
+        <span className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-bold text-white shadow-sm ${isBuy ? "bg-indigo-600" : "bg-emerald-600"
+          }`}>
           For {property.purpose?.name || "Sale"}
         </span>
         <PropertyStatusBadge status={property.status} />
-        
+
         {property.isFeatured && (
           <span className="inline-flex items-center rounded-lg bg-amber-500 px-2.5 py-1 text-xs font-bold text-white shadow-xs">
             ★ Featured Listing
@@ -28,7 +27,7 @@ export default function PropertyHeader({ property }) {
       {/* Title & Price */}
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div className="space-y-2">
-          <h1 className="font-heading text-2xl font-extrabold text-neutral-900 dark:text-white sm:text-3xl md:text-4xl leading-tight">
+          <h1 className="font-heading text-2xl font-bold text-neutral-900 dark:text-white sm:text-3xl md:text-4xl leading-tight">
             {property.title}
           </h1>
           <p className="flex items-center gap-1.5 text-sm font-semibold text-neutral-500 dark:text-neutral-400">
@@ -36,7 +35,7 @@ export default function PropertyHeader({ property }) {
             <span>{property.address}, {locationText}</span>
           </p>
         </div>
-        
+
         <div className="shrink-0 flex flex-col md:items-end">
           <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Asking Price</span>
           <span className="font-heading text-3xl font-black text-indigo-600 dark:text-indigo-400">

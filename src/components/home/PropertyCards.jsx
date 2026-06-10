@@ -88,9 +88,8 @@ const PropertyCards = ({ title, description, projects, isBestDeal }) => {
                     <img
                       src={coverImage}
                       alt={project.projectName}
-                      className={`w-full object-cover transition-transform duration-300 hover:scale-103 ${
-                        isBestDeal ? "h-64" : "h-48"
-                      }`}
+                      className={`w-full object-cover transition-transform duration-300 hover:scale-103 ${isBestDeal ? "h-64" : "h-48"
+                        }`}
                     />
                     <div className="absolute top-3 left-3 flex gap-2 font-semibold z-10">
                       <div className={`text-xs px-2.5 py-1 rounded-lg font-bold shadow-md ${getStatusBadgeClass(project.status)}`}>
@@ -107,7 +106,7 @@ const PropertyCards = ({ title, description, projects, isBestDeal }) => {
 
                   <div className="p-5 flex flex-col flex-grow">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-[10px] font-extrabold tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 px-2.5 py-1 rounded-md uppercase">
+                      <span className="text-[10px] font-bold tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 px-2.5 py-1 rounded-md uppercase">
                         {project.category?.name || "Real Estate"}
                       </span>
                     </div>
@@ -139,7 +138,7 @@ const PropertyCards = ({ title, description, projects, isBestDeal }) => {
                         <span className="truncate">By {project.builderName}</span>
                       </div>
 
-                      <div className="text-rose-500 dark:text-rose-400 font-extrabold text-lg mt-2 font-heading">
+                      <div className="text-rose-500 dark:text-rose-400 font-bold text-lg mt-2 font-heading">
                         {priceDisplay}
                       </div>
                     </div>

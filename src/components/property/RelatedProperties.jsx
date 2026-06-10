@@ -27,7 +27,7 @@ export default async function RelatedProperties({ property }) {
           const locationText = `${p.city?.name || ""}, ${p.city?.state?.name || ""}`;
 
           return (
-            <div 
+            <div
               key={p.id}
               className="group relative flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/40"
             >
@@ -40,7 +40,7 @@ export default async function RelatedProperties({ property }) {
                   sizes="(max-w-7xl) 25vw, 100vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-103"
                 />
-                
+
                 {/* Badges */}
                 <div className="absolute left-2.5 top-2.5 flex flex-wrap gap-1.5 z-10">
                   <span className="inline-flex items-center rounded-md bg-indigo-600 px-2 py-0.5 text-[10px] font-bold text-white shadow-xs">
@@ -56,11 +56,11 @@ export default async function RelatedProperties({ property }) {
 
               {/* Contents */}
               <div className="flex flex-1 flex-col p-4">
-                <span className="text-[10px] font-extrabold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase">
+                <span className="text-[10px] font-bold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase">
                   {p.category?.name}
                 </span>
 
-                <h3 className="mt-1 mb-1.5 line-clamp-1 text-sm font-extrabold text-neutral-900 hover:text-indigo-600 dark:text-white dark:hover:text-indigo-400">
+                <h3 className="mt-1 mb-1.5 line-clamp-1 text-sm font-bold text-neutral-900 hover:text-indigo-600 dark:text-white dark:hover:text-indigo-400">
                   <Link href={`/properties/${p.slug}`}>
                     {p.title}
                   </Link>

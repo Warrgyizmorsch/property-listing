@@ -21,7 +21,7 @@ export default async function LocationSection() {
   };
 
   return (
-    <section className="bg-neutral-50 py-12 px-6 lg:px-8 dark:bg-zinc-900/10">
+    <section className="bg-neutral-50 px-6 lg:px-8 dark:bg-zinc-900/10">
       <div className="mx-auto max-w-7xl">
         <ExploreCards exploreCardData={exploreCityData} isProperty={false} />
       </div>

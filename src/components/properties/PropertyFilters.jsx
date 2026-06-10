@@ -78,7 +78,7 @@ export default function PropertyFilters({ metadata = {} }) {
   const handleCountryChange = (e) => {
     const slug = e.target.value;
     const params = new URLSearchParams(searchParams.toString());
-    
+
     if (slug) {
       params.set("country", slug);
       const countryObj = countries.find((c) => c.slug === slug);
@@ -87,7 +87,7 @@ export default function PropertyFilters({ metadata = {} }) {
       params.delete("country");
       setSelectedCountryId("");
     }
-    
+
     // Clear child state and city params when country changes
     params.delete("state");
     params.delete("city");
@@ -99,7 +99,7 @@ export default function PropertyFilters({ metadata = {} }) {
   const handleStateChange = (e) => {
     const slug = e.target.value;
     const params = new URLSearchParams(searchParams.toString());
-    
+
     if (slug) {
       params.set("state", slug);
       const stateObj = states.find((s) => s.slug === slug);
@@ -108,7 +108,7 @@ export default function PropertyFilters({ metadata = {} }) {
       params.delete("state");
       setSelectedStateId("");
     }
-    
+
     // Clear child city param when state changes
     params.delete("city");
     params.set("page", "1");
@@ -205,7 +205,7 @@ export default function PropertyFilters({ metadata = {} }) {
 
         {/* Country Select */}
         <div className="space-y-1">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
             Country
           </span>
           <select
@@ -224,7 +224,7 @@ export default function PropertyFilters({ metadata = {} }) {
 
         {/* State Select */}
         <div className="space-y-1">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
             State
           </span>
           <select
@@ -244,7 +244,7 @@ export default function PropertyFilters({ metadata = {} }) {
 
         {/* City Select */}
         <div className="space-y-1">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
             City
           </span>
           <select

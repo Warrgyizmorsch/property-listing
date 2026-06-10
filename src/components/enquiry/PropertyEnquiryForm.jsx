@@ -101,7 +101,7 @@ export default function PropertyEnquiryForm({
 
       {/* Name Input */}
       <div className="space-y-1">
-        <label className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-500">
+        <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">
           Your Name <span className="text-red-500">*</span>
         </label>
         <Input
@@ -117,7 +117,7 @@ export default function PropertyEnquiryForm({
 
       {/* Email Input */}
       <div className="space-y-1">
-        <label className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-500">
+        <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">
           Email Address <span className="text-red-500">*</span>
         </label>
         <Input
@@ -133,7 +133,7 @@ export default function PropertyEnquiryForm({
 
       {/* Phone Input */}
       <div className="space-y-1">
-        <label className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-500">
+        <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">
           Phone Number <span className="text-red-500">*</span>
         </label>
         <Input
@@ -149,7 +149,7 @@ export default function PropertyEnquiryForm({
 
       {/* Message Input */}
       <div className="space-y-1">
-        <label className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-500">
+        <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">
           Message <span className="text-red-500">*</span>
         </label>
         <Textarea

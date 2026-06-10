@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth-helpers";
+import { generateUploadSignature } from "@/lib/cloudinary";
 import { categoryFormSchema } from "../schemas";
 import {
   createCategory,
@@ -9,6 +10,21 @@ import {
   softDeleteCategory,
   restoreCategory
 } from "../services";
+
+/**
+ * Action: Generates Cloudinary signature credentials for categories cover image upload.
+ */
+export async function getCategoryUploadSignatureAction() {
+  try {
+    await requireAdmin();
+    const folder = "property-listing/categories";
+    const credentials = generateUploadSignature(folder, "image");
+    return { success: true, credentials, folder };
+  } catch (error) {
+    console.error("Action error generating category upload signature:", error);
+    return { success: false, error: error.message || "Failed to generate upload signature." };
+  }
+}
 
 /**
  * Server Action: Create Category.

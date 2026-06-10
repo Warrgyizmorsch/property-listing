@@ -19,7 +19,7 @@ const BgImageSection = () => {
 
       {/* Overlay content */}
       <div className="relative z-10 px-4">
-        <h2 className="text-3xl md:text-5xl font-extrabold text-neutral-900 dark:text-white leading-tight">
+        <h2 className="text-3xl md:text-5xl font-bold text-neutral-900 dark:text-white leading-tight">
           Discover a place you'll<br className="hidden md:block" /> love to live
         </h2>
         <p className="text-neutral-700 dark:text-neutral-300 mt-4 max-w-xl mx-auto font-medium">

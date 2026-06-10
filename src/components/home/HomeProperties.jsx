@@ -24,8 +24,8 @@ export default async function HomeProperties() {
   };
 
   return (
-    <div className="space-y-16 py-12 bg-neutral-50/50 dark:bg-zinc-900/10 px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl space-y-16">
+    <div className="bg-neutral-50/50 dark:bg-zinc-900/10 px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         {/* 1. Featured Projects Section */}
         {featured.length > 0 && (
           <PropertyCards

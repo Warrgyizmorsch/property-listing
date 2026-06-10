@@ -48,7 +48,7 @@ export default function PropertyBuilderInfo({ property }) {
               <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
                 {detail.label}
               </span>
-              <p className="text-sm font-extrabold text-neutral-850 dark:text-neutral-200 mt-0.5 leading-6">
+              <p className="text-sm font-bold text-neutral-850 dark:text-neutral-200 mt-0.5 leading-6">
                 {detail.value}
               </p>
             </div>
