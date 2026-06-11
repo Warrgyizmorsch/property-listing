@@ -122,14 +122,14 @@ export const UnitPropertyCard = ({ property }) => {
               href={`/properties/${property.slug}`}
               className="block w-full"
             >
-              <button className="secondary-btn w-full text-xs py-2 h-9">
+              <button className="secondary-btn w-full text-xs py-2">
                 View Details
               </button>
             </Link>
 
             <button
               onClick={() => setIsOpen(true)}
-              className="primary-btn w-full text-xs py-2 h-9"
+              className="primary-btn w-full text-xs py-2"
             >
               Get Callback
             </button>

@@ -27,7 +27,7 @@ export default function PropertyHeader({ property }) {
       {/* Title & Price */}
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div className="space-y-2">
-          <h1 className="font-heading text-2xl font-bold text-neutral-900 dark:text-white sm:text-3xl md:text-4xl leading-tight">
+          <h1 className="text-2xl font-semibold text-neutral-900 dark:text-white sm:text-3xl md:text-4xl leading-tight">
             {property.title}
           </h1>
           <p className="flex items-center gap-1.5 text-sm font-semibold text-neutral-500 dark:text-neutral-400">
@@ -38,7 +38,7 @@ export default function PropertyHeader({ property }) {
 
         <div className="shrink-0 flex flex-col md:items-end">
           <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Asking Price</span>
-          <span className="font-heading text-3xl font-black text-indigo-600 dark:text-indigo-400">
+          <span className="font-heading text-3xl font-semibold text-(--primary)">
             {formatCurrency(property.price)}
           </span>
         </div>

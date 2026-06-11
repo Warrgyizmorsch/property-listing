@@ -7,6 +7,7 @@ import ProjectSort from "@/components/projects/ProjectSort";
 import ProjectPagination from "@/components/projects/ProjectPagination";
 import MobileFilterButton from "@/components/projects/MobileFilterButton";
 import ProjectCard, { ProjectCardSkeleton } from "@/components/projects/ProjectCard";
+import { PropertyCard } from "@/components/home/PropertyCards";
 import { FolderOpen } from "lucide-react";
 import {
   getPublicProjects,
@@ -113,7 +114,7 @@ async function ListingGridContainer({ searchParamsResolved }) {
       {/* Projects card grid */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+          <PropertyCard key={project.id} project={project} />
         ))}
       </div>
 

@@ -107,7 +107,7 @@ export default async function PropertyDetailPage({ params }) {
 
       <Navbar />
 
-      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+      <main className="flex-grow py-6 px-4 sm:px-6 lg:px-8">
         <div className="h-12 md:h-20"></div>
         <div className="mx-auto max-w-7xl">
           
@@ -142,7 +142,7 @@ export default async function PropertyDetailPage({ params }) {
             <aside className="w-full lg:w-96 shrink-0 space-y-6">
               {property.project && (
                 <div className="rounded-2xl border border-neutral-200/80 bg-white p-5 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/30 space-y-4">
-                  <div className="relative h-32 w-full rounded-xl overflow-hidden bg-neutral-900">
+                  <div className="relative h-full w-full rounded-xl overflow-hidden bg-neutral-900">
                     <img
                       src={property.project.mainImage || property.project.bannerImage || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=400"}
                       alt={property.project.projectName}
@@ -180,7 +180,7 @@ export default async function PropertyDetailPage({ params }) {
                   </div>
 
                   <Link href={`/projects/${property.project.slug}`} className="block w-full">
-                    <Button size="sm" className="w-full gap-1 h-9 text-xs font-bold bg-slate-950 text-white hover:bg-slate-800 rounded-xl cursor-pointer">
+                    <Button size="sm" className="w-full h-10 primary-btn">
                       View Project Details
                     </Button>
                   </Link>

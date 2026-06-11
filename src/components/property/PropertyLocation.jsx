@@ -25,8 +25,8 @@ export default function PropertyLocation({ property }) {
   ];
 
   return (
-    <div className="py-8 border-b border-neutral-100 dark:border-neutral-850">
-      <h2 className="font-heading text-lg font-bold text-neutral-900 uppercase tracking-widest mb-5 dark:text-white">
+    <div className="border-b border-neutral-100 dark:border-neutral-850">
+      <h2 className="section-heading">
         Location Information
       </h2>
 
@@ -34,7 +34,7 @@ export default function PropertyLocation({ property }) {
         {fields.map((field, idx) => (
           <div
             key={idx}
-            className="flex items-start gap-3.5 p-4 rounded-xl border border-neutral-100 bg-neutral-50/20 dark:border-zinc-800 dark:bg-zinc-900/10"
+            className="flex items-start gap-3.5 p-2 shadow-sm rounded-xl border border-neutral-100 bg-neutral-50/20 dark:border-zinc-800 dark:bg-zinc-900/10"
           >
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white border border-neutral-100 dark:bg-zinc-850 dark:border-zinc-800">
               {field.icon}
