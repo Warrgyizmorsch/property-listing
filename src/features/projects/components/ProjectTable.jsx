@@ -174,10 +174,10 @@ export default function ProjectTable({
                     <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
                       <div
                         className={`h-full transition-all duration-500 ${availableProps === 0
-                            ? "bg-red-500"
-                            : availableProps < 3
-                              ? "bg-amber-500"
-                              : "bg-indigo-600"
+                          ? "bg-red-500"
+                          : availableProps < 3
+                            ? "bg-amber-500"
+                            : "bg-indigo-600"
                           }`}
                         style={{ width: `${progressPercent}%` }}
                       />
@@ -195,41 +195,41 @@ export default function ProjectTable({
                 {!showDeleted ? (
                   <>
                     <div className="flex gap-1.5">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        asChild
-                        className="h-8 w-8 text-slate-500 hover:text-slate-950 hover:bg-slate-100 rounded-lg cursor-pointer"
-                        title="View Project Detail"
-                      >
-                        <Link href={`/admin/projects/${project.id}`}>
+                      <Link href={`/admin/projects/${project.id}`}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          asChild
+                          className="h-8 w-8 text-slate-500 hover:text-slate-950 hover:bg-slate-100 rounded-lg cursor-pointer"
+                          title="View Project Detail"
+                        >
                           <Eye className="h-4.5 w-4.5" />
-                        </Link>
-                      </Button>
+                        </Button>
+                      </Link>
 
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        asChild
-                        className="h-8 w-8 text-slate-500 hover:text-slate-950 hover:bg-slate-100 rounded-lg cursor-pointer"
-                        title="Edit Project"
-                      >
-                        <Link href={`/admin/projects/${project.id}/edit`}>
+                      <Link href={`/admin/projects/${project.id}/edit`}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          asChild
+                          className="h-8 w-8 text-slate-500 hover:text-slate-950 hover:bg-slate-100 rounded-lg cursor-pointer"
+                          title="Edit Project"
+                        >
                           <Edit2 className="h-4 w-4" />
-                        </Link>
-                      </Button>
+                        </Button>
+                      </Link>
 
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        asChild
-                        className="h-8 w-8 text-slate-500 hover:text-slate-950 hover:bg-slate-100 rounded-lg cursor-pointer"
-                        title="Gallery Photos"
-                      >
-                        <Link href={`/admin/projects/${project.id}/images`}>
+                      <Link href={`/admin/projects/${project.id}/images`}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          asChild
+                          className="h-8 w-8 text-slate-500 hover:text-slate-950 hover:bg-slate-100 rounded-lg cursor-pointer"
+                          title="Gallery Photos"
+                        >
                           <ImageIcon className="h-4 w-4" />
-                        </Link>
-                      </Button>
+                        </Button>
+                      </Link>
                     </div>
 
                     <Button

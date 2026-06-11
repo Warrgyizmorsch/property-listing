@@ -34,16 +34,16 @@ export default async function ProjectImagesPage({ params }) {
           description={`Manage image gallery, reorder display sequences, and set cover image for "${project.projectName}".`}
         />
         
+        <Link href="/admin/projects">
         <Button
           variant="outline"
           asChild
           className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer self-start md:self-auto"
         >
-          <Link href="/admin/projects" className="flex items-center">
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            <ArrowLeft className="h-4 w-4" />
             Back to Projects
-          </Link>
         </Button>
+          </Link>
       </div>
 
       {/* Upload Zone */}

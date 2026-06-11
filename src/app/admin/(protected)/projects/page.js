@@ -38,43 +38,51 @@ export default async function ProjectsPage({ searchParams }) {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
-      
+
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <PageHeader
           title="Project Catalogues"
           description="Manage property development projects, builders, and parent specifications."
         />
-        
+
         <div className="flex items-center gap-2">
           {/* Active / Archive Toggle */}
-          <Button
-            variant="outline"
-            asChild
-            className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
-          >
-            {isArchived ? (
-              <Link href="/admin/projects" className="flex items-center">
+
+          {isArchived ? (
+            <Link href="/admin/projects">
+              <Button
+                variant="outline"
+                asChild
+                className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
+              >
                 <ShieldAlert className="h-4 w-4 mr-2 text-neutral-500" />
                 Active Projects
-              </Link>
-            ) : (
-              <Link href="/admin/projects?archive=true" className="flex items-center">
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/admin/projects?archive=true">
+              <Button
+                variant="outline"
+                asChild
+                className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
+              >
                 <Archive className="h-4 w-4 mr-2 text-neutral-500" />
                 Archived Projects
-              </Link>
-            )}
-          </Button>
-
-          <Button
-            asChild
-            className="bg-neutral-950 text-white hover:bg-neutral-800 h-10 text-xs font-semibold cursor-pointer"
-          >
-            <Link href="/admin/projects/create" className="flex items-center">
-              <Plus className="h-4 w-4 mr-1.5" />
-              Add Project
+              </Button>
             </Link>
-          </Button>
+          )}
+
+
+          <Link href="/admin/projects/create">
+            <Button
+              asChild
+              className="bg-neutral-950 text-white hover:bg-neutral-800 h-10 text-xs font-semibold cursor-pointer"
+            >
+              <Plus className="h-4 w-4" />
+              Add Project
+            </Button>
+          </Link>
         </div>
       </div>
 

@@ -900,16 +900,14 @@ export default function ProjectForm({ project = null, metadata = {} }) {
                     <Button
                       type="button"
                       variant="outline"
-                      asChild
-                      className="border-neutral-200 h-9 text-xs font-bold cursor-pointer"
+                      className="border-neutral-200 h-9 text-xs font-bold"
+                      onClick={() => document.getElementById("banner-file")?.click()}
                     >
-                      <label htmlFor="banner-file">
-                        {isUploadingBanner ? (
-                          <Loader2 className="h-4 w-4 animate-spin text-neutral-600" />
-                        ) : (
-                          "Upload File"
-                        )}
-                      </label>
+                      {isUploadingBanner ? (
+                        <Loader2 className="h-4 w-4 animate-spin text-neutral-600" />
+                      ) : (
+                        "Upload File"
+                      )}
                     </Button>
                   </div>
                 </div>
@@ -942,16 +940,14 @@ export default function ProjectForm({ project = null, metadata = {} }) {
                     <Button
                       type="button"
                       variant="outline"
-                      asChild
-                      className="border-neutral-200 h-9 text-xs font-bold cursor-pointer"
+                      className="border-neutral-200 h-9 text-xs font-bold"
+                      onClick={() => document.getElementById("main-file")?.click()}
                     >
-                      <label htmlFor="main-file">
-                        {isUploadingMain ? (
-                          <Loader2 className="h-4 w-4 animate-spin text-neutral-600" />
-                        ) : (
-                          "Upload File"
-                        )}
-                      </label>
+                      {isUploadingMain ? (
+                        <Loader2 className="h-4 w-4 animate-spin text-neutral-600" />
+                      ) : (
+                        "Upload File"
+                      )}
                     </Button>
                   </div>
                 </div>
@@ -985,16 +981,14 @@ export default function ProjectForm({ project = null, metadata = {} }) {
                   <Button
                     type="button"
                     variant="outline"
-                    asChild
-                    className="border-neutral-200 h-9 text-xs font-bold cursor-pointer"
+                    className="border-neutral-200 h-9 text-xs font-bold"
+                    onClick={() => document.getElementById("brochure-file")?.click()}
                   >
-                    <label htmlFor="brochure-file">
-                      {isUploadingBrochure ? (
-                        <Loader2 className="h-4 w-4 animate-spin text-neutral-600" />
-                      ) : (
-                        "Upload Doc"
-                      )}
-                    </label>
+                    {isUploadingBrochure ? (
+                      <Loader2 className="h-4 w-4 animate-spin text-neutral-600" />
+                    ) : (
+                      "Upload Doc"
+                    )}
                   </Button>
                 </div>
               </div>

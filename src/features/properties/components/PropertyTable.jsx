@@ -30,7 +30,7 @@ export default function PropertyTable({
   showDeleted = false,
 }) {
   const [isPending, startTransition] = useTransition()
-  
+
   // Archive state modal
   const [deletingProperty, setDeletingProperty] = useState(null)
 
@@ -159,9 +159,8 @@ export default function PropertyTable({
                     <button
                       onClick={() => handleFeaturedToggle(property.id)}
                       disabled={isPending}
-                      className={`p-1 rounded-md transition-colors cursor-pointer outline-hidden hover:bg-neutral-100 ${
-                        property.isFeatured ? "text-amber-500" : "text-neutral-300"
-                      }`}
+                      className={`p-1 rounded-md transition-colors cursor-pointer outline-hidden hover:bg-neutral-100 ${property.isFeatured ? "text-amber-500" : "text-neutral-300"
+                        }`}
                     >
                       <Star className={`h-4.5 w-4.5 ${property.isFeatured ? "fill-amber-500" : ""}`} />
                       <span className="sr-only">Toggle Featured</span>
@@ -210,28 +209,28 @@ export default function PropertyTable({
                   <div className="flex items-center justify-end gap-1.5">
                     {!showDeleted ? (
                       <>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          asChild
-                          className="h-8 w-8 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100"
-                        >
-                          <Link href={`/admin/properties/${property.id}/edit`}>
+                        <Link href={`/admin/properties/${property.id}/edit`}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            asChild
+                            className="h-8 w-8 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100"
+                          >
                             <Edit2 className="h-4 w-4" />
                             <span className="sr-only">Edit</span>
-                          </Link>
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          asChild
-                          className="h-8 w-8 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100"
-                        >
-                          <Link href={`/admin/properties/${property.id}/images`}>
+                          </Button>
+                        </Link>
+                        <Link href={`/admin/properties/${property.id}/images`}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            asChild
+                            className="h-8 w-8 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100"
+                          >
                             <Image className="h-4 w-4" />
                             <span className="sr-only">Manage Images</span>
-                          </Link>
-                        </Button>
+                          </Button>
+                        </Link>
                         <Button
                           variant="ghost"
                           size="icon"

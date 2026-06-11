@@ -27,24 +27,24 @@ export default async function PropertyImagesPage({ params }) {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto animate-in fade-in duration-300">
-      
+
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <PageHeader
           title="Property Photos"
           description={`Manage image gallery, reorder display sequences, and set primary cover for "${property.title}".`}
         />
-        
-        <Button
-          variant="outline"
-          asChild
-          className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer self-start md:self-auto"
-        >
-          <Link href="/admin/properties" className="flex items-center">
-            <ArrowLeft className="h-4 w-4 mr-2" />
+
+        <Link href="/admin/properties" className="flex items-center">
+          <Button
+            variant="outline"
+            asChild
+            className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer self-start md:self-auto"
+          >
+            <ArrowLeft className="h-4 w-4" />
             Back to Listings
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </div>
 
       {/* 2. Drag & Drop Direct Uploader Dropzone */}

@@ -57,39 +57,39 @@ export default async function ProjectDetailsPage({ params }) {
       {/* Top Header Buttons */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            asChild
-            className="border-neutral-200 hover:bg-neutral-50 h-9 text-xs font-semibold text-neutral-700 cursor-pointer"
-          >
-            <Link href="/admin/projects" className="flex items-center">
-              <ArrowLeft className="h-4 w-4 mr-1.5" />
+          <Link href="/admin/projects">
+            <Button
+              variant="outline"
+              asChild
+              className="border-neutral-200 hover:bg-neutral-50 h-9 text-xs font-semibold text-neutral-700 cursor-pointer"
+            >
+              <ArrowLeft className="h-4 w-4 " />
               Back to Projects
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
 
         <div className="flex items-center gap-3 self-start sm:self-auto">
-          <Button
-            variant="outline"
-            asChild
-            className="border-neutral-200 hover:bg-neutral-50 h-9 text-xs font-semibold px-4 cursor-pointer"
-          >
-            <Link href={`/admin/properties/create?projectId=${project.id}`} className="flex items-center">
-              <Plus className="h-4 w-4 mr-1.5" />
+          <Link href={`/admin/properties/create?projectId=${project.id}`}>
+            <Button
+              variant="outline"
+              asChild
+              className="border-neutral-200 hover:bg-neutral-50 h-9 text-xs font-semibold px-4 cursor-pointer"
+            >
+              <Plus className="h-4 w-4 " />
               Add Property
-            </Link>
-          </Button>
+            </Button>
+          </Link>
 
-          <Button
-            asChild
-            className="bg-neutral-950 text-white hover:bg-neutral-800 h-9 text-xs font-semibold px-4 cursor-pointer"
-          >
-            <Link href={`/admin/projects/${project.id}/edit`} className="flex items-center">
-              <Edit2 className="h-4 w-4 mr-1.5" />
+          <Link href={`/admin/projects/${project.id}/edit`}>
+            <Button
+              asChild
+              className="bg-neutral-950 text-white hover:bg-neutral-800 h-9 text-xs font-semibold px-4 cursor-pointer"
+            >
+              <Edit2 className="h-4 w-4 " />
               Edit Project
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -120,25 +120,25 @@ export default async function ProjectDetailsPage({ params }) {
 
           <div className="flex items-center gap-3">
             {brochureUrl && (
-              <Button
-                variant="outline"
-                asChild
-                className="bg-white/10 text-white border-white/20 hover:bg-white/20 h-9 text-xs font-bold"
-              >
-                <a href={brochureUrl} target="_blank" rel="noopener noreferrer">
+              <a href={brochureUrl} target="_blank" rel="noopener noreferrer">
+                <Button
+                  variant="outline"
+                  asChild
+                  className="bg-white/10 text-white border-white/20 hover:bg-white/20 h-9 text-xs font-bold"
+                >
                   Download Brochure
-                </a>
-              </Button>
+                </Button>
+              </a>
             )}
-            <Button
-              asChild
-              className="bg-white text-slate-950 hover:bg-slate-100 h-9 text-xs font-bold border-none"
-            >
-              <Link href={`/admin/projects/${project.id}/images`}>
-                <ImageIcon className="h-4 w-4 mr-1.5 text-slate-900" />
+            <Link href={`/admin/projects/${project.id}/images`}>
+              <Button
+                asChild
+                className="bg-white text-slate-950 hover:bg-slate-100 h-9 text-xs font-bold border-none"
+              >
+                <ImageIcon className="h-4 w-4 text-slate-900" />
                 Gallery
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -326,15 +326,15 @@ export default async function ProjectDetailsPage({ params }) {
           <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
             Properties Under Project ({project.properties?.length || 0})
           </h3>
-          <Button
-            asChild
-            variant="outline"
-            className="border-neutral-200 hover:bg-neutral-50 h-8 text-xs font-bold cursor-pointer"
-          >
-            <Link href={`/admin/properties/create?projectId=${project.id}`}>
+          <Link href={`/admin/properties/create?projectId=${project.id}`}>
+            <Button
+              asChild
+              variant="outline"
+              className="border-neutral-200 hover:bg-neutral-50 h-8 text-xs font-bold cursor-pointer"
+            >
               + Add Property to Project
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
 
         <div className="overflow-hidden border border-slate-100 rounded-xl">
@@ -361,25 +361,25 @@ export default async function ProjectDetailsPage({ params }) {
                   </td>
                   <td className="px-4 py-3">
                     <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-bold ${property.status?.name === "Available"
-                        ? "bg-green-50 text-green-700 ring-1 ring-green-600/20"
-                        : property.status?.name === "Sold"
-                          ? "bg-red-50 text-red-700 ring-1 ring-red-600/20"
-                          : "bg-amber-50 text-amber-700 ring-1 ring-amber-600/20"
+                      ? "bg-green-50 text-green-700 ring-1 ring-green-600/20"
+                      : property.status?.name === "Sold"
+                        ? "bg-red-50 text-red-700 ring-1 ring-red-600/20"
+                        : "bg-amber-50 text-amber-700 ring-1 ring-amber-600/20"
                       }`}>
                       {property.status?.name || "No Status"}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      asChild
-                      className="text-indigo-600 hover:text-indigo-900 font-bold text-xs h-7 hover:bg-indigo-50"
-                    >
-                      <Link href={`/admin/properties/${property.id}/edit`}>
+                    <Link href={`/admin/properties/${property.id}/edit`}>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                        className="text-indigo-600 hover:text-indigo-900 font-bold text-xs h-7 hover:bg-indigo-50"
+                      >
                         Edit Property
-                      </Link>
-                    </Button>
+                      </Button>
+                    </Link>
                   </td>
                 </tr>
               ))}

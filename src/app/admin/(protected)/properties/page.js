@@ -68,43 +68,51 @@ export default async function PropertiesPage({ searchParams }) {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
-      
+
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <PageHeader
           title="Property Directories"
           description="Manage property listings, toggle highlights, adjust badges, and manage details."
         />
-        
+
         <div className="flex items-center gap-2">
           {/* Active / Archive toggler */}
-          <Button
-            variant="outline"
-            asChild
-            className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
-          >
-            {isArchived ? (
-              <Link href="/admin/properties" className="flex items-center">
+
+          {isArchived ? (
+            <Link href="/admin/properties">
+              <Button
+                variant="outline"
+                asChild
+                className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
+              >
+
                 <ShieldAlert className="h-4 w-4 mr-2 text-neutral-500" />
                 Active Listings
-              </Link>
-            ) : (
-              <Link href="/admin/properties?archive=true" className="flex items-center">
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/admin/properties?archive=true">
+              <Button
+                variant="outline"
+                asChild
+                className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
+              >
                 <Archive className="h-4 w-4 mr-2 text-neutral-500" />
                 Archived Records
-              </Link>
-            )}
-          </Button>
+              </Button>
+            </Link>
+          )}
 
-          <Button
-            asChild
-            className="bg-neutral-950 text-white hover:bg-neutral-800 h-10 text-xs font-semibold cursor-pointer"
-          >
-            <Link href="/admin/properties/create" className="flex items-center">
+          <Link href="/admin/properties/create">
+            <Button
+              asChild
+              className="bg-neutral-950 text-white hover:bg-neutral-800 h-10 text-xs font-semibold cursor-pointer"
+            >
               <Plus className="h-4 w-4 mr-1.5" />
               Publish Property
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
       </div>
 
