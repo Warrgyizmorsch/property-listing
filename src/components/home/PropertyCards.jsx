@@ -16,7 +16,7 @@ const STATUS_CONFIG = {
   UPCOMING:  { label: "Upcoming",  color: "bg-orange-400" },
 };
 
-const PropertyCard = ({ project, isBestDeal }) => {
+export const PropertyCard = ({ project, isBestDeal }) => {
   const coverImage =
     project.mainImage ||
     "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800";
@@ -129,7 +129,7 @@ const PropertyCards = ({ title, description, projects, isBestDeal }) => {
     <div className="md:py-6 py-4">
       {/* Section header */}
       <div className="text-center mb-8">
-        <h2 className="section-heading">
+        <h2 className="section-heading center">
           {title}
         </h2>
         <p className="text-sm text-muted-foreground mt-2 max-w-xl mx-auto leading-relaxed">

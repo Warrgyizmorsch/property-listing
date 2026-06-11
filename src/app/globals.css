@@ -250,7 +250,7 @@ input[type="radio"],
     font-size: 32px;
     font-weight: 600;
     color: var(--primary);
-    text-align: center;
+    text-align: left; /* Default Left */
     margin-bottom: 20px;
     text-transform: capitalize;
     letter-spacing: 0.5px;
@@ -261,19 +261,38 @@ input[type="radio"],
     animation: fadeUp 0.8s ease forwards;
 }
 
-/* Animated Underline */
+/* Default Left Underline */
 .section-heading::after {
     content: "";
     position: absolute;
-    left: 50%;
+    left: 0;
     bottom: -2px;
     width: 0;
     height: 3px;
     background: linear-gradient(90deg, var(--secondary), var(--secondary));
     border-radius: 10px;
-    transform: translateX(-50%);
     animation: underlineGrow 1s ease forwards;
     animation-delay: 0.5s;
+}
+
+/* Center Alignment */
+.section-heading.center {
+    text-align: center;
+}
+
+.section-heading.center::after {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Right Alignment */
+.section-heading.right {
+    text-align: right;
+}
+
+.section-heading.right::after {
+    left: auto;
+    right: 0;
 }
 
 /* Fade Up Animation */
@@ -317,9 +336,15 @@ input[type="radio"],
     line-height: 1.7;
     color: var(--secondary);
     max-width: 800px;
+    margin: 0 0 40px;
+    text-align: left; /* Default Left */
+    font-weight: 400;
+}
+
+/* Optional Center Subheading */
+.section-subheading.center {
     text-align: center;
     margin: 0 auto 40px;
-    font-weight: 400;
 }
 
 .page-heading {
@@ -327,7 +352,7 @@ input[type="radio"],
     font-size: 42px;
     font-weight: 600;
     color: var(--primary);
-    text-align: center;
+    text-align: left; /* Default Left */
     margin-bottom: 20px;
     text-transform: capitalize;
     letter-spacing: 0.5px;
@@ -338,20 +363,40 @@ input[type="radio"],
     animation: fadeUp 0.8s ease forwards;
 }
 
-/* Animated Underline */
+/* Default Left Underline */
 .page-heading::after {
     content: "";
     position: absolute;
-    left: 50%;
+    left: 0;
     bottom: -2px;
     width: 0;
     height: 3px;
     background: linear-gradient(90deg, var(--secondary), var(--secondary));
     border-radius: 10px;
-    transform: translateX(-50%);
     animation: underlineGrow 1s ease forwards;
     animation-delay: 0.5s;
 }
+
+/* Center Alignment */
+.page-heading.center {
+    text-align: center;
+}
+
+.page-heading.center::after {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Right Alignment */
+.page-heading.right {
+    text-align: right;
+}
+
+.page-heading.right::after {
+    left: auto;
+    right: 0;
+}
+
 .page-heading:hover {
     transform: translateY(-3px);
     transition: all 0.3s ease;

@@ -19,7 +19,7 @@ const BgImageSection = () => {
 
       {/* Overlay content */}
       <div className="relative z-10 px-4">
-        <h2 className="page-heading">
+        <h2 className="page-heading center">
           Discover a place you'll<br className="hidden md:block" /> love to live
         </h2>
         <p className="text-neutral-700 dark:text-neutral-300 mt-4 max-w-xl mx-auto font-medium">

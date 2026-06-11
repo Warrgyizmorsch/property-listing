@@ -28,7 +28,7 @@ const HowItWorks = () => {
   return (
     <section className="py-6">
       <div className="max-w-7xl mx-auto">
-        <h2 className="section-heading">
+        <h2 className="section-heading center">
           How It works? Find a perfect home
         </h2>
         <p className="text-slate-500 dark:text-slate-400 mb-5 md:mb-12 mt-2 text-center">

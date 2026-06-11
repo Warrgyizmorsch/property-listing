@@ -111,7 +111,7 @@ export default function PropertyEnquiryForm({
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="First and last name"
-          className="h-10 rounded-xl text-sm border-neutral-200 focus-visible:ring-indigo-500"
+          className="focus-visible:ring-var(--primary)"
         />
       </div>
 
@@ -127,7 +127,7 @@ export default function PropertyEnquiryForm({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="name@example.com"
-          className="h-10 rounded-xl text-sm border-neutral-200 focus-visible:ring-indigo-500"
+          className="focus-visible:ring-var(--primary)"
         />
       </div>
 
@@ -143,7 +143,7 @@ export default function PropertyEnquiryForm({
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="+1 (555) 000-0000"
-          className="h-10 rounded-xl text-sm border-neutral-200 focus-visible:ring-indigo-500"
+          className="focus-visible:ring-var(--primary)"
         />
       </div>
 
@@ -158,7 +158,7 @@ export default function PropertyEnquiryForm({
           disabled={isPending}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="rounded-xl text-sm border-neutral-200 focus-visible:ring-indigo-500 resize-none"
+          className="focus-visible:ring-var(--primary)"
         />
       </div>
 
@@ -166,7 +166,7 @@ export default function PropertyEnquiryForm({
       <Button
         type="submit"
         disabled={isPending}
-        className="w-full h-11 bg-indigo-600 font-bold text-white hover:bg-indigo-700 rounded-xl gap-2 shadow-md shadow-indigo-100 dark:shadow-none"
+        className="w-full primary-btn h-10"
       >
         {isPending ? (
           <>

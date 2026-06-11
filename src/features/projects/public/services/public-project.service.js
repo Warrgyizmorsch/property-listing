@@ -328,9 +328,17 @@ export async function getRelatedProjects({
           },
         },
         properties: {
-          where: { deletedAt: null },
-          select: { price: true },
-        },
+  where: { deletedAt: null },
+  select: {
+    price: true,
+    areaSize: true,
+    status: {
+      select: {
+        name: true,
+      },
+    },
+  },
+},
         images: {
           where: { isFeatured: true },
           take: 1,
@@ -343,13 +351,41 @@ export async function getRelatedProjects({
     });
 
     return projects.map((project) => {
-      const prices = project.properties?.map(p => Number(p.price)).filter(Boolean) || [];
-      const startingPrice = prices.length > 0 ? Math.min(...prices) : 0;
-      return {
-        ...project,
-        startingPrice,
-      };
-    });
+  const totalProps = project.properties?.length || 0;
+
+  const availableProps =
+    project.properties?.filter(
+      (p) => p.status?.name === "Available"
+    ).length || 0;
+
+  const prices =
+    project.properties
+      ?.map((p) => Number(p.price))
+      .filter(Boolean) || [];
+
+  const startingPrice =
+    prices.length > 0 ? Math.min(...prices) : 0;
+
+  const areas =
+    project.properties
+      ?.map((p) => p.areaSize)
+      .filter(Boolean) || [];
+
+  const minArea =
+    areas.length > 0 ? Math.min(...areas) : 0;
+
+  const maxArea =
+    areas.length > 0 ? Math.max(...areas) : 0;
+
+  return {
+    ...project,
+    totalProps,
+    availableProps,
+    startingPrice,
+    minArea,
+    maxArea,
+  };
+});
   } catch (error) {
     console.error("Error fetching related projects:", error);
     return [];

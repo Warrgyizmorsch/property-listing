@@ -10,7 +10,7 @@ export default function StickySidebar({ property }) {
     <div className="sticky top-24 flex flex-col gap-6 w-full lg:max-w-sm">
 
       {/* Dynamic Validated Enquiry Form Container */}
-      <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/40">
+      <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/40">
         <h3 className="font-heading text-base font-bold text-neutral-900 uppercase tracking-widest mb-4 dark:text-white">
           Enquire About Property
         </h3>

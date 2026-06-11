@@ -142,7 +142,7 @@ export default async function ProjectsPage({ searchParams }) {
             <span className="section-subheading">
               Premium Collections
             </span>
-            <h1 className="mt-2 font-heading text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
+            <h1 className="page-heading">
               Explore Our Real Estate Projects
             </h1>
             <p className="mt-2 text-neutral-500 dark:text-neutral-400 max-w-2xl text-sm leading-6">

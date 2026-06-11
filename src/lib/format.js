@@ -23,7 +23,7 @@ export function formatCurrency(amount, currencyCode = "INR", locale = "en-IN") {
  * @param {string} unit
  * @returns {string}
  */
-export function formatArea(size, unit = "sq m") {
+export function formatArea(size, unit = "sq ft") {
   const numericSize = parseInt(size, 10);
   if (isNaN(numericSize)) return `0 ${unit}`;
   return `${new Intl.NumberFormat("en-US").format(numericSize)} ${unit}`;

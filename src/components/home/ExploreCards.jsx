@@ -41,7 +41,7 @@ const ExploreCards = ({ exploreCardData, isProperty }) => {
   return (
     <div className="py-6">
       <div className="text-center mb-10">
-        <h2 className="section-heading">
+        <h2 className="section-heading center">
           {exploreCardData.title}
         </h2>
         <p className="text-slate-600 dark:text-slate-400 mt-2 max-w-2xl mx-auto">

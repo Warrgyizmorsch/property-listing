@@ -10,7 +10,7 @@ export default function PropertyCard({ property }) {
   const isBuy = property.purpose?.name?.toLowerCase() === "buy";
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/40">
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/40">
 
       {/* Featured image */}
       <div className="relative aspect-video w-full overflow-hidden bg-neutral-100 dark:bg-zinc-800">

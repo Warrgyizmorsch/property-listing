@@ -13,7 +13,7 @@ export default function WhyYouShouldWorkWithUs() {
           <img
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800"
             alt="Modern House"
-            className="w-full md:h-[570px] h-[350px] object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full md:h-full h-[350px] object-cover transition-transform duration-500 group-hover:scale-105"
           />
           <div className="absolute top-4 left-4 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md p-4 rounded-2xl shadow-md flex items-center gap-3">
             <div className="p-2 bg-gray-100 dark:bg-zinc-800 rounded-full">
