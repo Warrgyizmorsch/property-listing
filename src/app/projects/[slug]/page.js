@@ -32,6 +32,7 @@ import ProjectHeroGallery from "@/components/projects/ProjectHeroGallery";
 import ProjectConfigurationsTabs from "@/components/projects/ProjectConfigurationsTabs";
 import { getPublicProjectDetails, getRelatedProjects } from "@/features/projects/public/services/public-project.service";
 import { generatePageMetadata } from "@/lib/seo/metadata";
+import StickyNavigationTabs from "@/components/frontend/StickyNavigationTabs";
 import { formatCurrency, formatArea } from "@/lib/format";
 import { PropertyCard } from "@/components/home/PropertyCards";
 
@@ -145,6 +146,15 @@ export default async function ProjectDetailPage({ params }) {
   bhkList.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }));
   const bhkSummaryText = bhkList.length > 0 ? `${bhkList.join(", ")} Apartments` : project.category?.name || "Apartments";
 
+  const tabs = [
+    { id: "overview", label: "Overview" },
+    { id: "configurations", label: "Configurations" },
+    ...(project.amenities?.length > 0 ? [{ id: "amenities", label: "Amenities" }] : []),
+    ...(project.specifications?.length > 0 ? [{ id: "specifications", label: "Specifications" }] : []),
+    { id: "builder", label: "Developer" },
+    { id: "location", label: "Location" }
+  ];
+
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50/20 dark:bg-zinc-950 font-sans">
       <Navbar />
@@ -231,21 +241,7 @@ export default async function ProjectDetailPage({ params }) {
           <ProjectHeroGallery images={project.images} bannerImage={project.bannerImage} fallbackImage={project.mainImage} />
 
           {/* Sticky Anchor Navigation Bar */}
-          <div className="sticky top-20 z-40 bg-white/95 backdrop-blur-md border border-neutral-200/80 dark:bg-zinc-950/95 dark:border-zinc-800 shadow-sm rounded-2xl mb-8 overflow-x-auto scrollbar-none">
-            <div className="flex space-x-6 px-6 h-12 items-center text-xs font-bold text-neutral-500 dark:text-zinc-400 whitespace-nowrap">
-              <a href="#overview" className="hover:text-slate-900 dark:hover:text-white transition-colors">Overview</a>
-              <span className="text-neutral-200 dark:text-zinc-800">|</span>
-              <a href="#configurations" className="hover:text-slate-900 dark:hover:text-white transition-colors">Configurations</a>
-              <span className="text-neutral-200 dark:text-zinc-800">|</span>
-              <a href="#amenities" className="hover:text-slate-900 dark:hover:text-white transition-colors">Amenities</a>
-              <span className="text-neutral-200 dark:text-zinc-800">|</span>
-              <a href="#specifications" className="hover:text-slate-900 dark:hover:text-white transition-colors">Specifications</a>
-              <span className="text-neutral-200 dark:text-zinc-800">|</span>
-              <a href="#builder" className="hover:text-slate-900 dark:hover:text-white transition-colors">Developer</a>
-              <span className="text-neutral-200 dark:text-zinc-800">|</span>
-              <a href="#location" className="hover:text-slate-900 dark:hover:text-white transition-colors">Location</a>
-            </div>
-          </div>
+          <StickyNavigationTabs tabs={tabs} />
 
           {/* Core Layout Grid */}
           <div className="flex flex-col lg:flex-row gap-10 items-start">
