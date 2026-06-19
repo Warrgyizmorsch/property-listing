@@ -42,11 +42,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed right-0 left-0 z-50 transition-all duration-300 border-neutral-200/40 dark:border-neutral-800/40 ${
-        isScrolled
-          ? "bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl shadow-md border md:rounded-full rounded-2xl md:top-5 top-3 md:mx-8 mx-3"
-          : "bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md top-0 border-b"
-      }`}
+      className={`fixed right-0 left-0 z-50 transition-all duration-300 border-neutral-200/40 dark:border-neutral-800/40 ${isScrolled
+        ? "bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl shadow-md border md:rounded-full rounded-2xl md:top-5 top-3 md:mx-8 mx-3"
+        : "bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md top-0 border-b"
+        }`}
     >
       <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between px-6 lg:px-8">
         {/* Brand Logo */}
@@ -54,15 +53,7 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white shadow-md">
-            <Building2 className="h-5 w-5" />
-          </div>
-          <span className="font-heading text-lg font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-xl">
-            Property
-            <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent dark:from-indigo-400 dark:to-violet-400">
-              Expert
-            </span>
-          </span>
+          <img src="/images/PE_Logo.png" alt="Property Expert" className="h-15 w-auto" />
         </Link>
 
         {/* Desktop Navigation */}
@@ -71,11 +62,10 @@ export default function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              className={`relative py-1 text-sm font-semibold transition-colors duration-200 ${
-                isActive(link.href)
-                  ? "text-indigo-600 dark:text-indigo-400 font-bold"
-                  : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"
-              }`}
+              className={`relative py-1 text-sm font-semibold transition-colors duration-200 ${isActive(link.href)
+                ? "text-indigo-600 dark:text-indigo-400 font-bold"
+                : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"
+                }`}
             >
               {link.name}
               {isActive(link.href) && (
@@ -127,12 +117,7 @@ export default function Navbar() {
             >
               <SheetHeader className="pb-6 border-b border-neutral-100 dark:border-neutral-800">
                 <SheetTitle className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white">
-                    <Building2 className="h-4.5 w-4.5" />
-                  </div>
-                  <span className="font-heading font-bold text-neutral-900 dark:text-white">
-                    Property Expert
-                  </span>
+                  <img src="/images/PE_Logo.png" alt="Property Expert" className="h-8 w-auto" />
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-5 py-6">
@@ -141,11 +126,10 @@ export default function Navbar() {
                     key={link.name}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`text-base font-semibold transition-colors duration-200 ${
-                      isActive(link.href)
-                        ? "text-indigo-600 dark:text-indigo-400"
-                        : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
-                    }`}
+                    className={`text-base font-semibold transition-colors duration-200 ${isActive(link.href)
+                      ? "text-indigo-600 dark:text-indigo-400"
+                      : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+                      }`}
                   >
                     {link.name}
                   </Link>

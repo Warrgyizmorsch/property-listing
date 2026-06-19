@@ -14,32 +14,27 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6 mb-12">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md">
-              <Building2 className="h-5 w-5" />
-            </div>
-            <span className="font-heading text-lg font-bold tracking-tight text-white sm:text-xl">
-              Property<span className="text-indigo-400">Expert</span>
-            </span>
+            <img src="/images/PE-Logo-white.png" alt="Property Expert" className="h-15 w-auto" />
           </Link>
 
           {/* Social Icons */}
           <div className="flex items-center space-x-5 text-gray-400">
             <span className="text-sm text-gray-350 font-semibold uppercase tracking-wider">Follow Us</span>
-            
+
             {/* Facebook inline SVG */}
             <a href="#" className="hover:text-white transition-colors duration-200" aria-label="Facebook">
               <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
                 <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
               </svg>
             </a>
-            
+
             {/* Twitter inline SVG */}
             <a href="#" className="hover:text-white transition-colors duration-200" aria-label="Twitter">
               <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
               </svg>
             </a>
-            
+
             {/* Instagram inline SVG */}
             <a href="#" className="hover:text-white transition-colors duration-200" aria-label="Instagram">
               <svg className="h-5 w-5 stroke-current fill-none" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -48,7 +43,7 @@ export default function Footer() {
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
               </svg>
             </a>
-            
+
             {/* LinkedIn inline SVG */}
             <a href="#" className="hover:text-white transition-colors duration-200" aria-label="LinkedIn">
               <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
