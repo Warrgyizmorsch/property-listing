@@ -11,9 +11,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 const STATUS_CONFIG = {
-  ONGOING:   { label: "Ongoing",   color: "bg-blue-500" },
-  COMPLETED: { label: "Completed", color: "bg-emerald-500" },
-  UPCOMING:  { label: "Upcoming",  color: "bg-orange-400" },
+  ONGOING:   { label: "Ongoing",   color: "bg-emerald-600" },
+  COMPLETED: { label: "Completed", color: "bg-[var(--brand-primary)]" },
+  UPCOMING:  { label: "Upcoming",  color: "bg-[var(--brand-secondary)]" },
 };
 
 export const PropertyCard = ({ project, isBestDeal }) => {
@@ -40,7 +40,7 @@ export const PropertyCard = ({ project, isBestDeal }) => {
 
   return (
     <Link href={`/projects/${project.slug}`} className="block h-full">
-      <div className="group relative flex flex-col h-full rounded-xl overflow-hidden bg-card border border-border transition-all duration-300 ease-out shadow-md hover:-translate-y-1 hover:shadow-xl hover:border-foreground/10">
+      <div className="group relative flex flex-col h-full rounded-xl overflow-hidden bg-card border border-border transition-all duration-300 ease-out shadow-md hover:-translate-y-1 hover:shadow-xl hover:border-[var(--brand-border)] brand-card-motion">
 
         {/* Portrait image */}
         <div className="relative overflow-hidden flex-shrink-0">
@@ -77,8 +77,8 @@ export const PropertyCard = ({ project, isBestDeal }) => {
                 {priceDisplay}
               </p>
             </div>
-            <div className="w-8 h-8 rounded-full bg-white/15 backdrop-blur-sm border border-white/25 flex items-center justify-center transition-all duration-300 group-hover:bg-white/90 group-hover:border-white flex-shrink-0">
-              <ArrowUpRight className="w-3.5 h-3.5 text-white group-hover:text-foreground transition-colors duration-300" />
+            <div className="w-8 h-8 rounded-full bg-white/15 backdrop-blur-sm border border-white/25 flex items-center justify-center transition-all duration-300 group-hover:bg-[var(--brand-secondary)] group-hover:border-[var(--brand-secondary)] flex-shrink-0">
+              <ArrowUpRight className="w-3.5 h-3.5 text-white group-hover:text-[#0B1F3A] transition-colors duration-300" />
             </div>
           </div>
         </div>
@@ -126,7 +126,7 @@ export const PropertyCard = ({ project, isBestDeal }) => {
 
 const PropertyCards = ({ title, description, projects, isBestDeal }) => {
   return (
-    <div className="md:py-6 py-4">
+    <div className="md:py-6 py-4 brand-reveal">
       {/* Section header */}
       <div className="text-center mb-8">
         <h2 className="section-heading center">
@@ -168,7 +168,7 @@ const PropertyCards = ({ title, description, projects, isBestDeal }) => {
           border-radius: 9999px !important;
         }
         .swiper-pagination-bullet-active {
-          background: oklch(0.205 0 0) !important;
+          background: var(--brand-secondary) !important;
           width: 16px !important;
           border-radius: 3px !important;
         }
@@ -176,7 +176,7 @@ const PropertyCards = ({ title, description, projects, isBestDeal }) => {
           background: oklch(0.439 0 0) !important;
         }
         .dark .swiper-pagination-bullet-active {
-          background: oklch(0.922 0 0) !important;
+          background: var(--brand-secondary) !important;
         }
       `}</style>
     </div>

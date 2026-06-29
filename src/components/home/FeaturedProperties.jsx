@@ -32,19 +32,20 @@ export default async function FeaturedProperties() {
               below to explore all active properties or check back later!
             </p>
             <div className="mt-6 flex gap-3">
-              <Link href="/properties">
-                <Button
-                  size="sm"
-                  className="bg-indigo-600 text-white font-semibold hover:bg-indigo-700"
-                >
+              <Button
+                size="sm"
+                asChild
+                className="bg-[var(--brand-primary)] text-white font-semibold hover:bg-[var(--brand-primary-hover)]"
+              >
+                <Link href="/properties">
                   Explore Listings
-                </Button>
-              </Link>
-              <Link href="/admin/login">
-                <Button size="sm" variant="outline" className="font-semibold">
+                </Link>
+              </Button>
+              <Button size="sm" variant="outline" asChild className="font-semibold">
+                <Link href="/admin/login">
                   Add Property
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -58,7 +59,7 @@ export default async function FeaturedProperties() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--brand-secondary)]">
               Handpicked Deals
             </span>
             <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
@@ -69,15 +70,16 @@ export default async function FeaturedProperties() {
               properties currently listed.
             </p>
           </div>
-          <Link href="/properties?isFeatured=true" className="shrink-0">
-            <Button
-              variant="outline"
-              className="group font-semibold gap-1.5 border-neutral-200 bg-white hover:bg-neutral-50 dark:border-zinc-800 dark:bg-zinc-900"
-            >
+          <Button
+            variant="outline"
+            asChild
+            className="group font-semibold gap-1.5 border-neutral-200 bg-white hover:bg-neutral-50 dark:border-zinc-800 dark:bg-zinc-900 shrink-0"
+          >
+            <Link href="/properties?isFeatured=true">
               View All Featured
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
 
         {/* Property Grid */}

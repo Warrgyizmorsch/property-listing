@@ -179,7 +179,7 @@ export default function CountryFormDialog({
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full sm:w-auto bg-neutral-950 text-white hover:bg-neutral-800"
+              className="w-full sm:w-auto bg-primary text-white hover:bg-primary/90"
             >
               {isPending ? "Saving..." : isEdit ? "Save Changes" : "Create Country"}
             </Button>

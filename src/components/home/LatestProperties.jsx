@@ -31,14 +31,15 @@ export default async function LatestProperties() {
               We couldn't find any property listings in the database. Head to
               the admin dashboard to add listings.
             </p>
-            <Link href="/admin/login" className="mt-6">
-              <Button
-                size="sm"
-                className="bg-indigo-600 text-white font-semibold hover:bg-indigo-700"
-              >
+            <Button
+              size="sm"
+              asChild
+              className="bg-[var(--brand-primary)] text-white font-semibold hover:bg-[var(--brand-primary-hover)] mt-6"
+            >
+              <Link href="/admin/login">
                 Log In to Admin
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -51,7 +52,7 @@ export default async function LatestProperties() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--brand-secondary)]">
               Fresh Listings
             </span>
             <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
@@ -62,15 +63,16 @@ export default async function LatestProperties() {
               Restocked daily.
             </p>
           </div>
-          <Link href="/properties" className="shrink-0">
-            <Button
-              variant="outline"
-              className="group font-semibold gap-1.5 border-neutral-200 bg-white hover:bg-neutral-50 dark:border-zinc-800 dark:bg-zinc-900"
-            >
+          <Button
+            variant="outline"
+            asChild
+            className="group font-semibold gap-1.5 border-neutral-200 bg-white hover:bg-neutral-50 dark:border-zinc-800 dark:bg-zinc-900 shrink-0"
+          >
+            <Link href="/properties">
               View All Listings
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
 
         {/* Property Grid */}

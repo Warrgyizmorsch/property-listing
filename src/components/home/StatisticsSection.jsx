@@ -9,7 +9,7 @@ export default async function StatisticsSection() {
       label: "Total Properties Listed",
       value: stats.totalProperties,
       icon: <Building2 className="h-6 w-6" />,
-      color: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/40 border-indigo-100 dark:border-indigo-900/30",
+      color: "text-[var(--brand-secondary)] bg-[var(--brand-secondary-soft)] border-[var(--brand-border)]",
     },
     {
       label: "Properties Sold",
@@ -21,7 +21,7 @@ export default async function StatisticsSection() {
       label: "Active Listings Available",
       value: stats.activeProperties,
       icon: <Landmark className="h-6 w-6" />,
-      color: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border-blue-100 dark:border-blue-900/30",
+      color: "text-[var(--brand-secondary)] bg-[var(--brand-secondary-soft)] border-[var(--brand-border)]",
     },
     {
       label: "Happy Clients Served",
@@ -38,7 +38,7 @@ export default async function StatisticsSection() {
           {metrics.map((item, idx) => (
             <div
               key={idx}
-              className="flex flex-col items-center justify-center text-center p-6 rounded-2xl border border-neutral-800 bg-neutral-900/40 shadow-xs dark:border-zinc-800 dark:bg-zinc-950/40"
+              className="flex flex-col items-center justify-center text-center p-6 rounded-2xl border border-neutral-800 bg-neutral-900/40 shadow-xs dark:border-zinc-800 dark:bg-zinc-950/40 brand-card-motion"
             >
               {/* Icon */}
               <div className={`flex h-12 w-12 items-center justify-center rounded-xl border ${item.color} shadow-xs`}>

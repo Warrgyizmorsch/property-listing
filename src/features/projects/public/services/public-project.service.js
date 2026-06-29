@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { cache } from "react";
 
 /**
  * Fetches projects for the public catalog listing page based on search parameters,
@@ -11,13 +12,16 @@ export async function getPublicProjects({
   state = "",
   country = "",
   status = "",
+  bhk = "",
   isFeatured = undefined,
   sortBy = "latest",
   page = 1,
   limit = 9,
+  skipCount = false,
 } = {}) {
   try {
     const skip = (page - 1) * limit;
+    const shouldSortByPrice = sortBy === "price-asc" || sortBy === "price-desc";
 
     const where = {
       deletedAt: null,
@@ -52,6 +56,19 @@ export async function getPublicProjects({
       where.city = { state: { country: { slug: country } } };
     }
 
+    // BHK configuration filter — match projects containing properties with specified bedrooms
+    if (bhk) {
+      const bedroomCount = parseInt(bhk, 10);
+      if (!isNaN(bedroomCount) && bedroomCount > 0) {
+        where.properties = {
+          some: {
+            bedrooms: bedroomCount >= 4 ? { gte: 4 } : bedroomCount,
+            deletedAt: null,
+          },
+        };
+      }
+    }
+
     // Featured filter
     if (isFeatured === true || isFeatured === "true") {
       where.isFeatured = true;
@@ -70,8 +87,8 @@ export async function getPublicProjects({
     const [projects, total] = await Promise.all([
       db.project.findMany({
         where,
-        skip,
-        take: limit,
+        skip: shouldSortByPrice ? undefined : skip,
+        take: shouldSortByPrice ? undefined : limit,
         include: {
           category: { select: { id: true, name: true, slug: true } },
           city: {
@@ -105,25 +122,31 @@ export async function getPublicProjects({
         },
         orderBy,
       }),
-      db.project.count({ where }),
+      skipCount ? Promise.resolve(0) : db.project.count({ where }),
     ]);
 
     // Format and calculate dynamic properties metrics
     const formattedProjects = projects.map((project) => {
-      const totalProps = project.properties?.length || 0;
-      const availableProps = project.properties?.filter(p => p.status?.name === "Available").length || 0;
+      const serializedProperties = (project.properties || []).map((property) => ({
+        ...property,
+        price: property.price != null ? Number(property.price) : 0,
+      }));
+
+      const totalProps = serializedProperties.length;
+      const availableProps = serializedProperties.filter((p) => p.status?.name === "Available").length;
       
       // Calculate Starting Price (minimum price)
-      const prices = project.properties?.map(p => Number(p.price)).filter(Boolean) || [];
+      const prices = serializedProperties.map((p) => Number(p.price)).filter(Boolean);
       const startingPrice = prices.length > 0 ? Math.min(...prices) : 0;
 
       // Calculate Area Range
-      const areas = project.properties?.map(p => p.areaSize).filter(Boolean) || [];
+      const areas = serializedProperties.map((p) => p.areaSize).filter(Boolean);
       const minArea = areas.length > 0 ? Math.min(...areas) : 0;
       const maxArea = areas.length > 0 ? Math.max(...areas) : 0;
 
       return {
         ...project,
+        properties: serializedProperties,
         totalProps,
         availableProps,
         startingPrice,
@@ -132,19 +155,25 @@ export async function getPublicProjects({
       };
     });
 
-    // In-memory sort for price if sortBy is price-asc or price-desc
+    let paginatedProjects = formattedProjects;
+
+    // In-memory sort for derived starting price must run before pagination.
     if (sortBy === "price-asc") {
-      formattedProjects.sort((a, b) => a.startingPrice - b.startingPrice);
+      paginatedProjects = formattedProjects.sort((a, b) => a.startingPrice - b.startingPrice);
     } else if (sortBy === "price-desc") {
-      formattedProjects.sort((a, b) => b.startingPrice - a.startingPrice);
+      paginatedProjects = formattedProjects.sort((a, b) => b.startingPrice - a.startingPrice);
+    }
+
+    if (shouldSortByPrice) {
+      paginatedProjects = paginatedProjects.slice(skip, skip + limit);
     }
 
     return {
-      projects: formattedProjects,
-      total,
+      projects: paginatedProjects,
+      total: skipCount ? paginatedProjects.length : total,
       page,
       limit,
-      totalPages: Math.ceil(total / limit),
+      totalPages: skipCount ? 1 : Math.ceil(total / limit),
     };
   } catch (error) {
     console.error("Error executing public projects service query:", error);
@@ -216,7 +245,7 @@ export async function getPublicFiltersMetadata() {
  * Retrieves a single project by its slug, including category, location, gallery,
  * amenities, specifications, highlights, related child properties, and stats.
  */
-export async function getPublicProjectDetails(slug) {
+export const getPublicProjectDetails = cache(async (slug) => {
   if (!slug) return null;
 
   try {
@@ -289,7 +318,7 @@ export async function getPublicProjectDetails(slug) {
     console.error("Error fetching public project details by slug:", error);
     return null;
   }
-}
+});
 
 /**
  * Fetches related projects based on category or location similarity.
@@ -351,41 +380,47 @@ export async function getRelatedProjects({
     });
 
     return projects.map((project) => {
-  const totalProps = project.properties?.length || 0;
+      const serializedProperties = (project.properties || []).map((property) => ({
+        ...property,
+        price: property.price != null ? Number(property.price) : 0,
+      }));
 
-  const availableProps =
-    project.properties?.filter(
-      (p) => p.status?.name === "Available"
-    ).length || 0;
+      const totalProps = serializedProperties.length;
 
-  const prices =
-    project.properties
-      ?.map((p) => Number(p.price))
-      .filter(Boolean) || [];
+      const availableProps =
+        serializedProperties.filter(
+          (p) => p.status?.name === "Available"
+        ).length;
 
-  const startingPrice =
-    prices.length > 0 ? Math.min(...prices) : 0;
+      const prices =
+        serializedProperties
+          .map((p) => p.price)
+          .filter(Boolean);
 
-  const areas =
-    project.properties
-      ?.map((p) => p.areaSize)
-      .filter(Boolean) || [];
+      const startingPrice =
+        prices.length > 0 ? Math.min(...prices) : 0;
 
-  const minArea =
-    areas.length > 0 ? Math.min(...areas) : 0;
+      const areas =
+        serializedProperties
+          .map((p) => p.areaSize)
+          .filter(Boolean);
 
-  const maxArea =
-    areas.length > 0 ? Math.max(...areas) : 0;
+      const minArea =
+        areas.length > 0 ? Math.min(...areas) : 0;
 
-  return {
-    ...project,
-    totalProps,
-    availableProps,
-    startingPrice,
-    minArea,
-    maxArea,
-  };
-});
+      const maxArea =
+        areas.length > 0 ? Math.max(...areas) : 0;
+
+      return {
+        ...project,
+        properties: serializedProperties,
+        totalProps,
+        availableProps,
+        startingPrice,
+        minArea,
+        maxArea,
+      };
+    });
   } catch (error) {
     console.error("Error fetching related projects:", error);
     return [];

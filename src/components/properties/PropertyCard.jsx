@@ -10,7 +10,7 @@ export default function PropertyCard({ property }) {
   const isBuy = property.purpose?.name?.toLowerCase() === "buy";
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/40">
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/40 brand-card-motion">
 
       {/* Featured image */}
       <div className="relative aspect-video w-full overflow-hidden bg-neutral-100 dark:bg-zinc-800">
@@ -25,8 +25,8 @@ export default function PropertyCard({ property }) {
         {/* Purpose and Status Badges */}
         <div className="absolute left-3.5 top-3.5 flex flex-wrap gap-2 z-10">
           <span className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-bold shadow-sm ${isBuy
-              ? "bg-indigo-600 text-white"
-              : "bg-emerald-600 text-white"
+              ? "bg-[var(--brand-primary)] text-white"
+              : "bg-[var(--brand-secondary)] text-[#0B1F3A]"
             }`}>
             For {property.purpose?.name || "Sale"}
           </span>
@@ -40,7 +40,7 @@ export default function PropertyCard({ property }) {
 
         {/* Featured Ribbon */}
         {property.isFeatured && (
-          <span className="absolute right-3.5 top-3.5 inline-flex items-center rounded-lg bg-amber-500 px-2.5 py-1 text-xs font-bold text-white shadow-sm z-10">
+          <span className="absolute right-3.5 top-3.5 inline-flex items-center rounded-lg bg-[var(--brand-secondary)] px-2.5 py-1 text-xs font-bold text-[#0B1F3A] shadow-sm z-10">
             ★ Featured
           </span>
         )}
@@ -49,7 +49,7 @@ export default function PropertyCard({ property }) {
       {/* Card Details */}
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-center justify-between gap-2 mb-2">
-          <span className="text-xs font-bold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase">
+          <span className="text-xs font-bold tracking-wider text-[var(--brand-secondary)] uppercase">
             {property.category?.name}
           </span>
           <span className="text-lg font-bold text-neutral-900 dark:text-neutral-50 font-heading">
@@ -58,7 +58,7 @@ export default function PropertyCard({ property }) {
         </div>
 
         {/* Title */}
-        <h3 className="mb-2 line-clamp-1 text-base font-bold text-neutral-900 hover:text-indigo-600 dark:text-white dark:hover:text-indigo-400">
+        <h3 className="mb-2 line-clamp-1 text-base font-bold text-neutral-900 hover:text-[var(--brand-primary)] dark:text-white dark:hover:text-[var(--brand-secondary)]">
           <Link href={`/properties/${property.slug}`}>
             {property.title}
           </Link>

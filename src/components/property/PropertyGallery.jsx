@@ -58,7 +58,7 @@ export default function PropertyGallery({ images = [] }) {
               onClick={() => setActiveIndex(idx)}
               className={`relative aspect-video h-16 sm:h-20 shrink-0 overflow-hidden rounded-xl border-2 transition-all cursor-pointer ${
                 activeIndex === idx 
-                  ? "border-indigo-600 shadow-sm opacity-100 scale-95" 
+                  ? "border-[var(--brand-secondary)] shadow-sm opacity-100 scale-95"
                   : "border-transparent opacity-65 hover:opacity-100"
               }`}
             >

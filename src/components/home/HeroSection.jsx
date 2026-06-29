@@ -7,7 +7,7 @@ export default async function HeroSection() {
   const { categories, cities } = await getSearchMetadata();
 
   return (
-    <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-teal-50 dark:from-neutral-900 dark:via-zinc-950 dark:to-neutral-950 py-20 px-4 sm:px-6 lg:px-8">
+    <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-[var(--brand-primary-soft)] via-white to-[var(--brand-secondary-soft)] dark:from-neutral-900 dark:via-zinc-950 dark:to-neutral-950 py-20 px-4 sm:px-6 lg:px-8">
       {/* Background image overlay */}
       <div
         className="absolute inset-0 bg-[url('/hero-bg-prop.jpg')] bg-cover bg-center bg-no-repeat opacity-95 dark:opacity-30"
@@ -17,7 +17,7 @@ export default async function HeroSection() {
       <div className="absolute inset-0 bg-neutral-950/5 dark:bg-zinc-950/60" />
 
       {/* Hero content container */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center text-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center text-center brand-reveal">
         {/* Spacer to push content down for sticky header */}
         <div className="md:h-28 h-20"></div>
 
@@ -32,7 +32,7 @@ export default async function HeroSection() {
         </p>
 
         {/* Floating Search Bar */}
-        <div className="mt-2 w-full px-2 lg:px-0 shadow-2xl">
+        <div className="mt-2 w-full px-2 lg:px-0 shadow-2xl brand-gold-glow">
           <SearchSection
             categories={categories}
             cities={cities}

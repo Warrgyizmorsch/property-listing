@@ -22,7 +22,7 @@ export default function EnquirySuccess({ onReset }) {
           onClick={onReset}
           variant="ghost"
           size="sm"
-          className="mt-6 text-xs text-indigo-600 hover:text-indigo-700 hover:bg-neutral-50 dark:text-indigo-400 dark:hover:bg-zinc-850"
+          className="mt-6 text-xs text-[var(--brand-primary)] hover:text-[var(--brand-primary-hover)] hover:bg-neutral-50 dark:text-[var(--brand-secondary)] dark:hover:bg-zinc-850"
         >
           Submit Another Enquiry
         </Button>

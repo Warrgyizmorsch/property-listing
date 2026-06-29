@@ -5,19 +5,19 @@ import { Search, Users, KeyRound } from "lucide-react";
 
 const steps = [
   {
-    icon: <Search className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
+    icon: <Search className="w-8 h-8 text-[var(--brand-secondary)]" />,
     title: "Find Real Estate",
     description:
       "Find your perfect home or investment property by searching through our wide catalog of verified listings.",
   },
   {
-    icon: <Users className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
+    icon: <Users className="w-8 h-8 text-[var(--brand-secondary)]" />,
     title: "Meet Realtor",
     description:
       "Connect with our certified property experts and advisory agents to receive personalized guidance and support.",
   },
   {
-    icon: <KeyRound className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
+    icon: <KeyRound className="w-8 h-8 text-[var(--brand-secondary)]" />,
     title: "Take The Keys",
     description:
       "Finalize the legalities smoothly and take the keys to your dream property with complete peace of mind.",
@@ -26,7 +26,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="py-6">
+    <section className="py-6 brand-reveal">
       <div className="max-w-7xl mx-auto">
         <h2 className="section-heading center">
           How It works? Find a perfect home
@@ -39,7 +39,7 @@ const HowItWorks = () => {
           <div>
             <div className="space-y-8 border-l-[1px] border-gray-300 dark:border-neutral-700 md:pl-8 pl-3 md:py-14 py-4">
               {steps.map((step, idx) => (
-                <div key={idx} className="flex gap-4 items-start">
+                <div key={idx} className="flex gap-4 items-start brand-card-motion">
                   <div className="space-y-2">
                     <div className="flex-shrink-0">{step.icon}</div>
                     <h3 className="text-lg font-semibold text-slate-800 dark:text-white">

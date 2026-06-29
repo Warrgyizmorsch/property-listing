@@ -72,7 +72,7 @@ export default function ProjectHeroGallery({ images = [], fallbackImage, bannerI
         </div>
       ) : (
         // Multi-image Housing.com grid layout
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:h-[450px] w-full overflow-hidden bg-neutral-950">
+        <div className="grid grid-cols-1 md:grid-cols-3 md:h-[450px] w-full overflow-hidden">
           {/* Main Large Image (Left 2 columns on desktop) */}
           <div 
             onClick={() => openLightbox(0)}
@@ -87,7 +87,7 @@ export default function ProjectHeroGallery({ images = [], fallbackImage, bannerI
           </div>
 
           {/* Side Stacked Images (Right column) */}
-          <div className="grid grid-cols-2 md:grid-cols-1 gap-2 h-36 md:h-full">
+          <div className="grid grid-cols-2 md:grid-cols-1 h-36 md:h-full">
             {/* Top Right Thumbnail */}
             <div 
               onClick={() => openLightbox(1)}

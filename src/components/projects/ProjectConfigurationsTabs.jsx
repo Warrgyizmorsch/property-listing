@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Compass } from "lucide-react";
 import { formatCurrency, formatArea } from "@/lib/format";
+import { Button } from "@/components/ui/button";
 
 import {
   Dialog,
@@ -29,7 +30,7 @@ export const UnitPropertyCard = ({ property }) => {
 
   return (
     <>
-      <div className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-neutral-200/80 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-zinc-850 dark:bg-zinc-900/40">
+      <div className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-neutral-200/80 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-zinc-850 dark:bg-zinc-900/40 brand-card-motion">
         {/* Image & Price Overlay */}
         <div className="relative aspect-video w-full overflow-hidden bg-neutral-100 dark:bg-zinc-800">
           <img
@@ -63,7 +64,7 @@ export const UnitPropertyCard = ({ property }) => {
         {/* Details */}
         <div className="flex flex-1 flex-col p-5">
           <div className="flex justify-between items-start gap-4 mb-2">
-            <h4 className="text-base font-bold text-neutral-900 dark:text-white line-clamp-1 group-hover:text-indigo-600 transition-colors">
+            <h4 className="text-base font-bold text-neutral-900 dark:text-white line-clamp-1 group-hover:text-[var(--brand-primary)] dark:group-hover:text-[var(--brand-secondary)] transition-colors">
               {property.title}
             </h4>
 
@@ -118,21 +119,18 @@ export const UnitPropertyCard = ({ property }) => {
           )}
 
           <div className="mt-auto grid grid-cols-2 gap-3 pt-3 border-t border-neutral-100 dark:border-zinc-800">
-            <Link
-              href={`/properties/${property.slug}`}
-              className="block w-full"
-            >
-              <button className="secondary-btn w-full text-xs py-2">
+            <Button asChild className="secondary-btn w-full text-xs py-2">
+              <Link href={`/properties/${property.slug}`}>
                 View Details
-              </button>
-            </Link>
+              </Link>
+            </Button>
 
-            <button
+            <Button
               onClick={() => setIsOpen(true)}
               className="primary-btn w-full text-xs py-2"
             >
               Get Callback
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -152,6 +150,7 @@ export const UnitPropertyCard = ({ property }) => {
 
           <div className="mt-4">
             <PropertyEnquiryForm
+              propertyId={property.id}
               propertyTitle={property.title}
               onSuccess={() => setIsOpen(false)}
             />
@@ -215,7 +214,7 @@ export default function ProjectConfigurationsTabs({ properties = [] }) {
             onClick={() => setActiveTab(tab)}
             className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
               activeTab === tab
-                ? "bg-slate-950 text-white dark:bg-white dark:text-slate-950 shadow-xs"
+                ? "bg-[var(--brand-primary)] text-white dark:bg-[var(--brand-secondary)] dark:text-[#0B1F3A] shadow-xs"
                 : "bg-slate-50 text-slate-650 hover:bg-slate-100 dark:bg-zinc-900/50 dark:text-zinc-400 dark:hover:bg-zinc-900"
             }`}
           >

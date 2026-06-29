@@ -9,10 +9,10 @@ export default async function HomeProperties() {
     { projects: upcoming },
     { projects: completed }
   ] = await Promise.all([
-    getPublicProjects({ isFeatured: true, limit: 6 }),
-    getPublicProjects({ status: "ONGOING", limit: 6 }),
-    getPublicProjects({ status: "UPCOMING", limit: 6 }),
-    getPublicProjects({ status: "COMPLETED", limit: 6 })
+    getPublicProjects({ isFeatured: true, limit: 6, skipCount: true }),
+    getPublicProjects({ status: "ONGOING", limit: 6, skipCount: true }),
+    getPublicProjects({ status: "UPCOMING", limit: 6, skipCount: true }),
+    getPublicProjects({ status: "COMPLETED", limit: 6, skipCount: true })
   ]);
 
   // Helper to sanitize project objects before sending across Client/Server boundary to avoid Decimal issues

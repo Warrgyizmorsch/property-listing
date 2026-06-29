@@ -35,7 +35,7 @@ export default function PropertySearch() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search title, address, or description..."
-          className="h-10 w-full rounded-xl border-neutral-200/80 pl-10 pr-4 bg-white text-sm focus-visible:ring-indigo-500 dark:border-zinc-800 dark:bg-zinc-900"
+          className="h-10 w-full rounded-xl border-neutral-200/80 pl-10 pr-4 bg-white text-sm focus-visible:ring-[var(--brand-secondary)] dark:border-zinc-800 dark:bg-zinc-900"
         />
       </div>
     </form>

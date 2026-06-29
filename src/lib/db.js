@@ -25,7 +25,7 @@ function getAdapterOptions(databaseUrl) {
       password: decodeURIComponent(url.password || ""),
       database: url.pathname.replace(/^\//, "") || "property_listing_db",
       connectTimeout: 10000,
-      connectionLimit: 3,
+      connectionLimit: 10,
       ...(requiresSsl ? { ssl: { rejectUnauthorized: false } } : {}),
     };
   } catch (error) {

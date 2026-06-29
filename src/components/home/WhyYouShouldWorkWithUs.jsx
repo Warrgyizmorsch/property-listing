@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Users, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function WhyYouShouldWorkWithUs() {
   return (
@@ -58,11 +59,11 @@ export default function WhyYouShouldWorkWithUs() {
             </div>
           </div>
 
-          <Link href="/about">
-            <button className="gap-2 primary-btn">
+          <Button asChild className="primary-btn">
+            <Link href="/about">
               Learn More <ArrowRight className="w-4 h-4" />
-            </button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

@@ -659,7 +659,7 @@ export default function PropertyForm({ property = null, metadata = {}, defaultPr
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-7 space-y-4">
               <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4 mb-4 flex items-start gap-2.5">
-                <Info className="h-5 w-5 text-indigo-500 shrink-0 mt-0.5" />
+                <Info className="h-5 w-5 text-[var(--brand-secondary)] shrink-0 mt-0.5" />
                 <p className="text-xs leading-normal text-slate-500">
                   If meta overrides are left blank, search engines will automatically construct meta tags utilizing the property details (Title, Price, Location, etc.). Customize these inputs to optimize SERP ranking.
                 </p>

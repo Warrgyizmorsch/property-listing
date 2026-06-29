@@ -23,7 +23,7 @@ export default function LocationPageHeader({ tab = "countries" }) {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="bg-neutral-950 text-white hover:bg-neutral-800 flex items-center gap-1.5 cursor-pointer"
+        className="bg-primary text-white hover:bg-primary/90 flex items-center gap-1.5 cursor-pointer"
       >
         <Plus className="h-4 w-4" />
         <span>{buttonLabel}</span>

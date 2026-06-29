@@ -87,14 +87,14 @@ export default function PropertyEnquiryForm({
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Honeypot field (hidden from users, autocomplete off, tabIndex -1) */}
       <div className="absolute opacity-0 pointer-events-none -z-10 h-0 w-0 overflow-hidden">
-        <label htmlFor="website">Website</label>
+        <label htmlFor="confirm_website_hp">Do Not Fill</label>
         <input
-          id="website"
+          id="confirm_website_hp"
           type="text"
-          name="website"
+          name="confirm_website_hp"
           value={website}
           onChange={(e) => setWebsite(e.target.value)}
-          autoComplete="off"
+          autoComplete="new-password"
           tabIndex={-1}
         />
       </div>
@@ -111,7 +111,7 @@ export default function PropertyEnquiryForm({
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="First and last name"
-          className="focus-visible:ring-var(--primary)"
+          className="focus-visible:ring-[var(--primary)]"
         />
       </div>
 
@@ -127,7 +127,7 @@ export default function PropertyEnquiryForm({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="name@example.com"
-          className="focus-visible:ring-var(--primary)"
+          className="focus-visible:ring-[var(--primary)]"
         />
       </div>
 
@@ -143,7 +143,7 @@ export default function PropertyEnquiryForm({
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="+1 (555) 000-0000"
-          className="focus-visible:ring-var(--primary)"
+          className="focus-visible:ring-[var(--primary)]"
         />
       </div>
 
@@ -158,7 +158,7 @@ export default function PropertyEnquiryForm({
           disabled={isPending}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="focus-visible:ring-var(--primary)"
+          className="focus-visible:ring-[var(--primary)]"
         />
       </div>
 

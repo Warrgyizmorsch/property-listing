@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Building2, Menu, ArrowRight, User } from "lucide-react";
+import { Menu, ArrowRight, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -42,7 +43,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed right-0 left-0 z-50 transition-all duration-300 border-neutral-200/40 dark:border-neutral-800/40 ${isScrolled
+      className={`fixed right-0 left-0 z-50 transition-all duration-300 border-[var(--brand-border)] dark:border-[var(--brand-border)] ${isScrolled
         ? "bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl shadow-md border md:rounded-full rounded-2xl md:top-5 top-3 md:mx-8 mx-3"
         : "bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md top-0 border-b"
         }`}
@@ -53,7 +54,7 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
         >
-          <img src="/images/PE_Logo.png" alt="Property Expert" className="h-15 w-auto" />
+          <Image src="/images/PE_Logo.png" alt="Property Expert" width={180} height={60} className="h-15 w-auto" priority />
         </Link>
 
         {/* Desktop Navigation */}
@@ -63,13 +64,13 @@ export default function Navbar() {
               key={link.name}
               href={link.href}
               className={`relative py-1 text-sm font-semibold transition-colors duration-200 ${isActive(link.href)
-                ? "text-indigo-600 dark:text-indigo-400 font-bold"
+                ? "text-[var(--brand-primary)] dark:text-[var(--brand-secondary)] font-bold"
                 : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"
                 }`}
             >
               {link.name}
               {isActive(link.href) && (
-                <span className="absolute bottom-0 left-0 h-0.5 w-full bg-gradient-to-r from-indigo-600 to-violet-500 rounded-full" />
+                <span className="absolute bottom-0 left-0 h-0.5 w-full bg-gradient-to-r from-[var(--brand-primary)] to-[var(--brand-secondary)] rounded-full" />
               )}
             </Link>
           ))}
@@ -77,47 +78,51 @@ export default function Navbar() {
 
         {/* CTA Buttons */}
         <div className="hidden md:flex md:items-center md:gap-3">
-          <Link href="/admin/login">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="gap-1.5 text-neutral-600 dark:text-neutral-300 font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full"
-            >
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+            className="gap-1.5 text-neutral-600 dark:text-neutral-300 font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full"
+          >
+            <Link href="/admin/login">
               <User className="h-4 w-4" />
               Agent Login
-            </Button>
-          </Link>
-          <Link href="/projects">
-            <Button
-              size="sm"
-              className="primary-btn"
-            >
+            </Link>
+          </Button>
+          <Button
+            size="sm"
+            asChild
+            className="primary-btn"
+          >
+            <Link href="/projects">
               Explore Projects
               <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
 
         {/* Mobile Navigation Sheet */}
         <div className="flex md:hidden">
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full"
-              >
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </SheetTrigger>
+            <SheetTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full"
+                >
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              }
+            />
             <SheetContent
               side="right"
               className="w-75 border-l border-neutral-100 bg-white p-6 dark:border-neutral-800 dark:bg-zinc-950"
             >
               <SheetHeader className="pb-6 border-b border-neutral-100 dark:border-neutral-800">
                 <SheetTitle className="flex items-center gap-2">
-                  <img src="/images/PE_Logo.png" alt="Property Expert" className="h-8 w-auto" />
+                  <Image src="/images/PE_Logo.png" alt="Property Expert" width={96} height={32} className="h-8 w-auto" />
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-5 py-6">
@@ -127,7 +132,7 @@ export default function Navbar() {
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
                     className={`text-base font-semibold transition-colors duration-200 ${isActive(link.href)
-                      ? "text-indigo-600 dark:text-indigo-400"
+                      ? "text-[var(--brand-primary)] dark:text-[var(--brand-secondary)]"
                       : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
                       }`}
                   >
@@ -136,29 +141,30 @@ export default function Navbar() {
                 ))}
               </div>
               <div className="flex flex-col gap-3 pt-6 border-t border-neutral-100 dark:border-neutral-800">
-                <Link
-                  href="/admin/login"
-                  onClick={() => setMobileOpen(false)}
-                  className="w-full"
+                <Button
+                  variant="outline"
+                  asChild
+                  className="w-full justify-center gap-1.5 font-semibold text-neutral-700 dark:text-neutral-300 rounded-xl"
                 >
-                  <Button
-                    variant="outline"
-                    className="w-full justify-center gap-1.5 font-semibold text-neutral-700 dark:text-neutral-300 rounded-xl"
+                  <Link
+                    href="/admin/login"
+                    onClick={() => setMobileOpen(false)}
+                    className="w-full"
                   >
                     <User className="h-4 w-4" />
                     Agent Login
-                  </Button>
-                </Link>
-                <Link
-                  href="/projects"
-                  onClick={() => setMobileOpen(false)}
-                  className="w-full"
-                >
-                  <Button className="primary-btn">
+                  </Link>
+                </Button>
+                <Button asChild className="primary-btn w-full">
+                  <Link
+                    href="/projects"
+                    onClick={() => setMobileOpen(false)}
+                    className="w-full"
+                  >
                     Explore Projects
                     <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
             </SheetContent>
           </Sheet>

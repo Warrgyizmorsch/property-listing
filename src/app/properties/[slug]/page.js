@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/frontend/Navbar";
 import Footer from "@/components/frontend/Footer";
@@ -47,9 +48,9 @@ export async function generateMetadata({ params }) {
 const getStatusBadgeClass = (status) => {
   switch (status) {
     case "ONGOING":
-      return "bg-blue-50 text-blue-700 border-blue-200";
-    case "COMPLETED":
       return "bg-emerald-50 text-emerald-700 border-emerald-200";
+    case "COMPLETED":
+      return "bg-[var(--brand-primary-soft)] text-[var(--brand-primary)] border-[var(--brand-border)]";
     case "UPCOMING":
       return "bg-amber-50 text-amber-700 border-amber-200";
     default:
@@ -143,9 +144,11 @@ export default async function PropertyDetailPage({ params }) {
               {property.project && (
                 <div className="rounded-2xl border border-neutral-200/80 bg-white p-5 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/30 space-y-4">
                   <div className="relative h-full w-full rounded-xl overflow-hidden bg-neutral-900">
-                    <img
+                    <Image
                       src={property.project.mainImage || property.project.bannerImage || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=400"}
                       alt={property.project.projectName}
+                      width={400}
+                      height={240}
                       className="h-full w-full object-cover opacity-80"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -157,7 +160,7 @@ export default async function PropertyDetailPage({ params }) {
                   </div>
 
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-650 dark:text-indigo-400">Part of Project</p>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--brand-primary)] dark:text-[var(--brand-secondary)]">Part of Project</p>
                     <h4 className="text-base font-bold text-neutral-900 dark:text-white mt-1 hover:underline">
                       <Link href={`/projects/${property.project.slug}`}>
                         {property.project.projectName}
@@ -179,11 +182,11 @@ export default async function PropertyDetailPage({ params }) {
                     </div>
                   </div>
 
-                  <Link href={`/projects/${property.project.slug}`} className="block w-full">
-                    <Button size="sm" className="w-full h-10 primary-btn">
+                  <Button size="sm" asChild className="w-full h-10 primary-btn">
+                    <Link href={`/projects/${property.project.slug}`} className="block w-full">
                       View Project Details
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </div>
               )}
 

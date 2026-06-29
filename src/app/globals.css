@@ -56,8 +56,16 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: #0B1F3A;
+  --brand-primary: #0B1F3A;
+  --brand-primary-hover: #12345f;
+  --brand-primary-soft: rgba(11, 31, 58, 0.08);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: #C8A45D;
+  --brand-secondary: #C8A45D;
+  --brand-secondary-hover: #b89145;
+  --brand-secondary-soft: rgba(200, 164, 93, 0.14);
+  --brand-border: rgba(11, 31, 58, 0.12);
+  --brand-glow: rgba(200, 164, 93, 0.24);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
@@ -91,8 +99,16 @@
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: #0B1F3A;
+  --brand-primary: #0B1F3A;
+  --brand-primary-hover: #12345f;
+  --brand-primary-soft: rgba(200, 164, 93, 0.12);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: #C8A45D;
+  --brand-secondary: #C8A45D;
+  --brand-secondary-hover: #d7b874;
+  --brand-secondary-soft: rgba(200, 164, 93, 0.16);
+  --brand-border: rgba(200, 164, 93, 0.18);
+  --brand-glow: rgba(200, 164, 93, 0.28);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
@@ -138,6 +154,34 @@
 
   .animate-fade-in-up {
     animation: fade-in-up 0.9s ease-out both;
+  }
+
+  .brand-reveal {
+    animation: fade-in-up 0.75s ease-out both;
+  }
+
+  .brand-card-motion {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .brand-card-motion:hover {
+    border-color: var(--brand-border);
+    box-shadow: 0 18px 40px rgba(11, 31, 58, 0.1);
+  }
+
+  .brand-focus {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .brand-focus:focus,
+  .brand-focus:focus-visible {
+    border-color: var(--brand-secondary) !important;
+    box-shadow: 0 0 0 3px var(--brand-secondary-soft);
+    outline: none;
+  }
+
+  .brand-gold-glow {
+    box-shadow: 0 18px 45px var(--brand-glow);
   }
 }
 
@@ -224,14 +268,14 @@ input[type="radio"],
 
 /* Active Highlight Card Row Style (matches John McCormick row #2633 in image) */
 .card-table tbody tr.active-row {
-  background-color: #3b52d9 !important;
+  background-color: var(--brand-primary) !important;
   color: #ffffff !important;
-  box-shadow: 0 10px 20px -5px rgba(59, 82, 217, 0.35) !important;
+  box-shadow: 0 10px 20px -5px rgba(11, 31, 58, 0.35) !important;
   transform: translateY(-1px);
 }
 
 .card-table tbody tr.active-row td {
-  border-color: #3b52d9 !important;
+  border-color: var(--brand-primary) !important;
   color: #ffffff !important;
 }
 
@@ -428,6 +472,7 @@ input[type="radio"],
     text-decoration: none;
     cursor: pointer;
     overflow: hidden;
+    box-shadow: 0 10px 22px rgba(11, 31, 58, 0.08);
     transition: all 0.4s ease;
     z-index: 1;
 }
@@ -443,6 +488,20 @@ input[type="radio"],
     z-index: -1;
 }
 
+.primary-btn::after,
+.secondary-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -65%;
+    width: 45%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.65s ease;
+    z-index: -1;
+}
+
 .primary-btn:hover::before {
     transform: scaleX(1);
 }
@@ -450,7 +509,12 @@ input[type="radio"],
 .primary-btn:hover {
     border-color: var(--secondary);
     transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 14px 30px rgba(11, 31, 58, 0.18), 0 8px 20px var(--brand-glow);
+}
+
+.primary-btn:hover::after,
+.secondary-btn:hover::after {
+    left: 120%;
 }
 
 .primary-btn:active {
@@ -498,9 +562,47 @@ input[type="radio"],
     color: #fff;
     border-color: var(--secondary);
     transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 14px 30px rgba(11, 31, 58, 0.12), 0 8px 20px var(--brand-glow);
 }
 
 .secondary-btn:active {
     transform: translateY(-1px);
+}
+
+@keyframes brandGlow {
+    0%, 100% {
+        box-shadow: 0 0 0 rgba(200, 164, 93, 0);
+    }
+    50% {
+        box-shadow: 0 16px 38px var(--brand-glow);
+    }
+}
+
+@keyframes softScale {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .section-heading,
+    .page-heading,
+    .brand-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+    }
 }

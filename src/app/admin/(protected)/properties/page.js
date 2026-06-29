@@ -80,39 +80,39 @@ export default async function PropertiesPage({ searchParams }) {
           {/* Active / Archive toggler */}
 
           {isArchived ? (
-            <Link href="/admin/properties">
-              <Button
-                variant="outline"
-                asChild
-                className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
-              >
+            <Button
+              variant="outline"
+              asChild
+              className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
+            >
+              <Link href="/admin/properties">
 
                 <ShieldAlert className="h-4 w-4 mr-2 text-neutral-500" />
                 Active Listings
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           ) : (
-            <Link href="/admin/properties?archive=true">
-              <Button
-                variant="outline"
-                asChild
-                className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
-              >
+            <Button
+              variant="outline"
+              asChild
+              className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
+            >
+              <Link href="/admin/properties?archive=true">
                 <Archive className="h-4 w-4 mr-2 text-neutral-500" />
                 Archived Records
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           )}
 
-          <Link href="/admin/properties/create">
-            <Button
-              asChild
-              className="bg-neutral-950 text-white hover:bg-neutral-800 h-10 text-xs font-semibold cursor-pointer"
-            >
+          <Button
+            asChild
+            className="bg-primary text-white hover:bg-primary/90 h-10 text-xs font-semibold cursor-pointer"
+          >
+            <Link href="/admin/properties/create">
               <Plus className="h-4 w-4 mr-1.5" />
               Publish Property
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
 

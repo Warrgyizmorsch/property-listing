@@ -30,11 +30,11 @@ export default function ProjectCard({ project }) {
   const getStatusBadgeClass = (status) => {
     switch (status) {
       case "ONGOING":
-        return "bg-blue-600 text-white";
-      case "COMPLETED":
         return "bg-emerald-600 text-white";
+      case "COMPLETED":
+        return "bg-[var(--brand-primary)] text-white";
       case "UPCOMING":
-        return "bg-amber-500 text-white";
+        return "bg-[var(--brand-secondary)] text-[#0B1F3A]";
       default:
         return "bg-slate-650 text-white";
     }
@@ -54,7 +54,7 @@ export default function ProjectCard({ project }) {
   };
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-xs transition-all duration-350 hover:-translate-y-1.5 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/40">
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/40 brand-card-motion">
       {/* Project Cover Image */}
       <div className="relative aspect-video w-full overflow-hidden bg-neutral-100 dark:bg-zinc-800">
         <img
@@ -76,8 +76,8 @@ export default function ProjectCard({ project }) {
         {/* Floating featured badge */}
         {project.isFeatured && (
           <div className="absolute left-3.5 top-3.5">
-            <span className="inline-flex items-center gap-1 rounded-lg bg-amber-500 px-2.5 py-1 text-xs font-bold text-white shadow-sm">
-              <Star className="h-3 w-3 fill-white" />
+            <span className="inline-flex items-center gap-1 rounded-lg bg-[var(--brand-secondary)] px-2.5 py-1 text-xs font-bold text-[#0B1F3A] shadow-sm">
+              <Star className="h-3 w-3 fill-[#0B1F3A]" />
               Featured
             </span>
           </div>
@@ -88,7 +88,7 @@ export default function ProjectCard({ project }) {
       <div className="flex flex-1 flex-col p-5">
         {/* Category & Starting Price */}
         <div className="flex items-center justify-between gap-2 mb-2">
-          <span className="text-[10px] font-bold tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 px-2.5 py-1 rounded-md uppercase">
+          <span className="text-[10px] font-bold tracking-wider text-[var(--brand-primary)] dark:text-[var(--brand-secondary)] bg-[var(--brand-primary-soft)] dark:bg-[var(--brand-secondary-soft)] px-2.5 py-1 rounded-md uppercase">
             {project.category?.name || "Real Estate"}
           </span>
           <span className="text-base font-bold text-neutral-900 dark:text-neutral-50 font-heading">
@@ -97,7 +97,7 @@ export default function ProjectCard({ project }) {
         </div>
 
         {/* Project Title */}
-        <h3 className="mb-2 line-clamp-1 text-lg font-bold text-slate-900 hover:text-indigo-600 dark:text-white dark:hover:text-indigo-400 transition-colors">
+        <h3 className="mb-2 line-clamp-1 text-lg font-bold text-slate-900 hover:text-[var(--brand-primary)] dark:text-white dark:hover:text-[var(--brand-secondary)] transition-colors">
           <Link href={`/projects/${project.slug}`}>{project.projectName}</Link>
         </h3>
 
@@ -129,14 +129,15 @@ export default function ProjectCard({ project }) {
           </div>
 
           {/* Action button */}
-          <Link href={`/projects/${project.slug}`} className="block w-full">
-            <Button
-              className="w-full justify-between items-center bg-slate-950 hover:bg-slate-800 text-white font-bold h-10 px-4 rounded-xl cursor-pointer"
-            >
+          <Button
+            asChild
+            className="w-full justify-between items-center bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white font-bold h-10 px-4 rounded-xl cursor-pointer"
+          >
+            <Link href={`/projects/${project.slug}`} className="block w-full">
               <span>View Project Details</span>
               <ChevronRight className="h-4 w-4" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
     </div>

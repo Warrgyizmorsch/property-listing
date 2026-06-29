@@ -45,8 +45,8 @@ export default function SeoTabsContainer({ currentTab, initialData }) {
               onClick={() => handleTabChange(tab.id)}
               className={`flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-lg tracking-wide border transition-all shrink-0 uppercase ${
                 isActive
-                  ? "bg-slate-900 border-slate-900 text-white shadow-sm"
-                  : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  ? "bg-[var(--brand-primary)] border-[var(--brand-primary)] text-white shadow-sm"
+                  : "bg-white border-slate-200 text-slate-600 hover:bg-[var(--brand-primary-soft)] hover:text-[var(--brand-primary)]"
               }`}
             >
               <IconComponent className="h-4 w-4 shrink-0" />

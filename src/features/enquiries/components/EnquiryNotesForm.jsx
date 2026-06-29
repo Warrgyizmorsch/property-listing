@@ -55,7 +55,7 @@ export default function EnquiryNotesForm({ enquiryId, initialNotes = "" }) {
         <Button
           type="submit"
           disabled={isPending || !hasChanged}
-          className="bg-neutral-950 text-white hover:bg-neutral-800 h-9 px-4 text-xs font-semibold flex items-center gap-1.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-primary text-white hover:bg-primary/90 h-9 px-4 text-xs font-semibold flex items-center gap-1.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Save className="h-3.5 w-3.5" />
           <span>{isPending ? "Saving Notes..." : "Save Notes"}</span>

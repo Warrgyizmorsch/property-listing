@@ -17,9 +17,9 @@ export default function WhatsAppButton({ phone, propertyTitle }) {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center justify-center gap-2.5 p-3 w-full rounded-xl border border-emerald-100 bg-emerald-50/20 hover:bg-emerald-50 text-emerald-700 text-xs font-bold transition-all dark:border-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-950/20"
+      className="flex items-center justify-center gap-2.5 p-3 w-full rounded-xl border border-[var(--brand-border)] bg-[var(--brand-primary-soft)] hover:bg-[var(--brand-secondary-soft)] text-[var(--brand-primary)] text-xs font-bold transition-all dark:border-[var(--brand-border)] dark:text-[var(--brand-secondary)] dark:hover:bg-[var(--brand-secondary-soft)]"
     >
-      <MessageSquare className="h-4.5 w-4.5 text-emerald-500 shrink-0" />
+      <MessageSquare className="h-4.5 w-4.5 text-[var(--brand-secondary)] shrink-0" />
       <span>Chat via WhatsApp</span>
     </a>
   );

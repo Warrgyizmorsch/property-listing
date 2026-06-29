@@ -102,7 +102,7 @@ export default function ProjectFilters({ metadata = {}, initialFilters = {} }) {
         <div className="flex gap-2">
           <Button
             onClick={handleApplyFilters}
-            className="flex-1 bg-neutral-950 text-white hover:bg-neutral-800 text-xs font-semibold h-10 cursor-pointer"
+            className="flex-1 bg-primary text-white hover:bg-primary/90 text-xs font-semibold h-10 cursor-pointer"
           >
             Apply Filters
           </Button>

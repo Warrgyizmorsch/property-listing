@@ -12,7 +12,7 @@ export default function PropertyNotFound() {
       <main className="flex-grow flex items-center justify-center py-20 px-4">
         <div className="text-center max-w-md flex flex-col items-center">
           {/* Visual Icon */}
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-zinc-900 dark:text-indigo-400 border border-neutral-100 dark:border-zinc-800 shadow-sm">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--brand-primary-soft)] text-[var(--brand-primary)] dark:bg-zinc-900 dark:text-[var(--brand-secondary)] border border-[var(--brand-border)] dark:border-zinc-800 shadow-sm">
             <Building className="h-8 w-8" />
           </div>
 
@@ -29,22 +29,23 @@ export default function PropertyNotFound() {
 
           {/* Actions */}
           <div className="mt-8 flex flex-col sm:flex-row gap-3 w-full justify-center">
-            <Link href="/properties">
-              <Button className="w-full sm:w-auto gap-2 bg-indigo-600 font-bold text-white hover:bg-indigo-700 rounded-xl">
+            <Button asChild className="w-full sm:w-auto gap-2 bg-[var(--brand-primary)] font-bold text-white hover:bg-[var(--brand-primary-hover)] rounded-xl">
+              <Link href="/properties">
                 <ArrowLeft className="h-4 w-4" />
                 Back to Listings
-              </Button>
-            </Link>
+              </Link>
+            </Button>
 
-            <Link href="/">
-              <Button
-                variant="outline"
-                className="w-full sm:w-auto gap-2 font-bold border-neutral-200 dark:border-zinc-800 rounded-xl"
-              >
+            <Button
+              variant="outline"
+              asChild
+              className="w-full sm:w-auto gap-2 font-bold border-neutral-200 dark:border-zinc-800 rounded-xl"
+            >
+              <Link href="/">
                 <Home className="h-4 w-4" />
                 Go Homepage
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </main>

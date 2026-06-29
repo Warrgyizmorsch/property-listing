@@ -61,7 +61,7 @@ export default function PropertyPagination({ page, totalPages }) {
           onClick={() => handlePageChange(p)}
           className={`h-10 w-10 rounded-xl font-bold text-sm ${
             p === page
-              ? "bg-indigo-600 text-white hover:bg-indigo-700"
+              ? "bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-primary-hover)]"
               : "border border-neutral-200 bg-white hover:bg-neutral-50 dark:border-zinc-800 dark:bg-zinc-900"
           }`}
         >

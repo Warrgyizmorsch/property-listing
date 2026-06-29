@@ -17,8 +17,8 @@ import TableWrapper from "@/components/admin/TableWrapper"
 export function EnquiryStatusBadge({ status }) {
   const styles = {
     NEW: "bg-amber-50 text-amber-700 ring-amber-600/10",
-    CONTACTED: "bg-blue-50 text-blue-700 ring-blue-600/10",
-    NEGOTIATION: "bg-indigo-50 text-indigo-700 ring-indigo-600/10",
+    CONTACTED: "bg-[var(--brand-primary-soft)] text-[var(--brand-primary)] ring-[var(--brand-primary)]/10",
+    NEGOTIATION: "bg-[var(--brand-secondary-soft)] text-[var(--brand-primary)] ring-[var(--brand-secondary)]/20",
     CLOSED: "bg-red-50 text-red-700 ring-red-600/10",
     CONVERTED: "bg-green-50 text-green-700 ring-green-600/10",
     RESOLVED: "bg-neutral-50 text-neutral-600 ring-neutral-500/10",

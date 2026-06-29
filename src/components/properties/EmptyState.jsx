@@ -18,12 +18,12 @@ export default function EmptyState() {
       </p>
       
       <div className="mt-8">
-        <Link href="/properties">
-          <Button className="gap-2 bg-indigo-600 font-semibold text-white hover:bg-indigo-700">
+        <Button asChild className="gap-2 bg-[var(--brand-primary)] font-semibold text-white hover:bg-[var(--brand-primary-hover)]">
+          <Link href="/properties">
             <RotateCcw className="h-4 w-4" />
             Clear All Filters
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
     </div>
   );

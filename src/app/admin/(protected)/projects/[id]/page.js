@@ -1,6 +1,7 @@
 import React from "react"
 import { notFound } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import PageHeader from "@/components/admin/PageHeader"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Edit2, ShieldCheck, MapPin, Phone, Mail, Award, CheckSquare, Hammer, Bookmark, LayoutGrid, Calendar, HelpCircle, User, Image as ImageIcon, Plus } from "lucide-react"
@@ -28,9 +29,9 @@ export default async function ProjectDetailsPage({ params }) {
   const getStatusBadgeClass = (status) => {
     switch (status) {
       case "ONGOING":
-        return "bg-blue-100 text-blue-800 border-blue-200"
-      case "COMPLETED":
         return "bg-green-100 text-green-800 border-green-200"
+      case "COMPLETED":
+        return "bg-[var(--brand-primary-soft)] text-[var(--brand-primary)] border-[var(--brand-border)]"
       case "UPCOMING":
         return "bg-amber-100 text-amber-800 border-amber-200"
       default:
@@ -57,48 +58,50 @@ export default async function ProjectDetailsPage({ params }) {
       {/* Top Header Buttons */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Link href="/admin/projects">
-            <Button
-              variant="outline"
-              asChild
-              className="border-neutral-200 hover:bg-neutral-50 h-9 text-xs font-semibold text-neutral-700 cursor-pointer"
-            >
+          <Button
+            variant="outline"
+            asChild
+            className="border-neutral-200 hover:bg-neutral-50 h-9 text-xs font-semibold text-neutral-700 cursor-pointer"
+          >
+            <Link href="/admin/projects">
               <ArrowLeft className="h-4 w-4 " />
               Back to Projects
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
 
         <div className="flex items-center gap-3 self-start sm:self-auto">
-          <Link href={`/admin/properties/create?projectId=${project.id}`}>
-            <Button
-              variant="outline"
-              asChild
-              className="border-neutral-200 hover:bg-neutral-50 h-9 text-xs font-semibold px-4 cursor-pointer"
-            >
+          <Button
+            variant="outline"
+            asChild
+            className="border-neutral-200 hover:bg-neutral-50 h-9 text-xs font-semibold px-4 cursor-pointer"
+          >
+            <Link href={`/admin/properties/create?projectId=${project.id}`}>
               <Plus className="h-4 w-4 " />
               Add Property
-            </Button>
-          </Link>
+            </Link>
+          </Button>
 
-          <Link href={`/admin/projects/${project.id}/edit`}>
-            <Button
-              asChild
-              className="bg-neutral-950 text-white hover:bg-neutral-800 h-9 text-xs font-semibold px-4 cursor-pointer"
-            >
+          <Button
+            asChild
+            className="bg-primary text-white hover:bg-primary/90 h-9 text-xs font-semibold px-4 cursor-pointer"
+          >
+            <Link href={`/admin/projects/${project.id}/edit`}>
               <Edit2 className="h-4 w-4 " />
               Edit Project
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
 
       {/* Hero Banner Section */}
       <div className="relative h-64 md:h-80 w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-900 shadow-sm flex items-end">
         {project.bannerImage ? (
-          <img
+          <Image
             src={project.bannerImage}
             alt={`${project.projectName} Banner`}
+            fill
+            sizes="(min-width: 768px) 80rem, 100vw"
             className="absolute inset-0 w-full h-full object-cover opacity-60"
           />
         ) : (
@@ -120,25 +123,25 @@ export default async function ProjectDetailsPage({ params }) {
 
           <div className="flex items-center gap-3">
             {brochureUrl && (
-              <a href={brochureUrl} target="_blank" rel="noopener noreferrer">
-                <Button
-                  variant="outline"
-                  asChild
-                  className="bg-white/10 text-white border-white/20 hover:bg-white/20 h-9 text-xs font-bold"
-                >
-                  Download Brochure
-                </Button>
-              </a>
-            )}
-            <Link href={`/admin/projects/${project.id}/images`}>
               <Button
+                variant="outline"
                 asChild
-                className="bg-white text-slate-950 hover:bg-slate-100 h-9 text-xs font-bold border-none"
+                className="bg-white/10 text-white border-white/20 hover:bg-white/20 h-9 text-xs font-bold"
               >
+                <a href={brochureUrl} target="_blank" rel="noopener noreferrer">
+                  Download Brochure
+                </a>
+              </Button>
+            )}
+            <Button
+              asChild
+              className="bg-white text-slate-950 hover:bg-slate-100 h-9 text-xs font-bold border-none"
+            >
+              <Link href={`/admin/projects/${project.id}/images`}>
                 <ImageIcon className="h-4 w-4 text-slate-900" />
                 Gallery
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
@@ -326,15 +329,15 @@ export default async function ProjectDetailsPage({ params }) {
           <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
             Properties Under Project ({project.properties?.length || 0})
           </h3>
-          <Link href={`/admin/properties/create?projectId=${project.id}`}>
-            <Button
-              asChild
-              variant="outline"
-              className="border-neutral-200 hover:bg-neutral-50 h-8 text-xs font-bold cursor-pointer"
-            >
+          <Button
+            asChild
+            variant="outline"
+            className="border-neutral-200 hover:bg-neutral-50 h-8 text-xs font-bold cursor-pointer"
+          >
+            <Link href={`/admin/properties/create?projectId=${project.id}`}>
               + Add Property to Project
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
 
         <div className="overflow-hidden border border-slate-100 rounded-xl">
@@ -370,16 +373,16 @@ export default async function ProjectDetailsPage({ params }) {
                     </span>
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <Link href={`/admin/properties/${property.id}/edit`}>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        asChild
-                        className="text-indigo-600 hover:text-indigo-900 font-bold text-xs h-7 hover:bg-indigo-50"
-                      >
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      asChild
+                      className="text-[var(--brand-primary)] hover:text-[var(--brand-primary-hover)] font-bold text-xs h-7 hover:bg-[var(--brand-primary-soft)]"
+                    >
+                      <Link href={`/admin/properties/${property.id}/edit`}>
                         Edit Property
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   </td>
                 </tr>
               ))}

@@ -62,7 +62,7 @@ export default function SeoForm({ pageType, initialData }) {
         <Card className="shadow-md border-slate-100 bg-white">
           <CardHeader className="border-b border-slate-100/80">
             <CardTitle className="text-xl font-bold text-slate-800 flex items-center gap-2">
-              <Globe className="h-5 w-5 text-indigo-500" />
+              <Globe className="h-5 w-5 text-[var(--brand-secondary)]" />
               Configure Page SEO
             </CardTitle>
             <CardDescription>
@@ -77,7 +77,7 @@ export default function SeoForm({ pageType, initialData }) {
                 onClick={() => setActiveTab("meta")}
                 className={`flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-all -mb-px ${
                   activeTab === "meta"
-                    ? "border-indigo-600 text-indigo-600"
+                    ? "border-[var(--brand-secondary)] text-[var(--brand-primary)]"
                     : "border-transparent text-slate-500 hover:text-slate-700"
                 }`}
               >
@@ -89,7 +89,7 @@ export default function SeoForm({ pageType, initialData }) {
                 onClick={() => setActiveTab("og")}
                 className={`flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-all -mb-px ${
                   activeTab === "og"
-                    ? "border-indigo-600 text-indigo-600"
+                    ? "border-[var(--brand-secondary)] text-[var(--brand-primary)]"
                     : "border-transparent text-slate-500 hover:text-slate-700"
                 }`}
               >
@@ -217,7 +217,7 @@ export default function SeoForm({ pageType, initialData }) {
             <Button
               type="submit"
               disabled={isPending || (!isDirty)}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white shrink-0 gap-2 font-medium transition-all"
+              className="bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shrink-0 gap-2 font-medium transition-all"
             >
               {isPending ? (
                 <>

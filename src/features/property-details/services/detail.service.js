@@ -1,11 +1,12 @@
 import { db } from "@/lib/db";
+import { cache } from "react";
 
 /**
  * Fetches an active property listing by its slug, including category,
  * purpose, status, location tree (city -> state -> country), and gallery images.
  * Serializes Decimal price field to standard Number.
  */
-export async function getPropertyDetails(slug) {
+export const getPropertyDetails = cache(async (slug) => {
   if (!slug) return null;
 
   try {
@@ -57,7 +58,7 @@ export async function getPropertyDetails(slug) {
     console.error("Error fetching property details by slug:", error);
     return null;
   }
-}
+});
 
 /**
  * Fetches up to 'limit' related properties matching the category ID or city ID

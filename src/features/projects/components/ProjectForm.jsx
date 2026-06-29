@@ -993,7 +993,7 @@ export default function ProjectForm({ project = null, metadata = {} }) {
                 </div>
               </div>
               {watchedBrochureFile && (
-                <div className="flex items-center gap-2 text-xs text-blue-600 font-semibold">
+                <div className="flex items-center gap-2 text-xs text-[var(--brand-primary)] font-semibold">
                   <ArrowUpRight className="h-4 w-4" />
                   <a href={watchedBrochureFile} target="_blank" rel="noopener noreferrer" className="hover:underline">
                     View Uploaded Brochure
@@ -1030,13 +1030,13 @@ export default function ProjectForm({ project = null, metadata = {} }) {
               {highlightsList.map((item, idx) => (
                 <span
                   key={idx}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-700/10"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[var(--brand-primary-soft)] px-3 py-1 text-xs font-bold text-[var(--brand-primary)] ring-1 ring-inset ring-[var(--brand-primary)]/10"
                 >
                   {item}
                   <button
                     type="button"
                     onClick={() => removeHighlight(item)}
-                    className="text-indigo-400 hover:text-indigo-600 font-bold cursor-pointer"
+                    className="text-[var(--brand-secondary)] hover:text-[var(--brand-primary)] font-bold cursor-pointer"
                   >
                     ×
                   </button>
@@ -1236,7 +1236,7 @@ export default function ProjectForm({ project = null, metadata = {} }) {
           <Button
             type="submit"
             disabled={isPending || isUploadingBanner || isUploadingMain || isUploadingBrochure}
-            className="bg-neutral-950 text-white hover:bg-neutral-800 h-10 text-xs font-semibold px-6 cursor-pointer"
+            className="bg-primary text-white hover:bg-primary/90 h-10 text-xs font-semibold px-6 cursor-pointer"
           >
             {isPending ? (
               <span className="flex items-center gap-1.5">

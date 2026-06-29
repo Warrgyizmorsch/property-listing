@@ -10,6 +10,17 @@ export function formatCurrency(amount, currencyCode = "INR", locale = "en-IN") {
     typeof amount === "object" ? Number(amount) : parseFloat(amount);
   if (isNaN(numericAmount)) return "₹0";
 
+  // Format large numbers in Indian Lakh / Crore shorthand
+  if (numericAmount >= 10000000) { // 1 Crore
+    const crValue = numericAmount / 10000000;
+    const formatted = Number(crValue.toFixed(2));
+    return `₹${formatted}Cr`;
+  } else if (numericAmount >= 100005) { // 1 Lakh (with buffer for minor float variations)
+    const lValue = numericAmount / 100000;
+    const formatted = Number(lValue.toFixed(2));
+    return `₹${formatted}L`;
+  }
+
   return new Intl.NumberFormat(locale, {
     style: "currency",
     currency: currencyCode,

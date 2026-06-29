@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const BgImageSection = () => {
   return (
@@ -26,11 +27,11 @@ const BgImageSection = () => {
           Find exceptional residential complexes, upcoming villa communities, and premier commercial projects in prime localities.
         </p>
         <div className="flex justify-center items-center">
-          <Link href="/projects" className="mt-8">
-            <button className="gap-1 primary-btn">
+          <Button asChild className="primary-btn mt-8">
+            <Link href="/projects">
               View All Projects <ArrowRight className="w-5 h-5" />
-            </button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

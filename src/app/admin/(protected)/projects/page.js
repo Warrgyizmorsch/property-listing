@@ -50,39 +50,39 @@ export default async function ProjectsPage({ searchParams }) {
           {/* Active / Archive Toggle */}
 
           {isArchived ? (
-            <Link href="/admin/projects">
-              <Button
-                variant="outline"
-                asChild
-                className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
-              >
+            <Button
+              variant="outline"
+              asChild
+              className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
+            >
+              <Link href="/admin/projects">
                 <ShieldAlert className="h-4 w-4 mr-2 text-neutral-500" />
                 Active Projects
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           ) : (
-            <Link href="/admin/projects?archive=true">
-              <Button
-                variant="outline"
-                asChild
-                className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
-              >
+            <Button
+              variant="outline"
+              asChild
+              className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer"
+            >
+              <Link href="/admin/projects?archive=true">
                 <Archive className="h-4 w-4 mr-2 text-neutral-500" />
                 Archived Projects
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           )}
 
 
-          <Link href="/admin/projects/create">
-            <Button
-              asChild
-              className="bg-neutral-950 text-white hover:bg-neutral-800 h-10 text-xs font-semibold cursor-pointer"
-            >
+          <Button
+            asChild
+            className="bg-primary text-white hover:bg-primary/90 h-10 text-xs font-semibold cursor-pointer"
+          >
+            <Link href="/admin/projects/create">
               <Plus className="h-4 w-4" />
               Add Project
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
 

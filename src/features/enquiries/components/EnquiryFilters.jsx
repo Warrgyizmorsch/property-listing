@@ -164,7 +164,7 @@ export default function EnquiryFilters({
             type="button"
             disabled={isPending}
             onClick={applyFilters}
-            className="flex-1 flex items-center justify-center gap-1.5 h-9 text-xs bg-neutral-950 text-white hover:bg-neutral-800 cursor-pointer"
+            className="flex-1 flex items-center justify-center gap-1.5 h-9 text-xs bg-primary text-white hover:bg-primary/90 cursor-pointer"
           >
             <SlidersHorizontal className="h-3.5 w-3.5" />
             <span>{isPending ? "..." : "Filter"}</span>

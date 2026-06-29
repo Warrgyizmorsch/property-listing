@@ -28,9 +28,9 @@ export default function EnquiryStatusSelector({ enquiryId, currentStatus }) {
       case "NEW":
         return "w-1/5 bg-amber-500"
       case "CONTACTED":
-        return "w-2/5 bg-blue-500"
+        return "w-2/5 bg-[var(--brand-primary)]"
       case "NEGOTIATION":
-        return "w-3/5 bg-indigo-500"
+        return "w-3/5 bg-[var(--brand-secondary)]"
       case "CLOSED":
         return "w-4/5 bg-red-500"
       case "CONVERTED":
@@ -59,7 +59,7 @@ export default function EnquiryStatusSelector({ enquiryId, currentStatus }) {
           value={currentStatus}
           onChange={handleChangeStatus}
           disabled={isPending}
-          className="flex w-full h-10 rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm focus:border-neutral-400 cursor-pointer disabled:opacity-50"
+          className="flex w-full h-10 rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm brand-focus cursor-pointer disabled:opacity-50"
         >
           {ENQUIRY_STATUSES.map((st) => (
             <option key={st} value={st}>

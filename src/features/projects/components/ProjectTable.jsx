@@ -46,9 +46,9 @@ export default function ProjectTable({
   const getStatusBadgeClass = (status) => {
     switch (status) {
       case "ONGOING":
-        return "bg-blue-50 text-blue-700 border-blue-200"
-      case "COMPLETED":
         return "bg-emerald-50 text-emerald-700 border-emerald-200"
+      case "COMPLETED":
+        return "bg-[var(--brand-primary-soft)] text-[var(--brand-primary)] border-[var(--brand-border)]"
       case "UPCOMING":
         return "bg-amber-50 text-amber-700 border-amber-200"
       default:
@@ -96,7 +96,7 @@ export default function ProjectTable({
           return (
             <div
               key={project.id}
-              className="group bg-white border border-slate-200/80 rounded-2xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
+              className="group bg-white border border-slate-200/80 rounded-2xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col brand-card-motion"
             >
               {/* Cover Image Container */}
               <div className="relative aspect-video overflow-hidden bg-slate-100">
@@ -119,8 +119,8 @@ export default function ProjectTable({
                 {/* Floating Featured Badge */}
                 {project.isFeatured && (
                   <div className="absolute top-3 left-3">
-                    <span className="inline-flex items-center gap-1 rounded-lg bg-amber-500 text-white px-2.5 py-1 text-xs font-semibold shadow-sm">
-                      <Star className="h-3 w-3 fill-white" />
+                    <span className="inline-flex items-center gap-1 rounded-lg bg-[var(--brand-secondary)] text-[#0B1F3A] px-2.5 py-1 text-xs font-semibold shadow-sm">
+                      <Star className="h-3 w-3 fill-[#0B1F3A]" />
                       Featured
                     </span>
                   </div>
@@ -131,12 +131,12 @@ export default function ProjectTable({
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
                   {/* Category Name */}
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--brand-primary)] bg-[var(--brand-primary-soft)] px-2.5 py-1 rounded-md">
                     {project.category?.name || "Uncategorized"}
                   </span>
 
                   {/* Project Name */}
-                  <h3 className="text-lg font-bold text-slate-900 mt-3 group-hover:text-indigo-600 transition-colors line-clamp-1">
+                  <h3 className="text-lg font-bold text-slate-900 mt-3 group-hover:text-[var(--brand-primary)] transition-colors line-clamp-1">
                     {project.projectName}
                   </h3>
 
@@ -177,7 +177,7 @@ export default function ProjectTable({
                           ? "bg-red-500"
                           : availableProps < 3
                             ? "bg-amber-500"
-                            : "bg-indigo-600"
+                            : "bg-[var(--brand-primary)]"
                           }`}
                         style={{ width: `${progressPercent}%` }}
                       />
@@ -195,41 +195,41 @@ export default function ProjectTable({
                 {!showDeleted ? (
                   <>
                     <div className="flex gap-1.5">
-                      <Link href={`/admin/projects/${project.id}`}>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          asChild
-                          className="h-8 w-8 text-slate-500 hover:text-slate-950 hover:bg-slate-100 rounded-lg cursor-pointer"
-                          title="View Project Detail"
-                        >
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        asChild
+                        className="h-8 w-8 text-slate-500 hover:text-slate-950 hover:bg-slate-100 rounded-lg cursor-pointer"
+                        title="View Project Detail"
+                      >
+                        <Link href={`/admin/projects/${project.id}`} aria-label="View Project Detail">
                           <Eye className="h-4.5 w-4.5" />
-                        </Button>
-                      </Link>
+                        </Link>
+                      </Button>
 
-                      <Link href={`/admin/projects/${project.id}/edit`}>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          asChild
-                          className="h-8 w-8 text-slate-500 hover:text-slate-950 hover:bg-slate-100 rounded-lg cursor-pointer"
-                          title="Edit Project"
-                        >
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        asChild
+                        className="h-8 w-8 text-slate-500 hover:text-slate-950 hover:bg-slate-100 rounded-lg cursor-pointer"
+                        title="Edit Project"
+                      >
+                        <Link href={`/admin/projects/${project.id}/edit`} aria-label="Edit Project">
                           <Edit2 className="h-4 w-4" />
-                        </Button>
-                      </Link>
+                        </Link>
+                      </Button>
 
-                      <Link href={`/admin/projects/${project.id}/images`}>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          asChild
-                          className="h-8 w-8 text-slate-500 hover:text-slate-950 hover:bg-slate-100 rounded-lg cursor-pointer"
-                          title="Gallery Photos"
-                        >
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        asChild
+                        className="h-8 w-8 text-slate-500 hover:text-slate-950 hover:bg-slate-100 rounded-lg cursor-pointer"
+                        title="Gallery Photos"
+                      >
+                        <Link href={`/admin/projects/${project.id}/images`} aria-label="Gallery Photos">
                           <ImageIcon className="h-4 w-4" />
-                        </Button>
-                      </Link>
+                        </Link>
+                      </Button>
                     </div>
 
                     <Button

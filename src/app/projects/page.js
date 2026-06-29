@@ -72,6 +72,7 @@ async function ListingGridContainer({ searchParamsResolved }) {
     state: searchParamsResolved.state || "",
     country: searchParamsResolved.country || "",
     status: searchParamsResolved.status || "",
+    bhk: searchParamsResolved.bhk || "",
     isFeatured: searchParamsResolved.isFeatured || undefined,
     sortBy: searchParamsResolved.sortBy || "latest",
     page,

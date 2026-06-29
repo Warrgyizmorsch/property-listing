@@ -209,28 +209,28 @@ export default function PropertyTable({
                   <div className="flex items-center justify-end gap-1.5">
                     {!showDeleted ? (
                       <>
-                        <Link href={`/admin/properties/${property.id}/edit`}>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            asChild
-                            className="h-8 w-8 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100"
-                          >
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          asChild
+                          className="h-8 w-8 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100"
+                        >
+                          <Link href={`/admin/properties/${property.id}/edit`} aria-label="Edit">
                             <Edit2 className="h-4 w-4" />
                             <span className="sr-only">Edit</span>
-                          </Button>
-                        </Link>
-                        <Link href={`/admin/properties/${property.id}/images`}>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            asChild
-                            className="h-8 w-8 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100"
-                          >
+                          </Link>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          asChild
+                          className="h-8 w-8 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100"
+                        >
+                          <Link href={`/admin/properties/${property.id}/images`} aria-label="Manage Images">
                             <Image className="h-4 w-4" />
                             <span className="sr-only">Manage Images</span>
-                          </Button>
-                        </Link>
+                          </Link>
+                        </Button>
                         <Button
                           variant="ghost"
                           size="icon"

@@ -42,19 +42,19 @@ export default function Sidebar({ className = "" }) {
   const navItemClass = (isActive) =>
     `flex items-center gap-3.5 pl-6 pr-4 py-3 text-sm font-semibold rounded-l-full transition-all cursor-pointer ${
       isActive
-        ? "bg-white text-[#3b52d9] shadow-sm ml-4"
-        : "text-blue-100 hover:bg-white/10 hover:text-white ml-4"
+        ? "bg-white text-[var(--brand-primary)] shadow-sm ml-4"
+        : "text-white/75 hover:bg-white/10 hover:text-white ml-4"
     }`;
 
   const subNavItemClass = (isActive) =>
     `flex items-center gap-3 pl-12 pr-4 py-2.5 text-xs font-semibold rounded-l-full transition-all cursor-pointer ${
       isActive
-        ? "bg-white/95 text-[#3b52d9] shadow-xs ml-4"
-        : "text-blue-200 hover:bg-white/5 hover:text-white ml-4"
+        ? "bg-white/95 text-[var(--brand-primary)] shadow-xs ml-4"
+        : "text-white/70 hover:bg-white/5 hover:text-white ml-4"
     }`;
 
   return (
-    <aside className={`flex h-full w-64 flex-col bg-[#3b52d9] text-white shadow-xl ${className}`}>
+    <aside className={`flex h-full w-64 flex-col bg-[var(--brand-primary)] text-white shadow-xl ${className}`}>
       {/* Sidebar Header Brand */}
       <div className="flex h-16 items-center px-6 gap-2.5 border-b border-white/10 shrink-0">
         <img src="/images/PE-Logo-white.png" alt="Property Expert" className="h-12 w-auto" />
@@ -78,7 +78,7 @@ export default function Sidebar({ className = "" }) {
             className={`w-full flex items-center justify-between gap-3.5 pl-6 pr-6 py-3 text-sm font-semibold rounded-l-full transition-all cursor-pointer ml-4 ${
               isCatalogPath && !catalogOpen
                 ? "bg-white/20 text-white"
-                : "text-blue-100 hover:bg-white/10 hover:text-white"
+                : "text-white/75 hover:bg-white/10 hover:text-white"
             }`}
           >
             <div className="flex items-center gap-3.5">
@@ -86,9 +86,9 @@ export default function Sidebar({ className = "" }) {
               <span>Catalog</span>
             </div>
             {catalogOpen ? (
-              <ChevronDown className="h-4 w-4 shrink-0 text-blue-200" />
+              <ChevronDown className="h-4 w-4 shrink-0 text-[var(--brand-secondary)]" />
             ) : (
-              <ChevronRight className="h-4 w-4 shrink-0 text-blue-200" />
+              <ChevronRight className="h-4 w-4 shrink-0 text-[var(--brand-secondary)]" />
             )}
           </button>
 
@@ -149,7 +149,7 @@ export default function Sidebar({ className = "" }) {
         <button
           onClick={handleLogout}
           disabled={isPending}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold bg-white/15 hover:bg-white text-white hover:text-[#3b52d9] rounded-xl border border-white/10 transition-all cursor-pointer shadow-sm disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold bg-white/15 hover:bg-[var(--brand-secondary)] text-white hover:text-[#0B1F3A] rounded-xl border border-white/10 transition-all cursor-pointer shadow-sm disabled:opacity-50"
         >
           <LogOut className="h-4 w-4" />
           <span>{isPending ? "Logging Out..." : "Log Out"}</span>

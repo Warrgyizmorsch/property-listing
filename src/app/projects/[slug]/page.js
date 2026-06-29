@@ -35,6 +35,7 @@ import { generatePageMetadata } from "@/lib/seo/metadata";
 import StickyNavigationTabs from "@/components/frontend/StickyNavigationTabs";
 import { formatCurrency, formatArea } from "@/lib/format";
 import { PropertyCard } from "@/components/home/PropertyCards";
+import { WhatsappIcon } from "@/components/icons/la-whatsapp";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -72,9 +73,9 @@ const getAmenityIcon = (name) => {
 const getStatusBadgeClass = (status) => {
   switch (status) {
     case "ONGOING":
-      return "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-900/30";
-    case "COMPLETED":
       return "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900/30";
+    case "COMPLETED":
+      return "bg-[var(--brand-primary-soft)] text-[var(--brand-primary)] border-[var(--brand-border)] dark:bg-[var(--brand-secondary-soft)] dark:text-[var(--brand-secondary)] dark:border-[var(--brand-border)]";
     case "UPCOMING":
       return "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900/30";
     default:
@@ -182,7 +183,7 @@ export default async function ProjectDetailPage({ params }) {
                   {getStatusLabel(project.status)}
                 </span>
                 {project.isFeatured && (
-                  <span className="inline-flex items-center gap-1 rounded-lg bg-amber-500 px-2.5 py-1 text-xs font-bold text-white shadow-xs">
+                  <span className="inline-flex items-center gap-1 rounded-lg bg-[var(--brand-secondary)] px-2.5 py-1 text-xs font-bold text-[#0B1F3A] shadow-xs">
                     ★ Featured
                   </span>
                 )}
@@ -193,7 +194,7 @@ export default async function ProjectDetailPage({ params }) {
               </h1>
 
               <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-neutral-500 dark:text-zinc-400 font-semibold">
-                <span className="text-indigo-600 dark:text-[#C8A45D]">By {project.builderName}</span>
+                <span className="text-[var(--brand-primary)] dark:text-[var(--brand-secondary)]">By {project.builderName}</span>
                 <span className="hidden sm:inline text-neutral-300 dark:text-zinc-800">•</span>
                 <span className="flex items-center gap-1">
                   <MapPin className="h-4 w-4 shrink-0 text-neutral-400" />
@@ -215,7 +216,7 @@ export default async function ProjectDetailPage({ params }) {
                 <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">Price Range</p>
                 <h3 className="text-2xl sm:text-3xl font-bold text-[#0B1F3A] dark:text-white font-heading">{priceRangeDisplay}</h3>
                 {minPrice > 0 && (
-                  <p className="text-xs text-indigo-600 dark:text-[#C8A45D] font-bold">
+                  <p className="text-xs text-[var(--brand-primary)] dark:text-[var(--brand-secondary)] font-bold">
                     EMI starts at ₹{formatCurrency(Math.round(minPrice * 0.007)).replace("₹", "")}/month*
                   </p>
                 )}
@@ -412,20 +413,20 @@ export default async function ProjectDetailPage({ params }) {
                     </div>
                     <div className="flex flex-wrap gap-3">
                       {project.builderPhone && (
-                        <a href={`tel:${project.builderPhone}`}>
-                          <button className="secondary-btn flex items-center gap-2 text-xs font-bold py-2 h-9 px-4">
+                        <Button asChild className="secondary-btn flex items-center gap-2 text-xs font-bold py-2 h-9 px-4">
+                          <a href={`tel:${project.builderPhone}`}>
                             <Phone className="h-3.5 w-3.5" />
                             {project.builderPhone}
-                          </button>
-                        </a>
+                          </a>
+                        </Button>
                       )}
                       {project.builderEmail && (
-                        <a href={`mailto:${project.builderEmail}`}>
-                          <button className="secondary-btn flex items-center gap-2 text-xs font-bold py-2 h-9 px-4">
+                        <Button asChild className="secondary-btn flex items-center gap-2 text-xs font-bold py-2 h-9 px-4">
+                          <a href={`mailto:${project.builderEmail}`}>
                             <Mail className="h-3.5 w-3.5" />
                             Email Office
-                          </button>
-                        </a>
+                          </a>
+                        </Button>
                       )}
                     </div>
                   </div>
@@ -451,17 +452,16 @@ export default async function ProjectDetailPage({ params }) {
                       <span>{project.address}</span>
                     </div>
                     {project.address && (
-                      <a 
-                        href={`https://maps.google.com/?q=${encodeURIComponent(project.address)}`} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="shrink-0"
-                      >
-                        <button className="secondary-btn text-xs font-bold py-2 h-9 px-4 flex items-center justify-center gap-2">
+                      <Button asChild className="secondary-btn text-xs font-bold py-2 h-9 px-4 flex items-center justify-center gap-2 shrink-0">
+                        <a 
+                          href={`https://maps.google.com/?q=${encodeURIComponent(project.address)}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                        >
                           <span>Open in Google Maps</span>
                           <ArrowRight className="h-3.5 w-3.5" />
-                        </button>
-                      </a>
+                        </a>
+                      </Button>
                     )}
                   </div>
 
@@ -509,11 +509,11 @@ export default async function ProjectDetailPage({ params }) {
                       <p className="text-[10px] text-neutral-400">PDF, floor layouts & details</p>
                     </div>
                   </div>
-                  <a href={brochureUrl} target="_blank" rel="noopener noreferrer">
-                    <button className="primary-btn text-xs font-bold py-1.5 px-4 h-9 cursor-pointer">
+                  <Button asChild className="primary-btn text-xs font-bold py-1.5 px-4 h-9 cursor-pointer">
+                    <a href={brochureUrl} target="_blank" rel="noopener noreferrer">
                       Download
-                    </button>
-                  </a>
+                    </a>
+                  </Button>
                 </div>
               )}
 
@@ -535,18 +535,18 @@ export default async function ProjectDetailPage({ params }) {
                 <p className="text-xs leading-relaxed">Speak directly with developer sales consultants regarding allocations, discounts, and floor customization.</p>
 
                 <div className="grid grid-cols-2 gap-3 pt-2">
-                  <a href={`tel:${project.builderPhone || "+912240404040"}`} className="block w-full">
-                    <button className="secondary-btn w-full gap-1.5 h-10 text-xs font-bold border-white/20 bg-transparent hover:bg-white/10 rounded-xl cursor-pointer">
+                  <Button asChild className="secondary-btn w-full gap-1.5 h-10 text-xs font-bold border-white/20 bg-transparent hover:bg-white/10 rounded-xl cursor-pointer flex items-center justify-center">
+                    <a href={`tel:${project.builderPhone || "+912240404040"}`}>
                       <Phone className="h-3.5 w-3.5" />
                       Call Sales
-                    </button>
-                  </a>
-                  <a href={`https://wa.me/${project.builderPhone || "912240404040"}?text=Hi, I am interested in ${encodeURIComponent(project.projectName)}`} target="_blank" rel="noopener noreferrer" className="block w-full">
-                    <button className="w-full gap-1.5 h-10 text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 rounded-xl cursor-pointer border-none flex items-center justify-center">
-                      <MessageSquare className="h-3.5 w-3.5 fill-white text-white border-none" />
+                    </a>
+                  </Button>
+                  <Button asChild className="primary-btn w-full gap-1.5 h-10 text-xs font-bold rounded-xl cursor-pointer flex items-center justify-center">
+                    <a href={`https://wa.me/${project.builderPhone || "912240404040"}?text=Hi, I am interested in ${encodeURIComponent(project.projectName)}`} target="_blank" rel="noopener noreferrer">
+                      <WhatsappIcon size={16} strokeWidth={2} className="h-4 w-4" />
                       WhatsApp
-                    </button>
-                  </a>
+                    </a>
+                  </Button>
                 </div>
 
                 <div className="pt-2 text-center border-t border-white/5">
@@ -566,7 +566,7 @@ export default async function ProjectDetailPage({ params }) {
                   <span className="section-subheading">Related Developments</span>
                   <h3 className="section-heading">Other Projects You May Like</h3>
                 </div>
-                <Link href="/projects" className="text-xs font-bold text-indigo-600 dark:text-[#C8A45D] hover:underline flex items-center gap-1.5">
+                <Link href="/projects" className="text-xs font-bold text-[var(--brand-primary)] dark:text-[var(--brand-secondary)] hover:underline flex items-center gap-1.5">
                   <span>Explore all projects</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>

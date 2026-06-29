@@ -130,7 +130,14 @@ export async function getHomeCategories() {
 export async function getHomeLocations(limit = 8) {
   try {
     const cities = await db.city.findMany({
-      where: { deletedAt: null },
+      where: {
+        deletedAt: null,
+        projects: {
+          some: {
+            deletedAt: null,
+          },
+        },
+      },
       include: {
         state: {
           select: {
@@ -149,13 +156,15 @@ export async function getHomeLocations(limit = 8) {
           },
         },
       },
+      orderBy: {
+        projects: {
+          _count: "desc",
+        },
+      },
+      take: limit,
     });
 
-    // In-memory sorting for compatibility safety across Prisma versions
-    return cities
-      .filter((c) => c._count.projects > 0)
-      .sort((a, b) => b._count.projects - a._count.projects)
-      .slice(0, limit);
+    return cities;
   } catch (error) {
     console.error("Error fetching home locations:", error);
     return [];
@@ -168,7 +177,7 @@ export async function getHomeLocations(limit = 8) {
 export async function getHomeStats() {
   try {
     const [totalProperties, soldProperties, activeProperties, happyEnquiries] =
-      await db.$transaction([
+      await Promise.all([
         db.property.count({ where: { deletedAt: null } }),
         db.property.count({
           where: {
@@ -212,7 +221,7 @@ export async function getHomeStats() {
  */
 export async function getSearchMetadata() {
   try {
-    const [purposes, categories, cities] = await db.$transaction([
+    const [purposes, categories, cities] = await Promise.all([
       db.propertyPurpose.findMany({
         where: { deletedAt: null },
         select: { id: true, name: true },

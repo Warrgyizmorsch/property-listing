@@ -7,7 +7,7 @@ export default function WhyChooseUs() {
       description:
         "We Hand-select every villa, penthouse, and commercial unit to guarantee premium quality, design standard, and value.",
       icon: (
-        <Sparkles className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+        <Sparkles className="h-6 w-6 text-[var(--brand-secondary)]" />
       ),
     },
     {
@@ -30,7 +30,7 @@ export default function WhyChooseUs() {
       title: "Personalized Search",
       description:
         "Dynamic filters, precise geolocation parsing, and instant alerts matching your strict budget brackets.",
-      icon: <Search className="h-6 w-6 text-blue-600 dark:text-blue-400" />,
+      icon: <Search className="h-6 w-6 text-[var(--brand-secondary)]" />,
     },
   ];
 
@@ -42,7 +42,7 @@ export default function WhyChooseUs() {
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--brand-secondary)]">
             Why Partner With Us
           </span>
           <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
@@ -59,7 +59,7 @@ export default function WhyChooseUs() {
           {features.map((feature, idx) => (
             <div
               key={idx}
-              className="flex flex-col p-6 rounded-2xl border border-neutral-100 bg-neutral-50/50 shadow-xs transition-all duration-300 hover:border-neutral-200 dark:border-zinc-800 dark:bg-zinc-900/10 dark:hover:border-zinc-800"
+              className="flex flex-col p-6 rounded-2xl border border-neutral-100 bg-neutral-50/50 shadow-xs transition-all duration-300 hover:border-[var(--brand-border)] dark:border-zinc-800 dark:bg-zinc-900/10 dark:hover:border-[var(--brand-border)] brand-card-motion"
             >
               {/* Icon Container */}
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white border border-neutral-100 shadow-xs dark:bg-zinc-900 dark:border-zinc-800">

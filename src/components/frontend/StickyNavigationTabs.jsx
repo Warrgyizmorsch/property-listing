@@ -1,12 +1,42 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 export default function StickyNavigationTabs({ tabs = [] }) {
   const [activeTab, setActiveTab] = useState(tabs[0]?.id || "");
   const containerRef = useRef(null);
+  const tabsWrapperRef = useRef(null);
   const isManualScrolling = useRef(false);
   const scrollTimeoutRef = useRef(null);
+
+  // Sliding capsule indicator state
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+
+  // Measure and position the sliding capsule on the active button
+  const updateIndicator = useCallback(() => {
+    if (!tabsWrapperRef.current) return;
+    const activeBtn = tabsWrapperRef.current.querySelector(`[data-active="true"]`);
+    if (activeBtn) {
+      const wrapperRect = tabsWrapperRef.current.getBoundingClientRect();
+      const btnRect = activeBtn.getBoundingClientRect();
+      setIndicator({
+        left: btnRect.left - wrapperRect.left,
+        width: btnRect.width,
+      });
+    }
+  }, []);
+
+  // Update indicator whenever activeTab changes
+  useEffect(() => {
+    // Small delay to let DOM update data-active attributes
+    requestAnimationFrame(updateIndicator);
+  }, [activeTab, updateIndicator]);
+
+  // Also update on window resize
+  useEffect(() => {
+    window.addEventListener("resize", updateIndicator);
+    return () => window.removeEventListener("resize", updateIndicator);
+  }, [updateIndicator]);
 
   // Center active tab inside horizontal scrolling container (for mobile viewports)
   useEffect(() => {
@@ -101,9 +131,22 @@ export default function StickyNavigationTabs({ tabs = [] }) {
   return (
     <div 
       ref={containerRef}
-      className="sticky top-[79px] md:top-[85px] z-45 bg-white/95 dark:bg-zinc-900/80 backdrop-blur-md border border-slate-200/60 dark:border-zinc-800 shadow-sm md:rounded-full rounded-2xl mb-8 p-1.5 overflow-x-auto scrollbar-none transition-all duration-300"
+      className="sticky top-[79px] md:top-[85px] z-45 bg-slate-100/90 dark:bg-zinc-900/80 backdrop-blur-md border border-slate-200/60 dark:border-zinc-800 shadow-sm md:rounded-full rounded-2xl mb-8 overflow-x-auto scrollbar-none transition-all duration-300"
     >
-      <div className="flex items-center justify-start md:justify-around gap-1.5 min-w-max mx-auto px-1">
+      <div
+        ref={tabsWrapperRef}
+        className="relative flex items-center w-full p-1"
+      >
+        {/* Sliding capsule indicator */}
+        <div
+          className="absolute top-1 bottom-1 rounded-full bg-[var(--primary)] dark:bg-white shadow-[0_4px_14px_rgba(11,31,58,0.15)] dark:shadow-[0_0_14px_rgba(255,255,255,0.15)] z-0"
+          style={{
+            left: indicator.left,
+            width: indicator.width,
+            transition: "left 0.4s cubic-bezier(0.16, 1, 0.3, 1), width 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
+        />
+
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
@@ -111,15 +154,15 @@ export default function StickyNavigationTabs({ tabs = [] }) {
               key={tab.id}
               onClick={(e) => handleClick(e, tab.id)}
               data-active={isActive ? "true" : "false"}
-              className={`relative px-5 py-2.5 text-xs font-bold transition-all duration-300 rounded-full cursor-pointer whitespace-nowrap overflow-hidden select-none hover:scale-[1.02] active:scale-95 ${
+              className={`relative z-10 flex-1 py-3 text-xs font-bold transition-colors duration-300 rounded-full cursor-pointer whitespace-nowrap select-none text-center ${
                 isActive
-                  ? "bg-(--primary) text-white dark:bg-white dark:text-zinc-950 shadow-[0_4px_12px_rgba(11,31,58,0.12)] dark:shadow-[0_0_12px_rgba(255,255,255,0.15)]"
-                  : "text-neutral-500 hover:text-(--primary) hover:bg-neutral-100/60 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800/40"
+                  ? "text-white dark:text-zinc-950"
+                  : "text-neutral-500 hover:text-neutral-800 dark:text-zinc-400 dark:hover:text-white"
               }`}
             >
-              <span className="relative z-10">{tab.label}</span>
+              {tab.label}
               {isActive && (
-                <span className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#C8A45D] rounded-full animate-pulse z-20"></span>
+                <span className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#C8A45D] rounded-full animate-pulse z-20" />
               )}
             </button>
           );

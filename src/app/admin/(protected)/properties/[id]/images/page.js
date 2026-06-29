@@ -35,16 +35,16 @@ export default async function PropertyImagesPage({ params }) {
           description={`Manage image gallery, reorder display sequences, and set primary cover for "${property.title}".`}
         />
 
-        <Link href="/admin/properties" className="flex items-center">
-          <Button
-            variant="outline"
-            asChild
-            className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer self-start md:self-auto"
-          >
+        <Button
+          variant="outline"
+          asChild
+          className="border-neutral-200 hover:bg-neutral-50 h-10 text-xs font-semibold text-neutral-700 cursor-pointer self-start md:self-auto"
+        >
+          <Link href="/admin/properties" className="flex items-center">
             <ArrowLeft className="h-4 w-4" />
             Back to Listings
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
 
       {/* 2. Drag & Drop Direct Uploader Dropzone */}

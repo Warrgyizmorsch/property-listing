@@ -107,9 +107,9 @@ export default async function DashboardPage() {
           <DashboardCard
             title="Contacted"
             value={stats.contactedLeads}
-            icon={<Phone className="h-5 w-5 text-blue-600" />}
+            icon={<Phone className="h-5 w-5 text-[var(--brand-primary)]" />}
             description="Leads actively contacted"
-            className="border-l-4 border-l-blue-500"
+            className="border-l-4 border-l-[var(--brand-primary)]"
           />
           <DashboardCard
             title="Converted"
@@ -199,9 +199,9 @@ export default async function DashboardPage() {
                           enquiry.status === "NEW"
                             ? "bg-amber-100 text-amber-800"
                             : enquiry.status === "CONTACTED"
-                              ? "bg-blue-100 text-blue-800"
+                              ? "bg-[var(--brand-primary-soft)] text-[var(--brand-primary)]"
                               : enquiry.status === "NEGOTIATION"
-                                ? "bg-indigo-100 text-indigo-800"
+                                ? "bg-[var(--brand-secondary-soft)] text-[var(--brand-primary)]"
                                 : enquiry.status === "CLOSED"
                                   ? "bg-red-100 text-red-800"
                                   : enquiry.status === "CONVERTED"

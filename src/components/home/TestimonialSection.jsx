@@ -37,7 +37,7 @@ export default function TestimonialSection() {
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--brand-secondary)]">
             Success Stories
           </span>
           <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
@@ -54,7 +54,7 @@ export default function TestimonialSection() {
           {testimonials.map((t, idx) => (
             <div
               key={idx}
-              className="flex flex-col justify-between p-8 rounded-2xl border border-neutral-100 bg-white shadow-xs dark:border-zinc-800 dark:bg-zinc-900/20"
+              className="flex flex-col justify-between p-8 rounded-2xl border border-neutral-100 bg-white shadow-xs dark:border-zinc-800 dark:bg-zinc-900/20 brand-card-motion"
             >
               {/* Quote details */}
               <div className="relative">

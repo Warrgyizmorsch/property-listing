@@ -7,9 +7,11 @@ import {
   MapPin,
   Sparkles,
   RotateCcw,
+  BedDouble,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 
 export default function ProjectFilters({ metadata = {} }) {
   const router = useRouter();
@@ -52,6 +54,7 @@ export default function ProjectFilters({ metadata = {} }) {
   const currentCountry = searchParams.get("country") || "";
   const currentState = searchParams.get("state") || "";
   const currentCity = searchParams.get("city") || "";
+  const currentBhk = searchParams.get("bhk") || "";
   const currentIsFeatured = searchParams.get("isFeatured") === "true";
 
   // Updates single parameter in URL and resets pagination page index
@@ -134,18 +137,19 @@ export default function ProjectFilters({ metadata = {} }) {
           <Home className="h-3.5 w-3.5" />
           Project Type
         </Label>
-        <select
-          value={currentCategory}
-          onChange={(e) => updateQueryParam("category", e.target.value)}
-          className="h-10 w-full rounded-xl border border-neutral-200/80 bg-white px-3 text-sm font-semibold text-neutral-800 transition-colors focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100 dark:focus:border-indigo-400 cursor-pointer"
-        >
-          <option value="">All Categories</option>
-          {categories.map((c) => (
-            <option key={c.id} value={c.slug}>
-              {c.name} ({c._count?.projects ?? 0})
-            </option>
-          ))}
-        </select>
+        <Select value={currentCategory} onValueChange={(val) => updateQueryParam("category", val)}>
+          <SelectTrigger className="h-10">
+            <SelectValue placeholder="All Categories" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">All Categories</SelectItem>
+            {categories.map((c) => (
+              <SelectItem key={c.id} value={c.slug}>
+                {c.name} ({c._count?.projects ?? 0})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* 2. Project Status */}
@@ -154,16 +158,49 @@ export default function ProjectFilters({ metadata = {} }) {
           <Sparkles className="h-3.5 w-3.5" />
           Project Status
         </Label>
-        <select
-          value={currentStatus}
-          onChange={(e) => updateQueryParam("status", e.target.value)}
-          className="h-10 w-full rounded-xl border border-neutral-200/80 bg-white px-3 text-sm font-semibold text-neutral-800 transition-colors focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100 dark:focus:border-indigo-400 cursor-pointer"
-        >
-          <option value="">Any Status</option>
-          <option value="ONGOING">Ongoing</option>
-          <option value="UPCOMING">Upcoming</option>
-          <option value="COMPLETED">Completed</option>
-        </select>
+        <Select value={currentStatus} onValueChange={(val) => updateQueryParam("status", val)}>
+          <SelectTrigger className="h-10">
+            <SelectValue placeholder="Any Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">Any Status</SelectItem>
+            <SelectItem value="ONGOING">Ongoing</SelectItem>
+            <SelectItem value="UPCOMING">Upcoming</SelectItem>
+            <SelectItem value="COMPLETED">Completed</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* 3. BHK Configuration */}
+      <div className="space-y-2 border-t border-neutral-100 pt-4 dark:border-neutral-850">
+        <Label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+          <BedDouble className="h-3.5 w-3.5" />
+          BHK Configuration
+        </Label>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { label: "1 BHK", value: "1" },
+            { label: "2 BHK", value: "2" },
+            { label: "3 BHK", value: "3" },
+            { label: "4+ BHK", value: "4" },
+          ].map((option) => {
+            const isActive = currentBhk === option.value;
+            return (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => updateQueryParam("bhk", isActive ? "" : option.value)}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 cursor-pointer border select-none ${
+                  isActive
+                    ? "bg-[var(--brand-primary)] text-white border-[var(--brand-primary)] shadow-sm"
+                    : "bg-white text-neutral-600 border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 dark:bg-zinc-900 dark:text-neutral-300 dark:border-zinc-700 dark:hover:bg-zinc-800"
+                }`}
+              >
+                {option.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* 3. Cascading Locations (Country -> State -> City) */}
@@ -178,18 +215,19 @@ export default function ProjectFilters({ metadata = {} }) {
           <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
             Country
           </span>
-          <select
-            value={currentCountry}
-            onChange={handleCountryChange}
-            className="h-9.5 w-full rounded-xl border border-neutral-200/80 bg-white px-3 text-xs font-semibold text-neutral-800 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100 cursor-pointer"
-          >
-            <option value="">Select Country</option>
-            {countries.map((c) => (
-              <option key={c.id} value={c.slug}>
-                {c.name}
-              </option>
-            ))}
-          </select>
+          <Select value={currentCountry} onValueChange={(val) => handleCountryChange({ target: { value: val } })}>
+            <SelectTrigger className="h-9.5">
+              <SelectValue placeholder="Select Country" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">Select Country</SelectItem>
+              {countries.map((c) => (
+                <SelectItem key={c.id} value={c.slug}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* State Select */}
@@ -197,19 +235,23 @@ export default function ProjectFilters({ metadata = {} }) {
           <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
             State
           </span>
-          <select
+          <Select
             value={currentState}
-            onChange={handleStateChange}
+            onValueChange={(val) => handleStateChange({ target: { value: val } })}
             disabled={!selectedCountryId}
-            className="h-9.5 w-full rounded-xl border border-neutral-200/80 bg-white px-3 text-xs font-semibold text-neutral-800 disabled:opacity-50 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100 cursor-pointer"
           >
-            <option value="">Select State</option>
-            {filteredStates.map((s) => (
-              <option key={s.id} value={s.slug}>
-                {s.name}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="h-9.5">
+              <SelectValue placeholder="Select State" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">Select State</SelectItem>
+              {filteredStates.map((s) => (
+                <SelectItem key={s.id} value={s.slug}>
+                  {s.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* City Select */}
@@ -217,19 +259,23 @@ export default function ProjectFilters({ metadata = {} }) {
           <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
             City
           </span>
-          <select
+          <Select
             value={currentCity}
-            onChange={handleCityChange}
+            onValueChange={(val) => handleCityChange({ target: { value: val } })}
             disabled={!selectedStateId}
-            className="h-9.5 w-full rounded-xl border border-neutral-200/80 bg-white px-3 text-xs font-semibold text-neutral-800 disabled:opacity-50 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100 cursor-pointer"
           >
-            <option value="">Select City</option>
-            {filteredCities.map((c) => (
-              <option key={c.id} value={c.slug}>
-                {c.name}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="h-9.5">
+              <SelectValue placeholder="Select City" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">Select City</SelectItem>
+              {filteredCities.map((c) => (
+                <SelectItem key={c.id} value={c.slug}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
@@ -242,7 +288,7 @@ export default function ProjectFilters({ metadata = {} }) {
           onChange={(e) =>
             updateQueryParam("isFeatured", e.target.checked ? "true" : "")
           }
-          className="h-4.5 w-4.5 rounded-lg border-neutral-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+          className="h-4.5 w-4.5 rounded-lg border-neutral-300 text-[var(--brand-primary)] focus:ring-[var(--brand-secondary)] cursor-pointer"
         />
         <label
           htmlFor="isFeatured"
@@ -255,10 +301,9 @@ export default function ProjectFilters({ metadata = {} }) {
       {/* 5. Reset Button */}
       <Button
         onClick={handleReset}
-        variant="outline"
-        className="mt-4 gap-2 w-full font-bold text-neutral-700 hover:text-indigo-600 dark:text-neutral-300 dark:hover:text-indigo-400 border-neutral-200 dark:border-zinc-800 cursor-pointer"
+        className="secondary-btn group mt-4 gap-2 w-full h-9.5 text-xs font-bold shadow-sm rounded-xl cursor-pointer"
       >
-        <RotateCcw className="h-4 w-4" />
+        <RotateCcw className="h-4 w-4 transition-transform duration-500 group-hover:-rotate-360" />
         Reset Filters
       </Button>
     </div>
