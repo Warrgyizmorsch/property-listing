@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -94,10 +95,12 @@ export default function Navbar({ user }) {
             }
           />
           <DropdownMenuContent align="end" className="w-56 mt-2 border-neutral-100 shadow-md">
-            <DropdownMenuLabel className="font-normal p-3 flex flex-col space-y-1">
-              <p className="text-sm font-semibold text-neutral-800">{user?.name || "Administrator"}</p>
-              <p className="text-xs text-neutral-400 truncate">{user?.email || "admin@yourdomain.com"}</p>
-            </DropdownMenuLabel>
+            <DropdownMenuGroup>
+              <DropdownMenuLabel className="font-normal p-3 flex flex-col space-y-1">
+                <p className="text-sm font-semibold text-neutral-800">{user?.name || "Administrator"}</p>
+                <p className="text-xs text-neutral-400 truncate">{user?.email || "admin@yourdomain.com"}</p>
+              </DropdownMenuLabel>
+            </DropdownMenuGroup>
             <DropdownMenuSeparator className="bg-neutral-100" />
             <DropdownMenuItem
               className="text-red-600 hover:bg-red-50 focus:bg-red-50 focus:text-red-600 p-2.5 cursor-pointer flex items-center gap-2"

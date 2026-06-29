@@ -55,7 +55,7 @@ function LoginForm() {
     <Card className="w-full max-w-md shadow-lg border-neutral-200">
       <CardHeader className="space-y-1 text-center">
         <div className="flex justify-center mb-2">
-          <div className="rounded-full bg-neutral-900 p-3 text-white">
+          <div className="rounded-full bg-[var(--brand-primary)] p-3 text-white">
             <Lock className="h-6 w-6" />
           </div>
         </div>
@@ -119,7 +119,7 @@ function LoginForm() {
         <CardFooter className="flex flex-col space-y-4 mt-2">
           <Button
             type="submit"
-            className="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-medium h-11 transition-all"
+            className="w-full bg-[var(--brand-primary)] hover:bg-[var(--brand-primary)]/90 text-white font-medium h-11 transition-all cursor-pointer"
             disabled={isPending}
           >
             {isPending ? (
@@ -147,7 +147,7 @@ export default function AdminLoginPage() {
         <Card className="w-full max-w-md shadow-lg border-neutral-200">
           <CardHeader className="space-y-1 text-center">
             <div className="flex justify-center mb-2">
-              <div className="rounded-full bg-neutral-900 p-3 text-white">
+              <div className="rounded-full bg-[var(--brand-primary)] p-3 text-white">
                 <Loader2 className="h-6 w-6 animate-spin" />
               </div>
             </div>
