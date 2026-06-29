@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState, useTransition, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -7,7 +7,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/lib/validation";
 import { loginUser } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Lock, Mail, AlertCircle } from "lucide-react";
@@ -66,7 +73,7 @@ function LoginForm() {
           Enter your credentials to access the management dashboard
         </CardDescription>
       </CardHeader>
-      
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="space-y-4">
           {/* Error Message Alert */}
@@ -92,7 +99,9 @@ function LoginForm() {
               />
             </div>
             {errors.email && (
-              <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
+              <p className="text-xs text-red-500 mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -111,7 +120,9 @@ function LoginForm() {
               />
             </div>
             {errors.password && (
-              <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>
+              <p className="text-xs text-red-500 mt-1">
+                {errors.password.message}
+              </p>
             )}
           </div>
         </CardContent>
@@ -143,26 +154,28 @@ function LoginForm() {
 export default function AdminLoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-neutral-50 px-4 py-12 sm:px-6 lg:px-8">
-      <Suspense fallback={
-        <Card className="w-full max-w-md shadow-lg border-neutral-200">
-          <CardHeader className="space-y-1 text-center">
-            <div className="flex justify-center mb-2">
-              <div className="rounded-full bg-[var(--brand-primary)] p-3 text-white">
-                <Loader2 className="h-6 w-6 animate-spin" />
+      <Suspense
+        fallback={
+          <Card className="w-full max-w-md shadow-lg border-neutral-200">
+            <CardHeader className="space-y-1 text-center">
+              <div className="flex justify-center mb-2">
+                <div className="rounded-full bg-[var(--brand-primary)] p-3 text-white">
+                  <Loader2 className="h-6 w-6 animate-spin" />
+                </div>
               </div>
-            </div>
-            <CardTitle className="text-2xl font-bold tracking-tight text-neutral-900">
-              Loading...
-            </CardTitle>
-            <CardDescription className="text-neutral-500">
-              Initializing secure session validation
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="h-48 flex items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-neutral-400" />
-          </CardContent>
-        </Card>
-      }>
+              <CardTitle className="text-2xl font-bold tracking-tight text-neutral-900">
+                Loading...
+              </CardTitle>
+              <CardDescription className="text-neutral-500">
+                Initializing secure session validation
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="h-48 flex items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-neutral-400" />
+            </CardContent>
+          </Card>
+        }
+      >
         <LoginForm />
       </Suspense>
     </div>
