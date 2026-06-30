@@ -149,7 +149,7 @@ export default function Sidebar({ className = "" }) {
         <button
           onClick={handleLogout}
           disabled={isPending}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold bg-white/15 hover:bg-[var(--brand-secondary)] text-white hover:text-[#0B1F3A] rounded-xl border border-white/10 transition-all cursor-pointer shadow-sm disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold bg-white/15 hover:bg-[var(--brand-secondary)] text-white hover:text-[#191919] rounded-xl border border-white/10 transition-all cursor-pointer shadow-sm disabled:opacity-50"
         >
           <LogOut className="h-4 w-4" />
           <span>{isPending ? "Logging Out..." : "Log Out"}</span>

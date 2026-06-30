@@ -11,14 +11,14 @@ export default function PropertyHeader({ property }) {
 
       {/* Badges Row */}
       <div className="flex flex-wrap items-center gap-2">
-        <span className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-bold shadow-sm ${isBuy ? "bg-[var(--brand-primary)] text-white" : "bg-[var(--brand-secondary)] text-[#0B1F3A]"
+        <span className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-bold shadow-sm ${isBuy ? "bg-[var(--brand-primary)] text-white" : "bg-[var(--brand-secondary)] text-[#191919]"
           }`}>
           For {property.purpose?.name || "Sale"}
         </span>
         <PropertyStatusBadge status={property.status} />
 
         {property.isFeatured && (
-          <span className="inline-flex items-center rounded-lg bg-[var(--brand-secondary)] px-2.5 py-1 text-xs font-bold text-[#0B1F3A] shadow-xs">
+          <span className="inline-flex items-center rounded-lg bg-[var(--brand-secondary)] px-2.5 py-1 text-xs font-bold text-[#191919] shadow-xs">
             ★ Featured Listing
           </span>
         )}

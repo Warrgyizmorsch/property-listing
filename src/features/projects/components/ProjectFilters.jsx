@@ -5,6 +5,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { Search, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 
 export default function ProjectFilters({ metadata = {}, initialFilters = {} }) {
   const router = useRouter()
@@ -70,32 +71,34 @@ export default function ProjectFilters({ metadata = {}, initialFilters = {} }) {
 
         {/* Category */}
         <div>
-          <select
-            value={categoryId}
-            onChange={(e) => setCategoryId(e.target.value)}
-            className="flex w-full h-10 rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm outline-hidden focus:border-neutral-400 cursor-pointer"
-          >
-            <option value="">All Categories</option>
-            {metadata.categories?.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
+          <Select value={categoryId} onValueChange={setCategoryId}>
+            <SelectTrigger className="h-10 px-3 py-2 text-sm rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="All Categories" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Categories</SelectItem>
+              {metadata.categories?.map((cat) => (
+                <SelectItem key={cat.id} value={cat.id.toString()}>
+                  {cat.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Project Status */}
         <div>
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="flex w-full h-10 rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm outline-hidden focus:border-neutral-400 cursor-pointer"
-          >
-            <option value="">All Statuses</option>
-            <option value="ONGOING">Ongoing</option>
-            <option value="COMPLETED">Completed</option>
-            <option value="UPCOMING">Upcoming</option>
-          </select>
+          <Select value={status} onValueChange={setStatus}>
+            <SelectTrigger className="h-10 px-3 py-2 text-sm rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="All Statuses" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Statuses</SelectItem>
+              <SelectItem value="ONGOING">Ongoing</SelectItem>
+              <SelectItem value="COMPLETED">Completed</SelectItem>
+              <SelectItem value="UPCOMING">Upcoming</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Actions */}

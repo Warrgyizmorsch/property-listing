@@ -78,7 +78,7 @@ export const PropertyCard = ({ project, isBestDeal }) => {
               </p>
             </div>
             <div className="w-8 h-8 rounded-full bg-white/15 backdrop-blur-sm border border-white/25 flex items-center justify-center transition-all duration-300 group-hover:bg-[var(--brand-secondary)] group-hover:border-[var(--brand-secondary)] flex-shrink-0">
-              <ArrowUpRight className="w-3.5 h-3.5 text-white group-hover:text-[#0B1F3A] transition-colors duration-300" />
+              <ArrowUpRight className="w-3.5 h-3.5 text-white group-hover:text-[#191919] transition-colors duration-300" />
             </div>
           </div>
         </div>

@@ -26,7 +26,7 @@ export default function PropertyCard({ property }) {
         <div className="absolute left-3.5 top-3.5 flex flex-wrap gap-2 z-10">
           <span className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-bold shadow-sm ${isBuy
               ? "bg-[var(--brand-primary)] text-white"
-              : "bg-[var(--brand-secondary)] text-[#0B1F3A]"
+              : "bg-[var(--brand-secondary)] text-[#191919]"
             }`}>
             For {property.purpose?.name || "Sale"}
           </span>
@@ -40,7 +40,7 @@ export default function PropertyCard({ property }) {
 
         {/* Featured Ribbon */}
         {property.isFeatured && (
-          <span className="absolute right-3.5 top-3.5 inline-flex items-center rounded-lg bg-[var(--brand-secondary)] px-2.5 py-1 text-xs font-bold text-[#0B1F3A] shadow-sm z-10">
+          <span className="absolute right-3.5 top-3.5 inline-flex items-center rounded-lg bg-[var(--brand-secondary)] px-2.5 py-1 text-xs font-bold text-[#191919] shadow-sm z-10">
             ★ Featured
           </span>
         )}

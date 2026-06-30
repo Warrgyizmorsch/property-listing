@@ -119,8 +119,8 @@ export default function ProjectTable({
                 {/* Floating Featured Badge */}
                 {project.isFeatured && (
                   <div className="absolute top-3 left-3">
-                    <span className="inline-flex items-center gap-1 rounded-lg bg-[var(--brand-secondary)] text-[#0B1F3A] px-2.5 py-1 text-xs font-semibold shadow-sm">
-                      <Star className="h-3 w-3 fill-[#0B1F3A]" />
+                    <span className="inline-flex items-center gap-1 rounded-lg bg-[var(--brand-secondary)] text-[#191919] px-2.5 py-1 text-xs font-semibold shadow-sm">
+                      <Star className="h-3 w-3 fill-[#191919]" />
                       Featured
                     </span>
                   </div>

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Search, SlidersHorizontal, RotateCcw } from "lucide-react"
 import { getActiveStatesAction, getActiveCitiesAction } from "@/features/locations/actions"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 
 export default function PropertyFilters({
   metadata = {},
@@ -51,8 +52,7 @@ export default function PropertyFilters({
     }
   }, [stateId])
 
-  const handleCountryChange = (e) => {
-    const val = e.target.value
+  const handleCountryChange = (val) => {
     setCountryId(val)
     setStateId("")
     setCityId("")
@@ -63,8 +63,7 @@ export default function PropertyFilters({
     }
   }
 
-  const handleStateChange = (e) => {
-    const val = e.target.value
+  const handleStateChange = (val) => {
     setStateId(val)
     setCityId("")
     setCities([])
@@ -141,26 +140,28 @@ export default function PropertyFilters({
 
         {/* Sort By */}
         <div className="md:col-span-3">
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="flex w-full h-9 rounded-md border border-neutral-200 bg-white px-3 py-1 text-sm focus:border-neutral-400 cursor-pointer"
-          >
-            <option value="createdAt">Sort by Date Created</option>
-            <option value="price">Sort by Price</option>
-          </select>
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="h-9 px-3 py-1 text-sm rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="Sort By" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="createdAt">Sort by Date Created</SelectItem>
+              <SelectItem value="price">Sort by Price</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Sort Order */}
         <div className="md:col-span-3">
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-            className="flex w-full h-9 rounded-md border border-neutral-200 bg-white px-3 py-1 text-sm focus:border-neutral-400 cursor-pointer"
-          >
-            <option value="desc">Descending</option>
-            <option value="asc">Ascending</option>
-          </select>
+          <Select value={sortOrder} onValueChange={setSortOrder}>
+            <SelectTrigger className="h-9 px-3 py-1 text-sm rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="Sort Order" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="desc">Descending</SelectItem>
+              <SelectItem value="asc">Ascending</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
@@ -169,60 +170,64 @@ export default function PropertyFilters({
         {/* Category */}
         <div className="space-y-1.5">
           <Label className="text-xs font-semibold text-neutral-500">Category</Label>
-          <select
-            value={categoryId}
-            onChange={(e) => setCategoryId(e.target.value)}
-            className="flex w-full h-8.5 rounded-md border border-neutral-200 bg-white px-2 py-1 text-xs focus:border-neutral-400 cursor-pointer"
-          >
-            <option value="">All Categories</option>
-            {metadata.categories?.map((c) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
-            ))}
-          </select>
+          <Select value={categoryId} onValueChange={setCategoryId}>
+            <SelectTrigger className="h-8.5 px-2 py-1 text-xs rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="All Categories" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Categories</SelectItem>
+              {metadata.categories?.map((c) => (
+                <SelectItem key={c.id} value={c.id.toString()}>{c.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Purpose */}
         <div className="space-y-1.5">
           <Label className="text-xs font-semibold text-neutral-500">Purpose</Label>
-          <select
-            value={purposeId}
-            onChange={(e) => setPurposeId(e.target.value)}
-            className="flex w-full h-8.5 rounded-md border border-neutral-200 bg-white px-2 py-1 text-xs focus:border-neutral-400 cursor-pointer"
-          >
-            <option value="">All Purposes</option>
-            {metadata.purposes?.map((p) => (
-              <option key={p.id} value={p.id}>{p.name}</option>
-            ))}
-          </select>
+          <Select value={purposeId} onValueChange={setPurposeId}>
+            <SelectTrigger className="h-8.5 px-2 py-1 text-xs rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="All Purposes" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Purposes</SelectItem>
+              {metadata.purposes?.map((p) => (
+                <SelectItem key={p.id} value={p.id.toString()}>{p.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Status */}
         <div className="space-y-1.5">
           <Label className="text-xs font-semibold text-neutral-500">Status</Label>
-          <select
-            value={statusId}
-            onChange={(e) => setStatusId(e.target.value)}
-            className="flex w-full h-8.5 rounded-md border border-neutral-200 bg-white px-2 py-1 text-xs focus:border-neutral-400 cursor-pointer"
-          >
-            <option value="">All Statuses</option>
-            {metadata.statuses?.map((s) => (
-              <option key={s.id} value={s.id}>{s.name}</option>
-            ))}
-          </select>
+          <Select value={statusId} onValueChange={setStatusId}>
+            <SelectTrigger className="h-8.5 px-2 py-1 text-xs rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="All Statuses" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Statuses</SelectItem>
+              {metadata.statuses?.map((s) => (
+                <SelectItem key={s.id} value={s.id.toString()}>{s.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Featured */}
         <div className="space-y-1.5">
           <Label className="text-xs font-semibold text-neutral-500">Featured</Label>
-          <select
-            value={isFeatured}
-            onChange={(e) => setIsFeatured(e.target.value)}
-            className="flex w-full h-8.5 rounded-md border border-neutral-200 bg-white px-2 py-1 text-xs focus:border-neutral-400 cursor-pointer"
-          >
-            <option value="">All Featured</option>
-            <option value="true">Featured Only</option>
-            <option value="false">Non-Featured Only</option>
-          </select>
+          <Select value={isFeatured} onValueChange={setIsFeatured}>
+            <SelectTrigger className="h-8.5 px-2 py-1 text-xs rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="All Featured" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Featured</SelectItem>
+              <SelectItem value="true">Featured Only</SelectItem>
+              <SelectItem value="false">Non-Featured Only</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Min Price */}
@@ -255,48 +260,49 @@ export default function PropertyFilters({
         {/* Country */}
         <div className="space-y-1.5">
           <Label className="text-xs font-semibold text-neutral-500">Country</Label>
-          <select
-            value={countryId}
-            onChange={handleCountryChange}
-            className="flex w-full h-8.5 rounded-md border border-neutral-200 bg-white px-2 py-1 text-xs focus:border-neutral-400 cursor-pointer"
-          >
-            <option value="">All Countries</option>
-            {metadata.countries?.map((c) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
-            ))}
-          </select>
+          <Select value={countryId} onValueChange={handleCountryChange}>
+            <SelectTrigger className="h-8.5 px-2 py-1 text-xs rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="All Countries" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Countries</SelectItem>
+              {metadata.countries?.map((c) => (
+                <SelectItem key={c.id} value={c.id.toString()}>{c.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* State */}
         <div className="space-y-1.5">
           <Label className="text-xs font-semibold text-neutral-500">State</Label>
-          <select
-            value={stateId}
-            onChange={handleStateChange}
-            disabled={!countryId}
-            className="flex w-full h-8.5 rounded-md border border-neutral-200 bg-white px-2 py-1 text-xs focus:border-neutral-400 cursor-pointer disabled:opacity-50"
-          >
-            <option value="">All States</option>
-            {states.map((s) => (
-              <option key={s.id} value={s.id}>{s.name}</option>
-            ))}
-          </select>
+          <Select value={stateId} onValueChange={handleStateChange} disabled={!countryId}>
+            <SelectTrigger className="h-8.5 px-2 py-1 text-xs rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="All States" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All States</SelectItem>
+              {states.map((s) => (
+                <SelectItem key={s.id} value={s.id.toString()}>{s.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* City */}
         <div className="space-y-1.5">
           <Label className="text-xs font-semibold text-neutral-500">City</Label>
-          <select
-            value={cityId}
-            onChange={(e) => setCityId(e.target.value)}
-            disabled={!stateId}
-            className="flex w-full h-8.5 rounded-md border border-neutral-200 bg-white px-2 py-1 text-xs focus:border-neutral-400 cursor-pointer disabled:opacity-50"
-          >
-            <option value="">All Cities</option>
-            {cities.map((c) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
-            ))}
-          </select>
+          <Select value={cityId} onValueChange={setCityId} disabled={!stateId}>
+            <SelectTrigger className="h-8.5 px-2 py-1 text-xs rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="All Cities" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Cities</SelectItem>
+              {cities.map((c) => (
+                <SelectItem key={c.id} value={c.id.toString()}>{c.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Action Row buttons */}

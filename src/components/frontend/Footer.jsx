@@ -45,7 +45,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#07172b] text-gray-300 pt-16 border-t border-[rgba(200,164,93,0.16)]">
+    <footer className="bg-[var(--primary)] text-gray-300 pt-16 border-t border-[rgba(200,164,93,0.16)]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Top Section */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6 mb-12">
@@ -59,11 +59,17 @@ export default function Footer() {
             <span className="text-sm text-gray-350 font-semibold uppercase tracking-wider">Follow Us</span>
 
             {/* Facebook inline SVG */}
-            <span className="cursor-pointer hover:text-[var(--brand-secondary)] hover:-translate-y-0.5 transition-all duration-200" aria-hidden="true">
+            <a
+              href="https://www.facebook.com/profile.php?id=61591240026997"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[var(--brand-secondary)] hover:-translate-y-0.5 transition-all duration-200"
+              aria-label="Facebook"
+            >
               <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
                 <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
               </svg>
-            </span>
+            </a>
 
             {/* Twitter inline SVG */}
             <span className="cursor-pointer hover:text-[var(--brand-secondary)] hover:-translate-y-0.5 transition-all duration-200" aria-hidden="true">
@@ -73,13 +79,19 @@ export default function Footer() {
             </span>
 
             {/* Instagram inline SVG */}
-            <span className="cursor-pointer hover:text-[var(--brand-secondary)] hover:-translate-y-0.5 transition-all duration-200" aria-hidden="true">
+            <a
+              href="https://www.instagram.com/propertyexpertudaipur/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[var(--brand-secondary)] hover:-translate-y-0.5 transition-all duration-200"
+              aria-label="Instagram"
+            >
               <svg className="h-5 w-5 stroke-current fill-none" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
               </svg>
-            </span>
+            </a>
 
             {/* LinkedIn inline SVG */}
             <span className="cursor-pointer hover:text-[var(--brand-secondary)] hover:-translate-y-0.5 transition-all duration-200" aria-hidden="true">
@@ -93,7 +105,7 @@ export default function Footer() {
         <hr className="border-neutral-800 my-8" />
 
         {/* Main Footer Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1: Subscribe */}
           <div>
             <h3 className="font-semibold text-white mb-4 uppercase tracking-wider text-xs">
@@ -216,7 +228,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 5: App Buttons */}
+          {/* Column 5: App Buttons (Commented Out) */}
+          {/*
           <div>
             <h3 className="font-semibold text-white mb-4 uppercase tracking-wider text-xs">
               Get the app
@@ -244,13 +257,14 @@ export default function Footer() {
               </span>
             </div>
           </div>
+          */}
         </div>
 
         <hr className="border-neutral-800 mt-16" />
 
         {/* Copyright section */}
         <div className="py-8 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500 gap-4">
-          <p className="text-center md:text-left">
+          <p className="text-center md:text-left pl-12 md:pl-0">
             &copy; {currentYear} Property Expert. All rights reserved. Made for premium living.
           </p>
           <div className="flex items-center gap-6">

@@ -214,7 +214,7 @@ export default function ProjectConfigurationsTabs({ properties = [] }) {
             onClick={() => setActiveTab(tab)}
             className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
               activeTab === tab
-                ? "bg-[var(--brand-primary)] text-white dark:bg-[var(--brand-secondary)] dark:text-[#0B1F3A] shadow-xs"
+                ? "bg-[var(--brand-primary)] text-white dark:bg-[var(--brand-secondary)] dark:text-[#191919] shadow-xs"
                 : "bg-slate-50 text-slate-650 hover:bg-slate-100 dark:bg-zinc-900/50 dark:text-zinc-400 dark:hover:bg-zinc-900"
             }`}
           >

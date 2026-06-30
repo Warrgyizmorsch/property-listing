@@ -34,7 +34,7 @@ export async function sendAdminEnquiryNotification({
       subject: `New Property Enquiry: ${propertyTitle}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e5e7eb; rounded: 12px; color: #1f2937;">
-          <h2 style="color: #0B1F3A; border-bottom: 2px solid #C8A45D; padding-bottom: 10px; margin-bottom: 20px;">
+          <h2 style="color: #191919; border-bottom: 2px solid #C8A45D; padding-bottom: 10px; margin-bottom: 20px;">
             New Lead Captured
           </h2>
           
@@ -58,7 +58,7 @@ export async function sendAdminEnquiryNotification({
           </table>
 
           <div style="background-color: #f9fafb; padding: 16px; border-left: 4px solid #C8A45D; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #374151;">
-            <p style="margin-top: 0; font-weight: bold; color: #0B1F3A;">Submitted Message:</p>
+            <p style="margin-top: 0; font-weight: bold; color: #191919;">Submitted Message:</p>
             <p style="margin-bottom: 0; white-space: pre-wrap;">${message}</p>
           </div>
           

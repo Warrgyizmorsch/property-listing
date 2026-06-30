@@ -183,13 +183,13 @@ export default async function ProjectDetailPage({ params }) {
                   {getStatusLabel(project.status)}
                 </span>
                 {project.isFeatured && (
-                  <span className="inline-flex items-center gap-1 rounded-lg bg-[var(--brand-secondary)] px-2.5 py-1 text-xs font-bold text-[#0B1F3A] shadow-xs">
+                  <span className="inline-flex items-center gap-1 rounded-lg bg-[var(--brand-secondary)] px-2.5 py-1 text-xs font-bold text-[#191919] shadow-xs">
                     ★ Featured
                   </span>
                 )}
               </div>
               
-              <h1 className="text-3xl sm:text-4xl font-semibold text-[#0B1F3A] dark:text-white tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-4xl font-semibold text-[#191919] dark:text-white tracking-tight leading-tight">
                 {project.projectName}
               </h1>
 
@@ -214,7 +214,7 @@ export default async function ProjectDetailPage({ params }) {
             <div className="flex flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-end justify-between sm:justify-start lg:justify-end gap-4 shrink-0 bg-white dark:bg-zinc-900/40 p-5 rounded-2xl border border-neutral-200/80 dark:border-zinc-800 shadow-sm">
               <div className="space-y-0.5 text-left lg:text-right">
                 <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">Price Range</p>
-                <h3 className="text-2xl sm:text-3xl font-bold text-[#0B1F3A] dark:text-white font-heading">{priceRangeDisplay}</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold text-[#191919] dark:text-white font-heading">{priceRangeDisplay}</h3>
                 {minPrice > 0 && (
                   <p className="text-xs text-[var(--brand-primary)] dark:text-[var(--brand-secondary)] font-bold">
                     EMI starts at ₹{formatCurrency(Math.round(minPrice * 0.007)).replace("₹", "")}/month*

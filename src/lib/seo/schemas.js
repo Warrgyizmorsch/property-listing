@@ -13,9 +13,8 @@ export function getOrganizationSchema() {
     "url": url,
     "logo": getAbsoluteUrl("/logo.png"),
     "sameAs": [
-      "https://facebook.com",
-      "https://twitter.com",
-      "https://instagram.com"
+      "https://www.facebook.com/profile.php?id=61591240026997",
+      "https://www.instagram.com/propertyexpertudaipur/"
     ]
   };
 }

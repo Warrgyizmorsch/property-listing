@@ -34,7 +34,7 @@ export default function ProjectCard({ project }) {
       case "COMPLETED":
         return "bg-[var(--brand-primary)] text-white";
       case "UPCOMING":
-        return "bg-[var(--brand-secondary)] text-[#0B1F3A]";
+        return "bg-[var(--brand-secondary)] text-[#191919]";
       default:
         return "bg-slate-650 text-white";
     }
@@ -76,8 +76,8 @@ export default function ProjectCard({ project }) {
         {/* Floating featured badge */}
         {project.isFeatured && (
           <div className="absolute left-3.5 top-3.5">
-            <span className="inline-flex items-center gap-1 rounded-lg bg-[var(--brand-secondary)] px-2.5 py-1 text-xs font-bold text-[#0B1F3A] shadow-sm">
-              <Star className="h-3 w-3 fill-[#0B1F3A]" />
+            <span className="inline-flex items-center gap-1 rounded-lg bg-[var(--brand-secondary)] px-2.5 py-1 text-xs font-bold text-[#191919] shadow-sm">
+              <Star className="h-3 w-3 fill-[#191919]" />
               Featured
             </span>
           </div>

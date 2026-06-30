@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Search, SlidersHorizontal, RotateCcw, Download } from "lucide-react"
 import { ENQUIRY_STATUSES } from "../schemas/enquiry.schema"
 
@@ -94,35 +95,37 @@ export default function EnquiryFilters({
         {/* Status Dropdown */}
         <div className="space-y-1.5">
           <Label className="text-xs font-semibold text-neutral-500">Status</Label>
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="flex w-full h-9 rounded-md border border-neutral-200 bg-white px-2 py-1 text-xs focus:border-neutral-400 cursor-pointer"
-          >
-            <option value="">All Statuses</option>
-            {ENQUIRY_STATUSES.map((st) => (
-              <option key={st} value={st}>
-                {st}
-              </option>
-            ))}
-          </select>
+          <Select value={status} onValueChange={setStatus}>
+            <SelectTrigger className="h-9 px-2 py-1 text-xs rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="All Statuses" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Statuses</SelectItem>
+              {ENQUIRY_STATUSES.map((st) => (
+                <SelectItem key={st} value={st}>
+                  {st}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Property Dropdown */}
         <div className="space-y-1.5">
           <Label className="text-xs font-semibold text-neutral-500">Property</Label>
-          <select
-            value={propertyId}
-            onChange={(e) => setPropertyId(e.target.value)}
-            className="flex w-full h-9 rounded-md border border-neutral-200 bg-white px-2 py-1 text-xs focus:border-neutral-400 cursor-pointer"
-          >
-            <option value="">All Properties</option>
-            {properties.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.title}
-              </option>
-            ))}
-          </select>
+          <Select value={propertyId} onValueChange={setPropertyId}>
+            <SelectTrigger className="h-9 px-2 py-1 text-xs rounded-md border border-neutral-200 bg-white font-normal text-neutral-800 dark:border-neutral-200 dark:bg-white dark:text-neutral-800 focus:border-neutral-400 focus:ring-0 focus:ring-offset-0">
+              <SelectValue placeholder="All Properties" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Properties</SelectItem>
+              {properties.map((p) => (
+                <SelectItem key={p.id} value={p.id.toString()}>
+                  {p.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Date From */}
