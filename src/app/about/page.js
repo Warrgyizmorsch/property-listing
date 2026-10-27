@@ -18,7 +18,7 @@ export default function AboutPage() {
         <section className="relative min-h-[460px] flex items-center justify-center text-center overflow-hidden py-16 px-4">
           <div className="absolute inset-0 z-0">
             <Image
-              src="/images/abouts-us/AboutUsHero.png"
+              src="/images/abouts-us/AboutUsHero.webp"
               alt="About Us Hero"
               fill
               className="object-cover"
@@ -71,7 +71,7 @@ export default function AboutPage() {
             {/* Image column */}
             <div className="relative h-96 lg:h-full min-h-[380px] overflow-hidden rounded-2xl border border-neutral-100 dark:border-neutral-800/80 shadow-md">
               <Image
-                src="/images/abouts-us/AboutUS1.png"
+                src="/images/abouts-us/AboutUS1.webp"
                 alt="Luxury interior design"
                 fill
                 className="object-cover transition-transform duration-500 hover:scale-103"

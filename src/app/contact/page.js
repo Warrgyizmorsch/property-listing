@@ -73,7 +73,7 @@ export default function ContactPage() {
         <section className="relative min-h-[460px] flex items-center justify-center text-center overflow-hidden py-16 px-4">
           <div className="absolute inset-0 z-0">
             <Image
-              src="/images/contact-us/contactUs.png"
+              src="/images/contact-us/contactUs.webp"
               alt="Contact Us Hero"
               fill
               className="object-cover"
@@ -166,11 +166,14 @@ export default function ContactPage() {
                 {/* Row 1: Full Name + Email */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
+                    <label htmlFor="contact_name" className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
                       Full Name *
                     </label>
                     <Input
+                      id="contact_name"
+                      name="name"
                       type="text"
+                      autoComplete="name"
                       required
                       placeholder="John Doe"
                       disabled={isPending}
@@ -180,11 +183,14 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
+                    <label htmlFor="contact_email" className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
                       Email Address *
                     </label>
                     <Input
+                      id="contact_email"
+                      name="email"
                       type="email"
+                      autoComplete="email"
                       required
                       placeholder="john@example.com"
                       disabled={isPending}
@@ -198,11 +204,14 @@ export default function ContactPage() {
                 {/* Row 2: Phone + Property Interest */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
+                    <label htmlFor="contact_phone" className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
                       Phone Number *
                     </label>
                     <Input
+                      id="contact_phone"
+                      name="phone"
                       type="tel"
+                      autoComplete="tel"
                       required
                       placeholder="+91 98765-43210"
                       disabled={isPending}
@@ -212,10 +221,12 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
+                    <label htmlFor="contact_interest" className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
                       Property Interest
                     </label>
                     <select
+                      id="contact_interest"
+                      name="interest"
                       disabled={isPending}
                       value={interest}
                       onChange={(e) => setInterest(e.target.value)}
@@ -232,10 +243,12 @@ export default function ContactPage() {
 
                 {/* Row 3: Message */}
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
+                  <label htmlFor="contact_message" className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
                     Your Message *
                   </label>
                   <Textarea
+                    id="contact_message"
+                    name="message"
                     required
                     rows={4}
                     placeholder="How can we assist you with your property search?"

@@ -54,7 +54,7 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
         >
-          <Image src="/images/PE_Logo.png" alt="Property Expert" width={180} height={60} className="h-15 w-auto" priority />
+          <Image src="/images/PE_Logo.webp" alt="Property Expert" width={180} height={60} className="h-15 w-auto" priority />
         </Link>
 
         {/* Desktop Navigation */}
@@ -109,6 +109,7 @@ export default function Navbar() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Toggle navigation menu"
                   className="text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full"
                 >
                   <Menu className="h-6 w-6" />
@@ -122,7 +123,7 @@ export default function Navbar() {
             >
               <SheetHeader className="pb-6 border-b border-neutral-100 dark:border-neutral-800">
                 <SheetTitle className="flex items-center gap-2">
-                  <Image src="/images/PE_Logo.png" alt="Property Expert" width={96} height={32} className="h-8 w-auto" />
+                  <Image src="/images/PE_Logo.webp" alt="Property Expert" width={96} height={32} className="h-8 w-auto" />
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-5 py-6">

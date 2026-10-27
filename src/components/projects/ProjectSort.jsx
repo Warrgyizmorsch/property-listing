@@ -21,10 +21,10 @@ export default function ProjectSort() {
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <SlidersHorizontal className="h-4 w-4 text-neutral-400 shrink-0" />
+    <div className="flex items-center gap-1.5 sm:gap-2 w-full">
+      <SlidersHorizontal className="h-4 w-4 text-neutral-400 shrink-0 hidden xs:block" />
       <Select value={sortBy} onValueChange={handleSortChange}>
-        <SelectTrigger className="h-10 w-[240px]">
+        <SelectTrigger className="h-10 w-full sm:w-[200px] min-w-0 text-xs sm:text-sm">
           <SelectValue placeholder="Sort By" />
         </SelectTrigger>
         <SelectContent>

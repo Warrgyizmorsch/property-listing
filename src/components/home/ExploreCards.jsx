@@ -12,21 +12,40 @@ import "swiper/css/pagination";
 
 const fallbackImages = {
   // Categories
-  apartment: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800",
-  villa: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=80&w=800",
-  commercial: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800",
-  land: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=800",
-  penthouse: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800",
+  apartment: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=75&w=400",
+  villa: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=75&w=400",
+  commercial: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=75&w=400",
+  land: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=75&w=400",
+  penthouse: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=75&w=400",
 
   // Cities
-  mumbai: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&q=80&w=800",
-  udaipur: "https://images.unsplash.com/photo-1595636312480-1a77460bf803?auto=format&fit=crop&q=80&w=800",
-  chennai: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=800",
-  delhi: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&q=80&w=800",
-  bangalore: "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&q=80&w=800",
-  pune: "https://images.unsplash.com/photo-1601999109332-542b18dbec57?auto=format&fit=crop&q=80&w=800",
-  hyderabad: "https://images.unsplash.com/photo-1605007493699-af65834f8a00?auto=format&fit=crop&q=80&w=800",
+  mumbai: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&q=75&w=400",
+  udaipur: "https://images.unsplash.com/photo-1595636312480-1a77460bf803?auto=format&fit=crop&q=75&w=400",
+  chennai: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=75&w=400",
+  delhi: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&q=75&w=400",
+  bangalore: "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&q=75&w=400",
+  pune: "https://images.unsplash.com/photo-1601999109332-542b18dbec57?auto=format&fit=crop&q=75&w=400",
+  hyderabad: "https://images.unsplash.com/photo-1605007493699-af65834f8a00?auto=format&fit=crop&q=75&w=400",
 };
+
+function getOptimizedExploreImage(url, width = 400) {
+  if (!url) return url;
+  if (url.includes("res.cloudinary.com") && url.includes("/upload/")) {
+    return url.replace("/upload/", `/upload/f_webp,q_75,w_${width},c_limit/`);
+  }
+  if (url.includes("images.unsplash.com")) {
+    try {
+      const parsed = new URL(url);
+      parsed.searchParams.set("auto", "format");
+      parsed.searchParams.set("q", "75");
+      parsed.searchParams.set("w", String(width));
+      return parsed.toString();
+    } catch {
+      return url;
+    }
+  }
+  return url;
+}
 
 const getFallbackImage = (title) => {
   const slug = title?.toLowerCase() || "";
@@ -34,7 +53,7 @@ const getFallbackImage = (title) => {
   for (const key in fallbackImages) {
     if (slug.includes(key)) return fallbackImages[key];
   }
-  return "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800";
+  return "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=75&w=400";
 };
 
 const ExploreCards = ({ exploreCardData, isProperty }) => {
@@ -59,7 +78,11 @@ const ExploreCards = ({ exploreCardData, isProperty }) => {
             768: { slidesPerView: 4 },
             1024: { slidesPerView: 5 },
           }}
-          pagination={{ clickable: true }}
+          pagination={{
+            clickable: true,
+            renderBullet: (index, className) =>
+              `<button type="button" class="${className}" aria-label="Go to slide ${index + 1}"></button>`,
+          }}
           className="!pb-10"
         >
           {exploreCardData.cardData.map((item, index) => {
@@ -71,10 +94,11 @@ const ExploreCards = ({ exploreCardData, isProperty }) => {
                   <div className="flex flex-col h-full cursor-pointer">
                     <div className="relative w-full h-[220px] md:h-[250px] rounded-2xl overflow-hidden shadow-md group border border-neutral-100 dark:border-neutral-800 bg-neutral-100 dark:bg-zinc-800">
                       <Image
-                        src={cardImage}
+                        src={getOptimizedExploreImage(cardImage, 320)}
                         alt={item.title}
                         fill
-                        sizes="(max-width: 768px) 50vw, 20vw"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 220px"
+                        quality={70}
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
 
@@ -91,14 +115,14 @@ const ExploreCards = ({ exploreCardData, isProperty }) => {
 
                     {!isProperty && (
                       <div className="mt-3 ml-1">
-                        <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                        <p className="text-xs font-semibold text-slate-600 dark:text-zinc-300">
                           {item.count} Projects
                         </p>
                         <h3 className="text-md font-bold text-slate-800 dark:text-white mt-0.5">
                           {item.title}
                         </h3>
                         {item.subtext && (
-                          <p className="text-xs text-slate-400 mt-0.5">{item.subtext}</p>
+                          <p className="text-xs font-medium text-slate-600 dark:text-zinc-300 mt-0.5">{item.subtext}</p>
                         )}
                       </div>
                     )}
@@ -112,23 +136,27 @@ const ExploreCards = ({ exploreCardData, isProperty }) => {
 
       <style jsx global>{`
         .swiper-pagination-bullet {
-          width: 5px !important;
-          height: 5px !important;
-          background: oklch(0.708 0 0) !important;
+          box-sizing: content-box !important;
+          width: 6px !important;
+          height: 6px !important;
+          padding: 10px 8px !important;
+          background-clip: content-box !important;
+          background-color: oklch(0.708 0 0) !important;
           opacity: 1 !important;
           transition: all 0.25s ease !important;
           border-radius: 9999px !important;
+          cursor: pointer !important;
+          display: inline-block !important;
         }
         .swiper-pagination-bullet-active {
-          background: oklch(0.205 0 0) !important;
-          width: 16px !important;
-          border-radius: 3px !important;
+          background-color: var(--brand-secondary, #C8A45D) !important;
+          width: 18px !important;
         }
         .dark .swiper-pagination-bullet {
-          background: oklch(0.439 0 0) !important;
+          background-color: oklch(0.439 0 0) !important;
         }
         .dark .swiper-pagination-bullet-active {
-          background: oklch(0.922 0 0) !important;
+          background-color: var(--brand-secondary, #C8A45D) !important;
         }
       `}</style>
     </div>

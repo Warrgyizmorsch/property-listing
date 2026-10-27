@@ -41,10 +41,11 @@ export default function SearchSection({ categories = [], cities = [] }) {
           <button
             key={opt.value}
             type="button"
+            aria-label={`Filter by status: ${opt.label}`}
             onClick={() => setStatus(opt.value)}
             className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${status === opt.value
                 ? "bg-[var(--brand-primary)] text-white shadow-sm"
-                : "text-slate-500 hover:text-slate-900 hover:bg-slate-50 dark:text-zinc-400 dark:hover:text-zinc-200"
+                : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-zinc-300 dark:hover:text-zinc-100"
               }`}
           >
             {opt.label}
@@ -55,16 +56,18 @@ export default function SearchSection({ categories = [], cities = [] }) {
       <form onSubmit={handleSearch} className="grid grid-cols-1 gap-5 md:grid-cols-4 items-end">
         {/* Keyword Search */}
         <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
+          <label htmlFor="search-keyword-input" className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-zinc-300">
             <Sparkles className="h-3.5 w-3.5 text-[var(--brand-secondary)]" />
             Search Keyword
           </label>
           <div className="relative">
             <input
+              id="search-keyword-input"
               type="text"
               placeholder="e.g. Prestige, Landmark"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
+              aria-label="Search Keyword"
               className="h-11 w-full rounded-xl border border-neutral-200/85 bg-white pl-3 pr-8 text-sm font-semibold text-neutral-800 brand-focus dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-100"
             />
           </div>
@@ -72,12 +75,17 @@ export default function SearchSection({ categories = [], cities = [] }) {
 
         {/* Category Selector */}
         <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
+          <label id="category-select-label" className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-zinc-300">
             <Building className="h-3.5 w-3.5 text-[var(--brand-secondary)]" />
             Project Type
           </label>
           <Select value={categoryId} onValueChange={setCategoryId}>
-            <SelectTrigger className="h-11">
+            <SelectTrigger
+              id="category-select-trigger"
+              aria-label="Select Project Type"
+              aria-labelledby="category-select-label"
+              className="h-11"
+            >
               <SelectValue placeholder="Any Category" />
             </SelectTrigger>
             <SelectContent>
@@ -93,12 +101,17 @@ export default function SearchSection({ categories = [], cities = [] }) {
 
         {/* Location Selector */}
         <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-zinc-400">
+          <label id="location-select-label" className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-zinc-300">
             <MapPin className="h-3.5 w-3.5 text-[var(--brand-secondary)]" />
             Location
           </label>
           <Select value={cityId} onValueChange={setCityId}>
-            <SelectTrigger className="h-11">
+            <SelectTrigger
+              id="location-select-trigger"
+              aria-label="Select Location"
+              aria-labelledby="location-select-label"
+              className="h-11"
+            >
               <SelectValue placeholder="Any Location" />
             </SelectTrigger>
             <SelectContent>
@@ -116,6 +129,7 @@ export default function SearchSection({ categories = [], cities = [] }) {
         <div>
           <Button
             type="submit"
+            aria-label="Search Projects"
             className="primary-btn w-full h-11"
           >
             <Search className="h-4 w-4" />

@@ -57,7 +57,7 @@ export default function Sidebar({ className = "" }) {
     <aside className={`flex h-full w-64 flex-col bg-[var(--brand-primary)] text-white shadow-xl ${className}`}>
       {/* Sidebar Header Brand */}
       <div className="flex h-16 items-center px-6 gap-2.5 border-b border-white/10 shrink-0">
-        <img src="/images/PE-Logo-white.png" alt="Property Expert" className="h-12 w-auto" />
+        <img src="/images/PE-Logo-white.webp" alt="Property Expert" className="h-12 w-auto" />
       </div>
 
       {/* Navigation List */}

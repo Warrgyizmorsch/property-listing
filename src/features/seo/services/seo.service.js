@@ -65,8 +65,12 @@ export async function upsertSeoSetting(pageType, entityId = null, data) {
  */
 export async function getSitemapData() {
   try {
-    const [properties, categories, countries, states, cities] = await Promise.all([
+    const [properties, projects, categories, countries, states, cities] = await Promise.all([
       db.property.findMany({
+        where: { deletedAt: null },
+        select: { slug: true, updatedAt: true },
+      }),
+      db.project.findMany({
         where: { deletedAt: null },
         select: { slug: true, updatedAt: true },
       }),
@@ -90,6 +94,7 @@ export async function getSitemapData() {
 
     return {
       properties,
+      projects,
       categories,
       countries,
       states,
@@ -99,6 +104,7 @@ export async function getSitemapData() {
     console.error("Error in getSitemapData:", error);
     return {
       properties: [],
+      projects: [],
       categories: [],
       countries: [],
       states: [],

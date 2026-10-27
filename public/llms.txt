@@ -1,0 +1,16 @@
+# Property Expert
+
+> Premium real estate listing and discovery platform for luxury apartments, villas, commercial spaces, and penthouses.
+
+Property Expert connects property buyers and investors with curated premium real estate developments in top Indian cities including Udaipur, Jaipur, and Mumbai.
+
+## Features
+- **Project Discovery**: Explore luxury residential and commercial properties with verified listings, high-resolution galleries, amenities, floor plans, and pricing.
+- **Search & Filter**: Search real estate by status (Ongoing, Completed, Upcoming), category (Apartment, Villa, Commercial, Penthouse), and city locations.
+- **Direct Enquiries**: Submit inquiries for detailed brochures, site visits, and personalized consultations directly through the platform.
+
+## Navigation Links
+- [Home](http://localhost:3000/): Featured projects, prime locations, and category showcases.
+- [Projects](http://localhost:3000/projects): Full catalog of available properties with sorting and filters.
+- [About Us](http://localhost:3000/about): Company background, mission, values, and leadership.
+- [Contact](http://localhost:3000/contact): Direct contact details, inquiry form, and office location.

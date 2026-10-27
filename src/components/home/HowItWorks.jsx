@@ -1,6 +1,5 @@
-"use client";
-
 import React from "react";
+import Image from "next/image";
 import { Search, Users, KeyRound } from "lucide-react";
 
 const steps = [
@@ -55,10 +54,15 @@ const HowItWorks = () => {
           </div>
 
           {/* Right - Image */}
-          <div className="rounded-2xl overflow-hidden shadow-lg">
-            <img
-              src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800"
+          <div className="rounded-2xl overflow-hidden shadow-lg relative">
+            <Image
+              src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=75&w=650"
               alt="Modern apartment"
+              width={650}
+              height={570}
+              sizes="(max-width: 768px) 100vw, 600px"
+              quality={75}
+              loading="lazy"
               className="w-full md:h-[570px] object-cover rounded-2xl"
             />
           </div>

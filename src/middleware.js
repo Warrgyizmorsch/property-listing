@@ -6,4 +6,5 @@ export default middlewareAuth;
 // Configure the matcher to run the middleware on all administrative portal routes
 export const config = {
   matcher: ["/admin/:path*"],
+  unstable_allowDynamic: ["**/node_modules/jose/**"],
 };

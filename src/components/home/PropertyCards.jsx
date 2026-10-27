@@ -16,10 +16,30 @@ const STATUS_CONFIG = {
   UPCOMING:  { label: "Upcoming",  color: "bg-[var(--brand-secondary)]" },
 };
 
+function getOptimizedImageUrl(url, width = 480) {
+  if (!url) return url;
+  if (url.includes("res.cloudinary.com") && url.includes("/upload/")) {
+    return url.replace("/upload/", `/upload/f_webp,q_75,w_${width},c_limit/`);
+  }
+  if (url.includes("images.unsplash.com")) {
+    try {
+      const parsed = new URL(url);
+      parsed.searchParams.set("auto", "format");
+      parsed.searchParams.set("q", "75");
+      parsed.searchParams.set("w", String(width));
+      return parsed.toString();
+    } catch {
+      return url;
+    }
+  }
+  return url;
+}
+
 export const PropertyCard = ({ project, isBestDeal }) => {
-  const coverImage =
+  const rawCoverImage =
     project.mainImage ||
     "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800";
+  const coverImage = getOptimizedImageUrl(rawCoverImage, 400);
 
   const locationText = [project.address, project.city?.name].filter(Boolean).join(", ");
 
@@ -47,6 +67,10 @@ export const PropertyCard = ({ project, isBestDeal }) => {
           <img
             src={coverImage}
             alt={project.projectName}
+            loading="lazy"
+            decoding="async"
+            width={400}
+            height={isBestDeal ? 288 : 256}
             className={[
               "w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105",
               isBestDeal ? "h-72" : "h-64",
@@ -141,7 +165,11 @@ const PropertyCards = ({ title, description, projects, isBestDeal }) => {
       <div className="px-1">
         <Swiper
           modules={[Pagination]}
-          pagination={{ clickable: true }}
+          pagination={{
+            clickable: true,
+            renderBullet: (index, className) =>
+              `<button type="button" class="${className}" aria-label="Go to slide ${index + 1}"></button>`,
+          }}
           spaceBetween={16}
           breakpoints={{
             320: { slidesPerView: 1 },
@@ -160,23 +188,27 @@ const PropertyCards = ({ title, description, projects, isBestDeal }) => {
 
       <style jsx global>{`
         .swiper-pagination-bullet {
-          width: 5px !important;
-          height: 5px !important;
-          background: oklch(0.708 0 0) !important;
+          box-sizing: content-box !important;
+          width: 6px !important;
+          height: 6px !important;
+          padding: 10px 8px !important;
+          background-clip: content-box !important;
+          background-color: oklch(0.708 0 0) !important;
           opacity: 1 !important;
           transition: all 0.25s ease !important;
           border-radius: 9999px !important;
+          cursor: pointer !important;
+          display: inline-block !important;
         }
         .swiper-pagination-bullet-active {
-          background: var(--brand-secondary) !important;
-          width: 16px !important;
-          border-radius: 3px !important;
+          background-color: var(--brand-secondary) !important;
+          width: 18px !important;
         }
         .dark .swiper-pagination-bullet {
-          background: oklch(0.439 0 0) !important;
+          background-color: oklch(0.439 0 0) !important;
         }
         .dark .swiper-pagination-bullet-active {
-          background: var(--brand-secondary) !important;
+          background-color: var(--brand-secondary) !important;
         }
       `}</style>
     </div>

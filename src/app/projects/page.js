@@ -21,15 +21,21 @@ import {
 
 // Dynamic SEO metadata generator based on active query filters
 export async function generateMetadata({ searchParams }) {
-  const params = await searchParams;
-  const category = params.category
-    ? params.category.charAt(0).toUpperCase() + params.category.slice(1)
+  const params = (await searchParams) || {};
+  const getParamString = (val) =>
+    Array.isArray(val) ? val[0] || "" : typeof val === "string" ? val : "";
+  const rawCategory = getParamString(params.category);
+  const rawCity = getParamString(params.city);
+  const rawStatus = getParamString(params.status);
+
+  const category = rawCategory
+    ? rawCategory.charAt(0).toUpperCase() + rawCategory.slice(1)
     : "";
-  const city = params.city
-    ? params.city.charAt(0).toUpperCase() + params.city.slice(1)
+  const city = rawCity
+    ? rawCity.charAt(0).toUpperCase() + rawCity.slice(1)
     : "";
-  const status = params.status
-    ? params.status.charAt(0).toUpperCase() + params.status.slice(1).toLowerCase()
+  const status = rawStatus
+    ? rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1).toLowerCase()
     : "";
 
   let fallbackTitle = "Premium Real Estate Projects | Property Expert";
@@ -143,9 +149,10 @@ export default async function ProjectsPage({ searchParams }) {
           {/* Background image */}
           <div className="absolute inset-0 z-0">
             <Image
-              src="/images/project/Project-hero.png"
+              src="/images/project/Project-hero.webp"
               alt="Explore Our Projects"
               fill
+              sizes="100vw"
               className="object-cover"
               priority
             />
@@ -184,19 +191,21 @@ export default async function ProjectsPage({ searchParams }) {
               </aside>
 
               {/* Main Listing View (Search + Grid) */}
-              <div className="flex-1 w-full flex flex-col gap-6">
+              <div className="flex-1 w-full min-w-0 flex flex-col gap-6">
                 {/* Search bar & Sorting selector */}
-                <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl border border-neutral-100 bg-white dark:border-zinc-800 dark:bg-zinc-900/20">
-                  <div className="flex-grow max-w-md">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl border border-neutral-100 bg-white dark:border-zinc-800 dark:bg-zinc-900/20">
+                  <div className="w-full sm:max-w-md">
                     <ProjectSearch />
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {/* Mobile Filters Trigger Drawer */}
                     <MobileFilterButton metadata={filtersMetadata} />
 
                     {/* Sort Control */}
-                    <ProjectSort />
+                    <div className="flex-1 sm:flex-initial min-w-0">
+                      <ProjectSort />
+                    </div>
                   </div>
                 </div>
 

@@ -7,7 +7,7 @@ export default function robots() {
   return {
     rules: {
       userAgent: "*",
-      allow: ["/", "/properties", "/categories", "/locations"],
+      allow: ["/", "/projects", "/properties", "/categories", "/locations"],
       disallow: [
         "/admin",
         "/admin/*",

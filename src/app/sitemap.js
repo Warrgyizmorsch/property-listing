@@ -19,6 +19,12 @@ export default async function sitemap() {
       priority: 1.0,
     },
     {
+      url: getAbsoluteUrl("/projects"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
       url: getAbsoluteUrl("/properties"),
       lastModified: now,
       changeFrequency: "daily",
@@ -56,46 +62,55 @@ export default async function sitemap() {
     },
   ];
 
-  // 2. Property Detail Pages
-  const propertyPages = data.properties.map((prop) => ({
-    url: getAbsoluteUrl(`/properties/${prop.slug}`),
-    lastModified: new Date(prop.updatedAt),
+  // 2. Project Detail Pages
+  const projectPages = (data.projects || []).map((proj) => ({
+    url: getAbsoluteUrl(`/projects/${proj.slug}`),
+    lastModified: new Date(proj.updatedAt || now),
     changeFrequency: "weekly",
     priority: 0.8,
   }));
 
-  // 3. Category Filter Pages
-  const categoryPages = data.categories.map((cat) => ({
+  // 3. Property Detail Pages
+  const propertyPages = (data.properties || []).map((prop) => ({
+    url: getAbsoluteUrl(`/properties/${prop.slug}`),
+    lastModified: new Date(prop.updatedAt || now),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  // 4. Category Filter Pages
+  const categoryPages = (data.categories || []).map((cat) => ({
     url: getAbsoluteUrl(`/properties?category=${cat.slug}`),
-    lastModified: new Date(cat.updatedAt),
+    lastModified: new Date(cat.updatedAt || now),
     changeFrequency: "weekly",
     priority: 0.7,
   }));
 
-  // 4. Location Filter Pages (Countries, States, Cities)
-  const countryPages = data.countries.map((c) => ({
+  // 5. Location Filter Pages (Countries, States, Cities)
+  const countryPages = (data.countries || []).map((c) => ({
     url: getAbsoluteUrl(`/properties?country=${c.slug}`),
-    lastModified: new Date(c.updatedAt),
+    lastModified: new Date(c.updatedAt || now),
     changeFrequency: "monthly",
     priority: 0.6,
   }));
 
-  const statePages = data.states.map((s) => ({
+  const statePages = (data.states || []).map((s) => ({
     url: getAbsoluteUrl(`/properties?state=${s.slug}`),
-    lastModified: new Date(s.updatedAt),
+    lastModified: new Date(s.updatedAt || now),
     changeFrequency: "monthly",
     priority: 0.6,
   }));
 
-  const cityPages = data.cities.map((c) => ({
+  const cityPages = (data.cities || []).map((c) => ({
     url: getAbsoluteUrl(`/properties?city=${c.slug}`),
-    lastModified: new Date(c.updatedAt),
+    lastModified: new Date(c.updatedAt || now),
     changeFrequency: "monthly",
     priority: 0.6,
   }));
 
   return [
     ...staticPages,
+    ...projectPages,
     ...propertyPages,
     ...categoryPages,
     ...countryPages,

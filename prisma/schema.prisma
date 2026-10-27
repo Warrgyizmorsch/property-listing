@@ -286,6 +286,10 @@ model Project {
   @@index([createdById])
   @@index([cityId])
   @@index([createdAt])
+  @@index([status])
+  @@index([isFeatured])
+  @@index([displayOrder])
+  @@index([deletedAt])
   @@map("projects")
 }
 

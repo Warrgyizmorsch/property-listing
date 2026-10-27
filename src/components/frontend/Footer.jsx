@@ -51,12 +51,12 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6 mb-12">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5">
-            <Image src="/images/PE-Logo-white.png" alt="Property Expert" width={180} height={60} className="h-15 w-auto" priority />
+            <Image src="/images/PE-Logo-white.webp" alt="Property Expert" width={180} height={60} className="h-15 w-auto" priority />
           </Link>
 
           {/* Social Icons */}
           <div className="flex items-center space-x-5 text-gray-400">
-            <span className="text-sm text-gray-350 font-semibold uppercase tracking-wider">Follow Us</span>
+            <span className="text-sm text-gray-300 font-semibold uppercase tracking-wider">Follow Us</span>
 
             {/* Facebook inline SVG */}
             <a
@@ -140,7 +140,7 @@ export default function Footer() {
                 </Button>
               </div>
             </form>
-            <p className="text-[11px] text-gray-500 mt-3 leading-relaxed">
+            <p className="text-[11px] text-gray-300 mt-3 leading-relaxed">
               Subscribe to our newsletter to receive our weekly curated premium project updates.
             </p>
           </div>
@@ -263,14 +263,14 @@ export default function Footer() {
         <hr className="border-neutral-800 mt-16" />
 
         {/* Copyright section */}
-        <div className="py-8 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500 gap-4">
+        <div className="py-8 flex flex-col md:flex-row items-center justify-between text-xs text-gray-300 gap-4">
           <p className="text-center md:text-left pl-12 md:pl-0">
             &copy; {currentYear} Property Expert. All rights reserved. Made for premium living.
           </p>
-          <div className="flex items-center gap-6">
-            <Link href="/#" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/#" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="/#" className="hover:text-white transition-colors">Cookie Settings</Link>
+          <div className="flex items-center gap-6 text-gray-300">
+            <Link href="/about" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/about" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/about" className="hover:text-white transition-colors">Cookie Settings</Link>
           </div>
         </div>
       </div>

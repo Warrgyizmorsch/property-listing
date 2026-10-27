@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { getSearchMetadata } from "@/features/home/services/home.service";
 import SearchSection from "./SearchSection";
 
@@ -8,11 +9,19 @@ export default async function HeroSection() {
 
   return (
     <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-[var(--brand-primary-soft)] via-white to-[var(--brand-secondary-soft)] dark:from-neutral-900 dark:via-zinc-950 dark:to-neutral-950 py-20 px-4 sm:px-6 lg:px-8">
-      {/* Background image overlay */}
-      <div
-        className="absolute inset-0 bg-[url('/hero-bg-prop.jpg')] bg-cover bg-center bg-no-repeat opacity-95 dark:opacity-30"
-        style={{ mixBlendMode: "normal" }}
-      />
+      {/* High-priority LCP hero background image discoverable from initial HTML */}
+      <div className="absolute inset-0 pointer-events-none">
+        <Image
+          src="/hero-bg-prop.webp"
+          alt="Luxury Property Background"
+          fill
+          priority
+          fetchPriority="high"
+          sizes="100vw"
+          quality={75}
+          className="object-cover object-center opacity-95 dark:opacity-30"
+        />
+      </div>
 
       <div className="absolute inset-0 bg-neutral-950/5 dark:bg-zinc-950/60" />
 

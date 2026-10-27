@@ -255,28 +255,59 @@ export const getPublicProjectDetails = cache(async (slug) => {
         deletedAt: null,
       },
       include: {
-        category: true,
+        category: {
+          select: { id: true, name: true, slug: true },
+        },
         city: {
-          include: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
             state: {
-              include: {
-                country: true,
+              select: {
+                id: true,
+                name: true,
+                slug: true,
+                country: {
+                  select: { id: true, name: true, slug: true },
+                },
               },
             },
           },
         },
         images: {
+          select: { id: true, url: true, isFeatured: true, sortOrder: true },
           orderBy: { sortOrder: "asc" },
         },
-        amenities: true,
-        specifications: true,
-        highlights: true,
+        amenities: {
+          select: { id: true, name: true },
+        },
+        specifications: {
+          select: { id: true, title: true, value: true },
+        },
+        highlights: {
+          select: { id: true, text: true },
+        },
         properties: {
           where: { deletedAt: null },
-          include: {
-            status: true,
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            price: true,
+            propertyCode: true,
+            areaSize: true,
+            bedrooms: true,
+            bathrooms: true,
+            facing: true,
+            is_corner: true,
+            unitType: true,
+            status: {
+              select: { name: true },
+            },
             images: {
               where: { isFeatured: true },
+              select: { url: true },
               take: 1,
             },
           },

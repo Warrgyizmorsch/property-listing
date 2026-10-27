@@ -16,9 +16,13 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Property Expert",
   description: "Property Expert | Real Estate Listing Platform",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <html
       lang="en"
