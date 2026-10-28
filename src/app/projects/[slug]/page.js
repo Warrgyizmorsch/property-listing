@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -27,15 +28,31 @@ import {
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/frontend/Navbar";
 import Footer from "@/components/frontend/Footer";
+import { db } from "@/lib/db";
 import PropertyEnquiryForm from "@/components/enquiry/PropertyEnquiryForm";
 import ProjectHeroGallery from "@/components/projects/ProjectHeroGallery";
 import ProjectConfigurationsTabs from "@/components/projects/ProjectConfigurationsTabs";
 import { getPublicProjectDetails, getRelatedProjects } from "@/features/projects/public/services/public-project.service";
-import { generatePageMetadata } from "@/lib/seo/metadata";
 import StickyNavigationTabs from "@/components/frontend/StickyNavigationTabs";
 import { formatCurrency, formatArea } from "@/lib/format";
 import { PropertyCard } from "@/components/home/PropertyCards";
 import { WhatsappIcon } from "@/components/icons/la-whatsapp";
+
+export async function generateStaticParams() {
+  try {
+    const projects = await db.project.findMany({
+      where: { deletedAt: null },
+      select: { slug: true },
+    });
+    return projects.map((p) => ({ slug: p.slug }));
+  } catch (error) {
+    console.error("Error generating static params for projects:", error);
+    return [];
+  }
+}
+
+export const revalidate = 60;
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -48,14 +65,46 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  return await generatePageMetadata({
-    pageType: "PROPERTY", 
-    entityId: project.id,
-    fallbackData: {
-      title: `${project.projectName} | Premium Real Estate Project by ${project.builderName}`,
-      description: project.shortDescription || project.description,
+  const title = `${project.projectName} by ${project.builderName} in ${project.city?.name || "Udaipur"} | Property Expert`;
+  const description =
+    project.shortDescription ||
+    project.description?.slice(0, 160) ||
+    `Explore ${project.projectName} by ${project.builderName}. Premium real estate development with luxury amenities, specifications, and configurations.`;
+  const canonical = `https://propertyexpertudr.com/projects/${project.slug}`;
+  const ogImage =
+    project.mainImage ||
+    project.bannerImage ||
+    project.images?.[0]?.url ||
+    "https://propertyexpertudr.com/images/PE_Logo.webp";
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
     },
-  });
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      siteName: "Property Expert",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: project.projectName,
+        },
+      ],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
 }
 
 // Map common amenities to luxury styled icons
@@ -96,6 +145,42 @@ const getStatusLabel = (status) => {
   }
 };
 
+async function RelatedProjectsSection({ projectId, categoryId, cityId }) {
+  const relatedProjects = await getRelatedProjects({
+    projectId,
+    categoryId,
+    cityId,
+    limit: 3,
+  });
+
+  if (!relatedProjects || relatedProjects.length === 0) return null;
+
+  return (
+    <div className="mt-8 pt-8 border-t border-slate-250/20 dark:border-zinc-800">
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10">
+        <div>
+          <span className="section-subheading">Related Developments</span>
+          <h3 className="section-heading">Other Projects You May Like</h3>
+        </div>
+        <Link href="/projects" className="text-xs font-bold text-[var(--brand-primary)] dark:text-[var(--brand-secondary)] hover:underline flex items-center gap-1.5">
+          <span>Explore all projects</span>
+          <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      </div>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {relatedProjects.map((proj) => (
+          <PropertyCard
+            key={proj.id}
+            project={proj}
+            isBestDeal={false}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default async function ProjectDetailPage({ params }) {
   const { slug } = await params;
   const project = await getPublicProjectDetails(slug);
@@ -109,14 +194,6 @@ export default async function ProjectDetailPage({ params }) {
     !project.brochureFile.toLowerCase().endsWith(".pdf")
     ? `${project.brochureFile}.pdf`
     : project.brochureFile;
-
-  // Fetch related projects
-  const relatedProjects = await getRelatedProjects({
-    projectId: project.id,
-    categoryId: project.categoryId,
-    cityId: project.cityId,
-    limit: 3,
-  });
 
   // Calculate prices range
   const prices = project.properties?.map(p => Number(p.price)).filter(Boolean) || [];
@@ -558,31 +635,25 @@ export default async function ProjectDetailPage({ params }) {
 
           </div>
 
-          {/* Related Projects Section */}
-          {relatedProjects.length > 0 && (
-            <div className="mt-8 pt-8 border-t border-slate-250/20 dark:border-zinc-800">
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10">
-                <div>
-                  <span className="section-subheading">Related Developments</span>
-                  <h3 className="section-heading">Other Projects You May Like</h3>
+          {/* Related Projects Section with Streaming Suspense */}
+          <Suspense
+            fallback={
+              <div className="mt-8 pt-8 border-t border-slate-250/20 dark:border-zinc-800 animate-pulse">
+                <div className="h-8 w-60 rounded bg-neutral-200 dark:bg-zinc-800 mb-6" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="h-64 rounded-2xl bg-neutral-100 dark:bg-zinc-900" />
+                  ))}
                 </div>
-                <Link href="/projects" className="text-xs font-bold text-[var(--brand-primary)] dark:text-[var(--brand-secondary)] hover:underline flex items-center gap-1.5">
-                  <span>Explore all projects</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
               </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {relatedProjects.map((proj) => (
-                  <PropertyCard
-                    key={proj.id}
-                    project={proj}
-                    isBestDeal={false}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+            }
+          >
+            <RelatedProjectsSection
+              projectId={project.id}
+              categoryId={project.categoryId}
+              cityId={project.cityId}
+            />
+          </Suspense>
 
         </div>
       </main>

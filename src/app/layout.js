@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import { Outfit, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ToastProvider } from "@/components/ui/toast";
+import TopNavigationProgress from "@/components/common/TopNavigationProgress";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -22,13 +24,15 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-
   return (
     <html
       lang="en"
       className={`${outfit.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <Suspense fallback={null}>
+          <TopNavigationProgress />
+        </Suspense>
         <ToastProvider>
           {children}
         </ToastProvider>

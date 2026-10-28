@@ -63,6 +63,7 @@ export default function Navbar() {
             <Link
               key={link.name}
               href={link.href}
+              prefetch={true}
               className={`relative py-1 text-sm font-semibold transition-colors duration-200 ${isActive(link.href)
                 ? "text-[var(--brand-primary)] dark:text-[var(--brand-secondary)] font-bold"
                 : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"
@@ -94,7 +95,7 @@ export default function Navbar() {
             asChild
             className="primary-btn"
           >
-            <Link href="/projects">
+            <Link href="/projects" prefetch={true}>
               Explore Projects
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -131,6 +132,7 @@ export default function Navbar() {
                   <Link
                     key={link.name}
                     href={link.href}
+                    prefetch={true}
                     onClick={() => setMobileOpen(false)}
                     className={`text-base font-semibold transition-colors duration-200 ${isActive(link.href)
                       ? "text-[var(--brand-primary)] dark:text-[var(--brand-secondary)]"
@@ -159,6 +161,7 @@ export default function Navbar() {
                 <Button asChild className="primary-btn w-full">
                   <Link
                     href="/projects"
+                    prefetch={true}
                     onClick={() => setMobileOpen(false)}
                     className="w-full"
                   >

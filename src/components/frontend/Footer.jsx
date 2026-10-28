@@ -152,22 +152,22 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3 text-sm text-gray-400">
               <li>
-                <Link href="/" className="hover:text-white transition-colors">
+                <Link href="/" prefetch={true} className="hover:text-white transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/projects" className="hover:text-white transition-colors">
+                <Link href="/projects" prefetch={true} className="hover:text-white transition-colors">
                   Projects
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-white transition-colors">
+                <Link href="/about" prefetch={true} className="hover:text-white transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white transition-colors">
+                <Link href="/contact" prefetch={true} className="hover:text-white transition-colors">
                   Contact
                 </Link>
               </li>
@@ -181,22 +181,22 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3 text-sm text-gray-400">
               <li>
-                <Link href="/projects?category=apartment" className="hover:text-white transition-colors">
+                <Link href="/projects?category=apartment" prefetch={true} className="hover:text-white transition-colors">
                   Apartments
                 </Link>
               </li>
               <li>
-                <Link href="/projects?category=villa" className="hover:text-white transition-colors">
+                <Link href="/projects?category=villa" prefetch={true} className="hover:text-white transition-colors">
                   Villas
                 </Link>
               </li>
               <li>
-                <Link href="/projects?category=commercial" className="hover:text-white transition-colors">
+                <Link href="/projects?category=commercial" prefetch={true} className="hover:text-white transition-colors">
                   Commercial Spaces
                 </Link>
               </li>
               <li>
-                <Link href="/projects?category=penthouse" className="hover:text-white transition-colors">
+                <Link href="/projects?category=penthouse" prefetch={true} className="hover:text-white transition-colors">
                   Penthouses
                 </Link>
               </li>

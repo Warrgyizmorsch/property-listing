@@ -1,11 +1,11 @@
 import { db } from "@/lib/db";
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 
 /**
- * Fetches projects for the public catalog listing page based on search parameters,
- * slugs, limits, sorting, and pagination.
+ * Internal worker that fetches projects from database based on parameters.
  */
-export async function getPublicProjects({
+async function queryProjectsInternal({
   search = "",
   category = "",
   city = "",
@@ -187,67 +187,116 @@ export async function getPublicProjects({
   }
 }
 
+const getCachedDefaultProjects = unstable_cache(
+  async (limit) => {
+    return await queryProjectsInternal({ page: 1, limit, sortBy: "latest" });
+  },
+  ["public-default-projects-list"],
+  { revalidate: 60, tags: ["public-projects"] }
+);
+
 /**
- * Retrieves lists of active categories, hierarchical location layers,
- * and status options to feed filter parameters on public projects catalog.
+ * Fetches projects for the public catalog listing page based on search parameters,
+ * slugs, limits, sorting, and pagination.
  */
-export async function getPublicFiltersMetadata() {
-  try {
-    const [categories, countries, states, cities] = await Promise.all([
-      // Categories with projects count
-      db.category.findMany({
-        where: { deletedAt: null },
-        include: {
-          _count: {
-            select: {
-              projects: {
-                where: { deletedAt: null },
-              },
-            },
-          },
-        },
-        orderBy: { name: "asc" },
-      }),
+export async function getPublicProjects(params = {}) {
+  const {
+    search = "",
+    category = "",
+    city = "",
+    state = "",
+    country = "",
+    status = "",
+    bhk = "",
+    isFeatured = undefined,
+    sortBy = "latest",
+    page = 1,
+    limit = 9,
+  } = params;
 
-      // Location tiers
-      db.country.findMany({
-        where: { deletedAt: null },
-        orderBy: { name: "asc" },
-      }),
-      db.state.findMany({
-        where: { deletedAt: null },
-        orderBy: { name: "asc" },
-      }),
-      db.city.findMany({
-        where: { deletedAt: null },
-        orderBy: { name: "asc" },
-      }),
-    ]);
+  // Use fast in-memory cache for default catalog landing (no query filters)
+  const isDefaultView =
+    !search &&
+    !category &&
+    !city &&
+    !state &&
+    !country &&
+    !status &&
+    !bhk &&
+    isFeatured === undefined &&
+    sortBy === "latest" &&
+    page === 1;
 
-    return {
-      categories,
-      countries,
-      states,
-      cities,
-    };
-  } catch (error) {
-    console.error("Error executing public filters metadata query:", error);
-    return {
-      categories: [],
-      countries: [],
-      states: [],
-      cities: [],
-    };
+  if (isDefaultView) {
+    return await getCachedDefaultProjects(limit);
   }
+
+  return await queryProjectsInternal(params);
 }
 
 /**
- * Retrieves a single project by its slug, including category, location, gallery,
- * amenities, specifications, highlights, related child properties, and stats.
+ * Retrieves lists of active categories, hierarchical location layers,
+ * and status options to feed filter parameters on public projects catalog.
+ * Uses Next.js unstable_cache to avoid executing 4 database queries on every navigation.
  */
-export const getPublicProjectDetails = cache(async (slug) => {
-  if (!slug) return null;
+export const getPublicFiltersMetadata = unstable_cache(
+  async () => {
+    try {
+      const [categories, countries, states, cities] = await Promise.all([
+        // Categories with projects count
+        db.category.findMany({
+          where: { deletedAt: null },
+          include: {
+            _count: {
+              select: {
+                projects: {
+                  where: { deletedAt: null },
+                },
+              },
+            },
+          },
+          orderBy: { name: "asc" },
+        }),
 
+        // Location tiers
+        db.country.findMany({
+          where: { deletedAt: null },
+          orderBy: { name: "asc" },
+        }),
+        db.state.findMany({
+          where: { deletedAt: null },
+          orderBy: { name: "asc" },
+        }),
+        db.city.findMany({
+          where: { deletedAt: null },
+          orderBy: { name: "asc" },
+        }),
+      ]);
+
+      return {
+        categories,
+        countries,
+        states,
+        cities,
+      };
+    } catch (error) {
+      console.error("Error executing public filters metadata query:", error);
+      return {
+        categories: [],
+        countries: [],
+        states: [],
+        cities: [],
+      };
+    }
+  },
+  ["public-filters-metadata"],
+  { revalidate: 300, tags: ["public-filters"] }
+);
+
+/**
+ * Internal worker to retrieve a single project by slug from database.
+ */
+async function queryPublicProjectDetailsInternal(slug) {
   try {
     const project = await db.project.findFirst({
       where: {
@@ -349,19 +398,30 @@ export const getPublicProjectDetails = cache(async (slug) => {
     console.error("Error fetching public project details by slug:", error);
     return null;
   }
+}
+
+const getCachedProjectDetails = unstable_cache(
+  async (slug) => {
+    return await queryPublicProjectDetailsInternal(slug);
+  },
+  ["public-project-details-cache"],
+  { revalidate: 60, tags: ["public-projects"] }
+);
+
+/**
+ * Retrieves a single project by its slug, including category, location, gallery,
+ * amenities, specifications, highlights, related child properties, and stats.
+ * Uses in-memory cache for sub-millisecond retrieval.
+ */
+export const getPublicProjectDetails = cache(async (slug) => {
+  if (!slug) return null;
+  return await getCachedProjectDetails(slug);
 });
 
 /**
- * Fetches related projects based on category or location similarity.
+ * Internal worker to fetch related projects from database.
  */
-export async function getRelatedProjects({
-  projectId,
-  categoryId,
-  cityId,
-  limit = 3,
-} = {}) {
-  if (!projectId) return [];
-
+async function queryRelatedProjectsInternal({ projectId, categoryId, cityId, limit = 3 } = {}) {
   try {
     const projects = await db.project.findMany({
       where: {
@@ -388,17 +448,17 @@ export async function getRelatedProjects({
           },
         },
         properties: {
-  where: { deletedAt: null },
-  select: {
-    price: true,
-    areaSize: true,
-    status: {
-      select: {
-        name: true,
-      },
-    },
-  },
-},
+          where: { deletedAt: null },
+          select: {
+            price: true,
+            areaSize: true,
+            status: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
         images: {
           where: { isFeatured: true },
           take: 1,
@@ -456,4 +516,25 @@ export async function getRelatedProjects({
     console.error("Error fetching related projects:", error);
     return [];
   }
+}
+
+const getCachedRelatedProjects = unstable_cache(
+  async (projectId, categoryId, cityId, limit) => {
+    return await queryRelatedProjectsInternal({ projectId, categoryId, cityId, limit });
+  },
+  ["public-related-projects-cache"],
+  { revalidate: 120, tags: ["public-projects"] }
+);
+
+/**
+ * Fetches related projects based on category or location similarity.
+ */
+export async function getRelatedProjects({
+  projectId,
+  categoryId,
+  cityId,
+  limit = 3,
+} = {}) {
+  if (!projectId) return [];
+  return await getCachedRelatedProjects(projectId, categoryId, cityId, limit);
 }
